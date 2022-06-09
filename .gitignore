@@ -398,4 +398,5 @@ Temporary Items
 dist
 .yarn
 .yarnrc.yml
-**.js
+*.js
+database.sqlite
