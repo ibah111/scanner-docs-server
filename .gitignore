@@ -400,3 +400,4 @@ dist
 .yarnrc.yml
 *.js
 database.sqlite
+database.sqlite-journal

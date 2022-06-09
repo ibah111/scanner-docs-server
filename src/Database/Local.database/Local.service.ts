@@ -53,7 +53,8 @@ export class LocalService {
         User.f = user.f;
         User.i = user.i;
         User.o = user.o;
-        User.depart = tmp[user.depart];
+        if (tmp[user.depart]) User.depart = tmp[user.depart];
+        User.login = user.login;
         await User.save();
       } else {
         await this.modelUser.create({
@@ -61,6 +62,7 @@ export class LocalService {
           f: user.f,
           i: user.i,
           o: user.o,
+          login: user.login,
           depart: Number(tmp[user.depart]),
           position: user.position,
         });

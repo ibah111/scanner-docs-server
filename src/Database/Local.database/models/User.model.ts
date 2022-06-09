@@ -12,7 +12,7 @@ import {
 import { Barcode } from './Barcode.model';
 import { Depart } from './Depart.model';
 import { Log } from './Log.model';
-@Table({ tableName: 'Users' })
+@Table({ tableName: 'Users', timestamps: false })
 export class User extends Model {
   @AutoIncrement
   @PrimaryKey
