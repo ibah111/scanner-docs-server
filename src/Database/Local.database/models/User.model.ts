@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   AutoIncrement,
   BelongsTo,
   Column,
@@ -28,6 +29,7 @@ export class User extends Model {
   @Column
   o: string;
 
+  @AllowNull(false)
   @Unique
   @Column
   login: string;
@@ -35,6 +37,7 @@ export class User extends Model {
   @Column
   position: string;
 
+  @AllowNull(false)
   @Unique
   @Column
   bitrix_id: number;

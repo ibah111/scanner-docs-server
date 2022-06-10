@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   AutoIncrement,
   Column,
   HasMany,
@@ -17,9 +18,11 @@ export class Status extends Model {
   id: number;
 
   @Unique
+  @AllowNull(false)
   @Column
   name: string;
 
+  @AllowNull(false)
   @Column
   title: string;
 

@@ -2,12 +2,13 @@ import { InjectModel } from '@contact/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Barcode } from './models/Barcode.model';
 import { Depart } from './models/Depart.model';
-import { Doc } from './models/Doc.models';
+import { Doc } from './models/Doc.model';
 import { Log } from './models/Log.model';
 import { Status } from './models/Status.model';
 import { User } from './models/User.model';
 import axios from 'axios';
 import server from 'src/utils/server';
+import { Model } from '@contact/sequelize-typescript';
 
 @Injectable()
 export class LocalService {
@@ -30,6 +31,7 @@ export class LocalService {
   async migrate() {
     await this.DepartSync();
     await this.UserSync();
+    await this.StatusSync();
   }
   async UserSync() {
     const res = (
@@ -99,5 +101,19 @@ export class LocalService {
         parent_ids[value.id] = instance.id;
       }
     }
+  }
+  async StatusSync(){
+    await this.modelStatus.create({
+      name: 'Expect',
+      title: "Ожидает"
+    });
+    await this.modelStatus.create({
+      name: 'Processing',
+      title: "Обработка" 
+    });
+    await this.modelStatus.create({
+      name: "Sending",
+      title: "Отправка"
+    })
   }
 }

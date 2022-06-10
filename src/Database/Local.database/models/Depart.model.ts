@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   AutoIncrement,
   Column,
   HasMany,
@@ -8,6 +9,7 @@ import {
   Unique,
 } from '@contact/sequelize-typescript';
 import { Barcode } from './Barcode.model';
+import { Log } from './Log.model';
 import { User } from './User.model';
 
 @Table({ tableName: 'Departs' })
@@ -17,13 +19,16 @@ export class Depart extends Model {
   @Column
   id: number;
 
+  @AllowNull(false)
   @Column
   bitrix_id: number;
 
+  @AllowNull(false)
   @Unique
   @Column
   name: string;
 
+  @AllowNull(false)
   @Column
   title: string;
 
@@ -35,4 +40,7 @@ export class Depart extends Model {
 
   @HasMany(() => User)
   Users: User[];
+
+  @HasMany(() => Log)
+  Logs: Log[];
 }

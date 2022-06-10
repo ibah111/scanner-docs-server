@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   AutoIncrement,
   Column,
   HasOne,
@@ -15,9 +16,11 @@ export class Doc extends Model {
   @Column
   id: number;
 
+  @AllowNull(false)
   @Column
   title: string;
 
+  @AllowNull(false)
   @Column
   contact_doc_id: number;
 
@@ -27,6 +30,7 @@ export class Doc extends Model {
   @Column
   law_exec_id: number;
 
+  @AllowNull(false)
   @Column
   date: Date;
 
