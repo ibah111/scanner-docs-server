@@ -9,6 +9,7 @@ import { User } from './models/User.model';
 import axios from 'axios';
 import server from 'src/utils/server';
 import { Model } from '@contact/sequelize-typescript';
+import translit from 'src/utils/translit';
 
 @Injectable()
 export class LocalService {
@@ -31,7 +32,7 @@ export class LocalService {
   async migrate() {
     await this.DepartSync();
     await this.UserSync();
-    await this.StatusSync();
+    await this.StatusSeed();
   }
   async UserSync() {
     const res = (
@@ -96,24 +97,27 @@ export class LocalService {
           parent_id:
             value.parent_id > 0 ? Number(parent_ids[value.parent_id]) : null,
           bitrix_id: value.id,
+          name: translit(value.title),
           title: value.title,
         });
         parent_ids[value.id] = instance.id;
       }
     }
   }
-  async StatusSync(){
-    await this.modelStatus.create({
-      name: 'Expect',
-      title: "Ожидает"
-    });
-    await this.modelStatus.create({
-      name: 'Processing',
-      title: "Обработка" 
-    });
-    await this.modelStatus.create({
-      name: "Sending",
-      title: "Отправка"
-    })
+  async StatusSeed() {
+    if ((await this.modelStatus.count()) === 0) {
+      await this.modelStatus.create({
+        name: 'Expect',
+        title: 'Ожидает',
+      });
+      await this.modelStatus.create({
+        name: 'Processing',
+        title: 'Обработка',
+      });
+      await this.modelStatus.create({
+        name: 'Sending',
+        title: 'Отправка',
+      });
+    }
   }
 }
