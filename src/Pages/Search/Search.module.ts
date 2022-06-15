@@ -7,7 +7,7 @@ import { SearchController } from './Search.controller';
 import { SearchService } from './Search.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Barcode, Doc])],
+  imports: [SequelizeModule.forFeature([Barcode, Doc, LawAct])],
   controllers: [SearchController],
   providers: [SearchService],
 })
