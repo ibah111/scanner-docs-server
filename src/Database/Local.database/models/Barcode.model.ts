@@ -8,6 +8,7 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
 } from '@contact/sequelize-typescript';
 import { Depart } from './Depart.model';
 import { Doc } from './Doc.model';
@@ -22,6 +23,7 @@ export class Barcode extends Model {
   id: number;
 
   @AllowNull(false)
+  @Unique
   @Column
   code: string;
 
@@ -49,10 +51,11 @@ export class Barcode extends Model {
   @AllowNull(false)
   @ForeignKey(() => Depart)
   @Column
-  dapart: number;
+  depart: number;
   @BelongsTo(() => Depart)
   Depart: Depart[];
 
   @HasMany(() => Log)
   Logs: Log[];
+
 }

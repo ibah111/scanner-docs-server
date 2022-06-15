@@ -36,7 +36,7 @@ export class Log extends Model {
   @AllowNull(false)
   @ForeignKey(() => Depart)
   @Column
-  dapart: number;
+  depart: number;
   @BelongsTo(() => Depart)
   Depart: Depart[];
 
