@@ -4,8 +4,9 @@ export class CreateInput {
   @IsNumber()
   user: number;
   @IsNumber()
-  @IsOptional()
   doc_id: number;
+  @IsNumber()
+  mail_id: number;
   @IsString()
   title: string;
   @IsNumber()

@@ -1,6 +1,5 @@
 import { InjectModel } from '@contact/nestjs-sequelize';
 import { Sequelize } from '@contact/sequelize-typescript';
-import { Op } from '@contact/sequelize';
 import { Injectable } from '@nestjs/common';
 import { SearchInput } from './Search.input';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
@@ -21,6 +20,8 @@ export class SearchService {
     });
     if (barcode) {
       const result = await this.modelLawAct.findByPk(barcode.Doc.law_act_id);
+      barcode.status = 2;
+      await barcode.save();
       return result;
     }
     return barcode;

@@ -35,6 +35,7 @@ export class CreateService {
     }
     data_doc.title = body.title;
     data_doc.law_act_id = body.law_act;
+    data_doc.mail_id = body.mail_id;
     data_doc.law_exec_id = body.law_exec;
     data_doc.contact_doc_id = body.doc_id;
     data_doc.date = moment().toDate();

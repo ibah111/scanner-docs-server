@@ -24,6 +24,10 @@ export class Doc extends Model {
   @Column
   contact_doc_id: number;
 
+  @AllowNull(false)
+  @Column
+  mail_id: number;
+
   @Column
   law_act_id: number;
 
