@@ -2,6 +2,7 @@ import { SequelizeModule } from '@contact/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import models from '@contact/models';
 
+
 @Module({
   imports: [
     SequelizeModule.forRoot({

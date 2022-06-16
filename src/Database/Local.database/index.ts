@@ -8,6 +8,7 @@ import { Depart } from './models/Depart.model';
 import { Log } from './models/Log.model';
 import { Status } from './models/Status.model';
 import { User } from './models/User.model';
+import { Transmit } from './models/Transmit.model';
 
 @Module({
   imports: [

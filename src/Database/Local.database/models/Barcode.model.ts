@@ -11,6 +11,7 @@ import {
   Unique,
 } from '@contact/sequelize-typescript';
 import { Depart } from './Depart.model';
+import { Transmit } from './Transmit.model';
 import { Doc } from './Doc.model';
 import { Log } from './Log.model';
 import { Status } from './Status.model';
@@ -58,4 +59,6 @@ export class Barcode extends Model {
   @HasMany(() => Log)
   Logs: Log[];
 
+  @HasMany(() => Transmit)
+  Transmits: Transmit
 }

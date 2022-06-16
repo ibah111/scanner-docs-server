@@ -10,6 +10,7 @@ import axios from 'axios';
 import server from 'src/utils/server';
 import { Model } from '@contact/sequelize-typescript';
 import translit from 'src/utils/translit';
+import { Transmit } from './models/Transmit.model';
 
 @Injectable()
 export class LocalService {
@@ -20,6 +21,7 @@ export class LocalService {
     @InjectModel(Depart) private readonly modelDepart: typeof Depart,
     @InjectModel(Status) private readonly modelStatus: typeof Status,
     @InjectModel(Doc) private readonly modelDoc: typeof Doc,
+    @InjectModel(Transmit) private readonly modelTransmit: typeof Transmit,
   ) {}
   async init() {
     await this.modelBarcode.sync();
@@ -28,6 +30,7 @@ export class LocalService {
     await this.modelDepart.sync();
     await this.modelStatus.sync();
     await this.modelDoc.sync();
+    await this.modelTransmit.sync({ alter: true });
   }
   async migrate() {
     await this.DepartSync();
