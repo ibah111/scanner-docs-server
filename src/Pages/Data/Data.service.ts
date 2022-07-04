@@ -18,15 +18,12 @@ export class DataService {
     });
     if (barcode) {
       const result = await axios.post('https://apps.usb.ru:3001/getDocs', {
-        token: body.token, docs:[25]
-      })} 
-        const result = await axios({
-        method: "POST",
-        url: 'https://apps.usb.ru:3001/getDocs',
-        data: {token: body.token, 
-        docs:[25] }});   
-    
-    return result.data
+        token: body.token,
+        docs: [barcode.Doc.mail_id],
+      });
+
+      return result.data;
+    }
     return barcode;
   }
 }

@@ -21,16 +21,14 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ https }),
   );
-  // const localService = app.get(LocalService);
-  // await localService.init();
-  // await localService.migrate();
+  
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
   const versionService = app.get(VersionService);
   const config = new DocumentBuilder()
-    .setTitle('Документация API')
-    .setDescription('Здесь описываются публично доступные API')
+    .setTitle('Получение штрих-кода')
+    .setDescription('Введите данные чтобы получить штрих-код')
     .setVersion(versionService.version)
     .build();
 
@@ -41,6 +39,6 @@ async function bootstrap() {
   );
   SwaggerModule.setup('api', app, document, getSwaggerOptionsCustom());
   await app.listen(client('port'), '0.0.0.0');
-  // await app.listen(3000);
+  // await app.listen(3001);
 }
 bootstrap();

@@ -7,7 +7,7 @@ import { DataService } from "./Data.service";
 @UseGuards(AuthGuard)
 export class DataController {
     constructor(private dataService: DataService) {}
-  
+
     @HttpCode(200)
     @Post()
     async get(@Body() body: DataInput) {
