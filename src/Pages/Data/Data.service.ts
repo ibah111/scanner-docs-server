@@ -14,15 +14,15 @@ export class DataService {
   async get(body: DataInput) {
     const barcode = await this.modelBarcode.findOne({
       where: { code: body.code },
-      include: this.modelDoc,
+      include: [{ model: this.modelDoc, required: false }],
     });
     if (barcode) {
       const result = await axios.post('https://apps.usb.ru:3001/getDocs', {
         token: body.token,
         docs: [barcode.Doc.mail_id],
       });
-
-      return result.data;
+      if (result.data)
+        return { ...JSON.parse(JSON.stringify(barcode)), doc: result.data[0] };
     }
     return barcode;
   }
