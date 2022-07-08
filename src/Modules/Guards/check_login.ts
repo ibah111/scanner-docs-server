@@ -27,11 +27,11 @@ export const checkLogin = async (token: string) => {
     return false;
   }
   // Тестируем систему................................
-  if (client("demo"))
+  if (client('demo'))
     return !Number.isNaN(token)
       ? {
           login_result: Boolean(token),
-          id: token,
+          id: 1,
           login: 'smorkalov@zakon43.ru',
         }
       : { login_result: false };
