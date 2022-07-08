@@ -17,6 +17,8 @@ export class Transmit extends Model {
   @Column
   id: number;
 
+  @Column
+  active: boolean;
 
   @ForeignKey(() => Barcode)
   @Column

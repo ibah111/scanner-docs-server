@@ -21,7 +21,9 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ https }),
   );
-  
+  const localService = app.get(LocalService);
+  await localService.init();
+  await localService.migrate();
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
