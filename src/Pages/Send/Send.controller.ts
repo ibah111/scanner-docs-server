@@ -1,10 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { SendInput } from './Send.input';
+import { SendService } from './Send.service'
 
 @Controller('send')
 export class SendController {
+  constructor(private sendService: SendService) {}
   @Post()
-  send(@Body() body: SendInput) {
-    return 'Данные успешно отправлены';
+  async send(@Body() body: SendInput) {
+    return await this.sendService.send(body)
   }
 }

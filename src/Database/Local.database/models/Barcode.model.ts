@@ -60,5 +60,5 @@ export class Barcode extends Model {
   Logs: Log[];
 
   @HasMany(() => Transmit)
-  Transmits: Transmit
+  Transmits: Transmit;
 }

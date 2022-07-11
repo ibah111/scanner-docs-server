@@ -11,6 +11,7 @@ import {
 import { Barcode } from './Barcode.model';
 import { Depart } from './Depart.model';
 import { Status } from './Status.model';
+import { Transmit } from './Transmit.model';
 import { User } from './User.model';
 @Table({ tableName: 'Logs' })
 export class Log extends Model {
@@ -47,7 +48,14 @@ export class Log extends Model {
   @BelongsTo(() => Status)
   Status: Status[];
 
+  @ForeignKey(() => Transmit)
+  @Column
+  transmit: number;
+  @BelongsTo(() => Transmit)
+  Transmit: Transmit[];
+
   @AllowNull(false)
   @Column
   date: Date;
+
 }

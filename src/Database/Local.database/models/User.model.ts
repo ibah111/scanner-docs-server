@@ -13,6 +13,7 @@ import {
 import { Barcode } from './Barcode.model';
 import { Depart } from './Depart.model';
 import { Log } from './Log.model';
+import { Transmit } from './Transmit.model';
 @Table({ tableName: 'Users', timestamps: false })
 export class User extends Model {
   @AutoIncrement
@@ -53,4 +54,7 @@ export class User extends Model {
 
   @HasMany(() => Log)
   Logs: Log[];
+
+  @HasMany(() => Transmit)
+  Transmits: Transmit
 }

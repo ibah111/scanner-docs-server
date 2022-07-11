@@ -4,13 +4,16 @@ import {
   BelongsTo,
   Column,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from '@contact/sequelize-typescript';
 import { Barcode } from './Barcode.model';
+import { Log } from './Log.model';
+import { User } from './User.model';
 
-@Table({ tableName: 'Transmit' })
+@Table({ tableName: 'Transmits' })
 export class Transmit extends Model {
   @AutoIncrement
   @PrimaryKey
@@ -21,17 +24,30 @@ export class Transmit extends Model {
   active: boolean;
 
   @ForeignKey(() => Barcode)
+  @AllowNull(false)
   @Column
   barcode: number;
   @BelongsTo(() => Barcode)
   Barcode: Barcode;
 
+  @ForeignKey(() => User)
+  @AllowNull(false)
+  @Column
+  sender: number;
+  @BelongsTo(() => User)
+  User: User;
+
+  @AllowNull(false)
   @Column
   date_send: Date;
 
+  @AllowNull(false)
   @Column
   where_send: string;
 
   @Column
   date_return: Date;
+
+  @HasMany(() => Log)
+  Logs: Log[];
 }
