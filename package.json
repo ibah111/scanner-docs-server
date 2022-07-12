@@ -24,6 +24,7 @@
     "@contact/nestjs-sequelize": "^8.0.1",
     "@contact/sequelize": "^6.20.1",
     "@contact/sequelize-typescript": "^2.1.4",
+    "@contact/smb2": "^0.19.0",
     "@mui/x-data-grid": "^5.12.3",
     "@mui/x-data-grid-pro": "^5.12.3",
     "@nestjs/common": "^8.4.7",

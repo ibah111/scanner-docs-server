@@ -718,6 +718,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@contact/ntlm@npm:0.1.7":
+  version: 0.1.7
+  resolution: "@contact/ntlm@npm:0.1.7::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F85%2Fpackages%2Fnpm%2F%40contact%2Fntlm%2F-%2F%40contact%2Fntlm-0.1.7.tgz"
+  dependencies:
+    crypto-js: ^4.1.1
+  checksum: dccf2cd664cf9245d402083cd4f22bf0469207b5659ff58f81e11749729c29fb8e0c2f67f835642a2aa24f6486f340153c689a6cf3700b517b7587d90904ce5d
+  languageName: node
+  linkType: hard
+
 "@contact/sequelize-typescript@npm:^2.1.4":
   version: 2.1.4
   resolution: "@contact/sequelize-typescript@npm:2.1.4::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F55%2Fpackages%2Fnpm%2F%40contact%2Fsequelize-typescript%2F-%2F%40contact%2Fsequelize-typescript-2.1.4.tgz"
@@ -755,6 +764,16 @@ __metadata:
     validator: ^13.7.0
     wkx: ^0.5.0
   checksum: 1df7d9e9c36b6d95517868f9cc869c842700e55b4b1b90344ca4c6ef66d4dadf398bf6f43d7715048103f83178cf87d2e7c55278b5a3d25092101bfb39d7b97b
+  languageName: node
+  linkType: hard
+
+"@contact/smb2@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "@contact/smb2@npm:0.19.0::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F84%2Fpackages%2Fnpm%2F%40contact%2Fsmb2%2F-%2F%40contact%2Fsmb2-0.19.0.tgz"
+  dependencies:
+    "@contact/ntlm": 0.1.7
+    readable-stream: ^3.6.0
+  checksum: ab6040eadaf0ddcef37a217f1353f113f504d08ee745d1a4efd2fa6aadcc6c8225c8550f7c8bd4eb144d0fafc5756f29e9b41d566a1e9914d2141447f7947825
   languageName: node
   linkType: hard
 
@@ -6395,6 +6414,7 @@ __metadata:
     "@contact/nestjs-sequelize": ^8.0.1
     "@contact/sequelize": ^6.20.1
     "@contact/sequelize-typescript": ^2.1.4
+    "@contact/smb2": ^0.19.0
     "@mui/x-data-grid": ^5.12.3
     "@mui/x-data-grid-pro": ^5.12.3
     "@nestjs/cli": ^8.2.8
