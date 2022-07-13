@@ -11,7 +11,7 @@ export class SMB {
   get() {
     return this.loader;
   }
-  create_smb() {
+  private create_smb() {
     return new SMB2({
       share: this.config.share,
       domain: this.config.domain,
