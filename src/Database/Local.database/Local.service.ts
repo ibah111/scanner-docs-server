@@ -1,36 +1,27 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectConnection, InjectModel } from '@contact/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
-import { Barcode } from './models/Barcode.model';
 import { Depart } from './models/Depart.model';
-import { Doc } from './models/Doc.model';
-import { Log } from './models/Log.model';
 import { Status } from './models/Status.model';
 import { User } from './models/User.model';
 import axios from 'axios';
 import server from 'src/utils/server';
-import { Model } from '@contact/sequelize-typescript';
+import { Sequelize } from '@contact/sequelize-typescript';
 import translit from 'src/utils/translit';
-import { Transmit } from './models/Transmit.model';
+import { Role } from './models/Role.model';
+import { User_Role } from './models/User_Role.model';
 
 @Injectable()
 export class LocalService {
   constructor(
-    @InjectModel(Barcode) private readonly modelBarcode: typeof Barcode,
-    @InjectModel(Log) private readonly modelLog: typeof Log,
+    @InjectConnection() private readonly sequelize: Sequelize,
     @InjectModel(User) private readonly modelUser: typeof User,
     @InjectModel(Depart) private readonly modelDepart: typeof Depart,
     @InjectModel(Status) private readonly modelStatus: typeof Status,
-    @InjectModel(Doc) private readonly modelDoc: typeof Doc,
-    @InjectModel(Transmit) private readonly modelTransmit: typeof Transmit,
+    @InjectModel(Role) private readonly modelRole: typeof Role,
+    @InjectModel(User_Role) private readonly modelUser_Role: typeof User_Role,
   ) {}
   async init() {
-    await this.modelBarcode.sync();
-    await this.modelLog.sync();
-    await this.modelUser.sync();
-    await this.modelDepart.sync();
-    await this.modelStatus.sync();
-    await this.modelDoc.sync();
-    await this.modelTransmit.sync({ alter: true });
+    await this.sequelize.sync();
   }
   async migrate() {
     await this.DepartSync();
@@ -107,6 +98,43 @@ export class LocalService {
       }
     }
   }
+  async RoleSeed() {
+    const Roles = await this.modelRole.findAll();
+    const roles = [
+      {
+        name: 'admin',
+        title: 'Администратор',
+      },
+      {
+        name: 'sender',
+        title: 'Отправщик',
+      },
+      {
+        name: 'viewer_logs',
+        title: 'Просмотрщик логов',
+      },
+    ];
+    if (Roles.length === 0) {
+      const role_admin = await this.modelRole.create(roles[0]);
+      for (let i = 1; i < roles.length; i++)
+        await this.modelRole.create(roles[i]);
+      const [user] = await this.modelUser.findOrCreate({
+        where: { login: 'smorkalov@zakon43.ru' },
+      });
+      await this.modelUser_Role.create({
+        user_id: user.id,
+        role_id: role_admin.id,
+      });
+    } else {
+      if (Roles.length !== roles.length) {
+        const roled = Roles.map((value) => value.name);
+        for (const role of roles) {
+          if (!roled.includes(role.name)) await this.modelRole.create(role);
+        }
+      }
+    }
+  }
+
   async StatusSeed() {
     if ((await this.modelStatus.count()) === 0) {
       await this.modelStatus.create({

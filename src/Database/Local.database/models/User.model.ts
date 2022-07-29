@@ -14,6 +14,7 @@ import { Barcode } from './Barcode.model';
 import { Depart } from './Depart.model';
 import { Log } from './Log.model';
 import { Transmit } from './Transmit.model';
+import { User_Role } from './User_Role.model';
 @Table({ tableName: 'Users', timestamps: false })
 export class User extends Model {
   @AutoIncrement
@@ -56,5 +57,8 @@ export class User extends Model {
   Logs: Log[];
 
   @HasMany(() => Transmit)
-  Transmits: Transmit
+  Transmits: Transmit;
+
+  @HasMany(() => User_Role)
+  Users_Roles: User_Role[];
 }
