@@ -11,7 +11,7 @@ export class LoginService {
       where: { email: user.login },
     });
     if (login) {
-      return 'OK';
+      return user;
     }
     throw new UnauthorizedException({
       message: 'Вас нет в контакте',

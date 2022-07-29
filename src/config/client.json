@@ -1,5 +1,4 @@
 {
-    "port": "3003",
-    "demo": true
-  }
-  
+  "port": "3003",
+  "demo": false
+}
