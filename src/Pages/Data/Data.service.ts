@@ -11,7 +11,6 @@ import moment from 'moment';
 import { SMB } from 'src/Modules/smb';
 import { ConstValue, DocAttach } from '@contact/models';
 import { Result } from 'src/Schemas/Result.model';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class DataService {
@@ -64,7 +63,7 @@ export class DataService {
           docs: [barcode.Doc.mail_id],
         },
       );
-      const data = plainToInstance(Result, result.data);
+
       // TODO
       const doc = await this.modelDocAttach.findByPk(1381265);
       const tmp = save_path.split('\\');

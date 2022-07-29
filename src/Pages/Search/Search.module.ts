@@ -1,4 +1,4 @@
-import { LawAct, Person } from '@contact/models';
+import { LawAct } from '@contact/models';
 import { SequelizeModule } from '@contact/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';

@@ -1,5 +1,4 @@
 import { InjectModel } from '@contact/nestjs-sequelize';
-import { Sequelize } from '@contact/sequelize-typescript';
 import { Injectable } from '@nestjs/common';
 import { SearchInput } from './Search.input';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
