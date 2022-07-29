@@ -1,4 +1,1 @@
-
-export default function search(){
-    
-    }
+export default function search() {}

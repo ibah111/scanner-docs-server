@@ -4,11 +4,11 @@ import { SearchService } from './Search.service';
 
 @Controller('search')
 export class SearchController {
-    constructor(private searchService: SearchService) {}
-  
-    @HttpCode(200)
-    @Post()
-    async find(@Body() body: SearchInput) {
-      return await this.searchService.find(body);
-    }
+  constructor(private searchService: SearchService) {}
+
+  @HttpCode(200)
+  @Post()
+  async find(@Body() body: SearchInput) {
+    return await this.searchService.find(body);
   }
+}

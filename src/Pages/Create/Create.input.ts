@@ -33,17 +33,19 @@ export class CreateInput {
   @IsNumber()
   @IsOptional()
   @ApiProperty({
-    description: 'Вводим номер судебного иска/приказа (необязательный параметр)',
+    description:
+      'Вводим номер судебного иска/приказа (необязательный параметр)',
     type: Number,
-    required: false
+    required: false,
   })
   law_act?: number;
   @IsNumber()
   @IsOptional()
   @ApiProperty({
-    description: 'Вводимм номер исполнительного документа (необязательный параметр)',
+    description:
+      'Вводимм номер исполнительного документа (необязательный параметр)',
     type: Number,
-    required: false
+    required: false,
   })
   law_exec?: number;
   @IsNotEmpty()

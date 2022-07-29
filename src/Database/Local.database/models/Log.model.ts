@@ -57,5 +57,4 @@ export class Log extends Model {
   @AllowNull(false)
   @Column
   date: Date;
-
 }
