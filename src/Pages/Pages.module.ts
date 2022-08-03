@@ -5,6 +5,7 @@ import { DataModule } from './Data/Data.module';
 import { SearchModule } from './Search/Search.module';
 import { SendModule } from './Send/Send.module';
 import { GetDocsModule } from './GetDocs/GetDocs.module';
+import { DocumentsModule } from './Documents/Documents.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { GetDocsModule } from './GetDocs/GetDocs.module';
     SendModule,
     LoginModule,
     GetDocsModule,
+    DocumentsModule,
   ],
 })
 export class PagesModule {}
