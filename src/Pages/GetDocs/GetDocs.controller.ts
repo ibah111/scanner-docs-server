@@ -1,5 +1,6 @@
-import { Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/Modules/Guards/auth.guard';
+import { GetDocsInput } from './GetDocs.input';
 import { GetDocsService } from './GetDocs.service';
 
 @Controller('getDocs')
@@ -8,7 +9,7 @@ export class GetDocsController {
   constructor(private readonly getDocsService: GetDocsService) {}
   @HttpCode(200)
   @Post()
-  async findAll(): Promise<any[]> {
-    return await this.getDocsService.findAll();
+  async find(@Body() body: GetDocsInput): Promise<any[]> {
+    return await this.getDocsService.find(body);
   }
 }
