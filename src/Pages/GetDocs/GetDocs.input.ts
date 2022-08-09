@@ -1,4 +1,10 @@
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class GetDocsInput {
   @IsString()
@@ -24,4 +30,14 @@ export class GetDocsInput {
   @IsDate()
   @IsOptional()
   date: Date;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsOptional()
+  page: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsOptional()
+  pageSize: number;
 }

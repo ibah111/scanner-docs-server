@@ -7,58 +7,30 @@ import { Op } from '@contact/sequelize';
 @Injectable()
 export class GetDocsService {
   constructor(@InjectModel(Doc) private modelDoc: typeof Doc) {}
-  async find(body: GetDocsInput): Promise<Doc[]> {
+  async find(body: GetDocsInput) {
+    let limit = body.pageSize;
+    let offset = 0 + (body.page - 1) * limit;
     if (
-      body.title != null &&
-      body.contact_doc_id != null &&
+      body.title != null ||
+      body.contact_doc_id != null ||
       body.law_act_id != null
     ) {
-      return await this.modelDoc.findAll({
+      return await this.modelDoc.findAndCountAll({
         where: {
-          title: { [Op.substring]: body.title },
-          contact_doc_id: { [Op.eq]: body.contact_doc_id },
-          law_act_id: { [Op.eq]: body.law_act_id },
+          [Op.or]: [
+            { title: { [Op.substring]: body.title } },
+            { contact_doc_id: { [Op.eq]: body.contact_doc_id } },
+            { law_act_id: { [Op.eq]: body.law_act_id } },
+          ],
         },
-      });
-    } else if (body.title != null && body.contact_doc_id != null) {
-      return await this.modelDoc.findAll({
-        where: {
-          title: { [Op.substring]: body.title },
-          contact_doc_id: { [Op.eq]: body.contact_doc_id },
-        },
-      });
-    } else if (body.title != null && body.law_act_id != null) {
-      return await this.modelDoc.findAll({
-        where: {
-          title: { [Op.substring]: body.title },
-          law_act_id: { [Op.eq]: body.law_act_id },
-        },
-      });
-    } else if (body.contact_doc_id != null && body.law_act_id != null) {
-      return await this.modelDoc.findAll({
-        where: {
-          contact_doc_id: { [Op.eq]: body.contact_doc_id },
-          law_act_id: { [Op.eq]: body.law_act_id },
-        },
-      });
-    } else if (body.title != null) {
-      return await this.modelDoc.findAll({
-        where: { title: { [Op.substring]: body.title } },
-      });
-    } else if (body.contact_doc_id != null) {
-      return await this.modelDoc.findAll({
-        where: { contact_doc_id: { [Op.eq]: body.contact_doc_id } },
-      });
-    } else if (body.law_act_id != null) {
-      return await this.modelDoc.findAll({
-        where: { law_act_id: { [Op.eq]: body.law_act_id } },
-      });
-    } else if (body.law_exec_id != null) {
-      return await this.modelDoc.findAll({
-        where: { law_exec_id: { [Op.eq]: body.law_exec_id } },
+        offset: offset,
+        limit: limit,
       });
     } else {
-      return await this.modelDoc.findAll();
+      return await this.modelDoc.findAndCountAll({
+        offset: offset,
+        limit: limit,
+      });
     }
   }
 }
