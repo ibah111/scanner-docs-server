@@ -33,11 +33,9 @@ export class GetDocsInput {
 
   @IsNumber()
   @IsNotEmpty()
-  @IsOptional()
   page: number;
 
   @IsNumber()
   @IsNotEmpty()
-  @IsOptional()
   pageSize: number;
 }
