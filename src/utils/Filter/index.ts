@@ -1,7 +1,6 @@
 import { Op, WhereOptions } from '@contact/sequelize';
 import { GridColumns, GridFilterModel } from '@mui/x-data-grid-premium';
 import getFieldHandler from './getFieldHamdler';
-
 import getItem from './getItem';
 
 export default function Filter(
@@ -10,7 +9,6 @@ export default function Filter(
 ): WhereOptions {
   const where = [];
   const result = {};
-  const items = {};
   const getField = getFieldHandler(columnModel);
   filterModel.items.forEach((item) => {
     const Field = getField(item.columnField);
@@ -30,7 +28,5 @@ export default function Filter(
         break;
     }
   }
-  console.log(where);
-  console.log(result);
   return result;
 }
