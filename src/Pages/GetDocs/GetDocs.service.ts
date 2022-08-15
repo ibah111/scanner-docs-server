@@ -14,14 +14,14 @@ export class GetDocsService {
 
   async find(body: GetDocsInput) {
     const columns = TableDocsColumns();
-    const utils = (filter: GridFilterModel) => Filter(filter, columns);
+    const filters = (filter: GridFilterModel) => Filter(filter, columns);
     const sorts = (sort: GridSortModel) => Sort(sort, columns);
-    let limit = body.pageSize;
-    let offset = 0 + (body.page - 1) * limit;
+    const limit = body.pageSize;
+    const offset = 0 + (body.page - 1) * limit;
     const options: FindOptions<Doc> = {};
     options.limit = limit;
     options.offset = offset;
-    options.where = utils(body.filterModel);
+    options.where = filters(body.filterModel);
     options.order = sorts(body.sortModel);
     return await this.modelDoc.findAndCountAll(options);
   }
