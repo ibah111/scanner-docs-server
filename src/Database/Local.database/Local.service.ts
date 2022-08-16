@@ -27,6 +27,7 @@ export class LocalService {
     await this.DepartSync();
     await this.UserSync();
     await this.StatusSeed();
+    await this.RoleSeed();
   }
   async UserSync() {
     const res = (

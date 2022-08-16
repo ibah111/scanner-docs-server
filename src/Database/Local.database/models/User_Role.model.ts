@@ -18,15 +18,15 @@ export class User_Role extends Model {
   @Column
   id: number;
 
-  @ForeignKey(() => User)
   @AllowNull(false)
+  @ForeignKey(() => User)
   @Column
   user_id: number;
   @BelongsTo(() => User)
   User: User;
 
-  @ForeignKey(() => Role)
   @AllowNull(false)
+  @ForeignKey(() => Role)
   @Column
   role_id: number;
   @BelongsTo(() => Role)
