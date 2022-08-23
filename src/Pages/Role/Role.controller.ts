@@ -10,8 +10,8 @@ import {
 import { RoleService } from './Role.service';
 
 @Controller('role')
-// @UseGuards(RolesGuard)
-// @UseGuards(AuthGuard)
+@UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
   @Roles('admin')
