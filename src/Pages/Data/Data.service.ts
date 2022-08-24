@@ -8,14 +8,14 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
 import moment from 'moment';
-import { SMB } from 'src/Modules/smb';
 import { ConstValue, DocAttach } from '@contact/models';
 import { Result } from 'src/Schemas/Result.model';
+import { SMBService } from 'src/Modules/Smb/Smb.service';
 
 @Injectable()
 export class DataService {
   constructor(
-    private readonly SMB: SMB,
+    private readonly SMB: SMBService,
     @InjectModel(Barcode) private modelBarcode: typeof Barcode,
     @InjectModel(Doc) private modelDoc: typeof Doc,
     @InjectModel(Transmit) private modelTransmit: typeof Transmit,

@@ -1,11 +1,11 @@
 import { ConstValue, DocAttach } from '@contact/models';
 import { InjectModel } from '@contact/nestjs-sequelize';
-import { SMB } from 'src/Modules/smb';
+import { SMBService } from 'src/Modules/Smb/Smb.service';
 import { DocumentsInput } from './Documents.input';
 
 export class DocumentsService {
   constructor(
-    private readonly SMB: SMB,
+    private readonly SMB: SMBService,
     @InjectModel(DocAttach) private modelDocAttach: typeof DocAttach,
     @InjectModel(ConstValue) private modelConstValue: typeof ConstValue,
   ) {}

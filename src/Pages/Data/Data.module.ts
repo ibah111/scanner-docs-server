@@ -5,7 +5,7 @@ import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
-import { SmbModule } from 'src/Modules/smb';
+import { SmbModule } from 'src/Modules/Smb/Smb.module';
 import { DataController } from './Data.controller';
 import { DataService } from './Data.service';
 

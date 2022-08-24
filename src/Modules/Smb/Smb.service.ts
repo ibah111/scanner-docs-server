@@ -1,8 +1,8 @@
 import SMB2 from '@contact/smb2';
-import { Injectable, Module } from '@nestjs/common';
-import config from '../config/smb.json';
+import { Injectable } from '@nestjs/common';
+import config from '../../config/smb.json';
 @Injectable()
-export class SMB {
+export class SMBService {
   private loader: SMB2;
   config = config;
   constructor() {
@@ -20,8 +20,3 @@ export class SMB {
     });
   }
 }
-@Module({
-  providers: [SMB],
-  exports: [SMB],
-})
-export class SmbModule {}

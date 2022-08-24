@@ -2,7 +2,7 @@ import { ConstValue, DocAttach } from '@contact/models';
 import { SequelizeModule } from '@contact/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
-import { SmbModule } from 'src/Modules/smb';
+import { SmbModule } from 'src/Modules/Smb/Smb.module';
 import { GetDocsController } from './GetDocs.controller';
 import { GetDocsService } from './GetDocs.service';
 

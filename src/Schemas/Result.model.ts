@@ -205,7 +205,7 @@ export class Result {
    */
   mode: number;
 
-  /**как выполнить функцию при загрузке страницы react
+  /**
    * Истец, взыскатель
    */
   ist: string;
