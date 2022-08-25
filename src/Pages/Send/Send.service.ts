@@ -34,7 +34,7 @@ export class SendService {
       barcode.user = User.id;
       barcode.depart = User.depart;
       barcode.status = 3;
-      if (barcode.changed())
+      if (barcode)
         await barcode.$create('Log', {
           user: User.id,
           depart: User.depart,

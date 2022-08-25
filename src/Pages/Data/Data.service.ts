@@ -34,15 +34,21 @@ export class DataService {
     const User = await this.modelUser.findOne({
       where: { bitrix_id: user.id },
     });
+
     const barcode = await this.modelBarcode.findOne({
       where: { code: body.code },
-      include: [
-        { model: this.modelDoc, required: false },
-        { model: this.modelTransmit, required: false, where: { active: true } },
-        'User',
-        'Depart',
-      ],
+      include: [{ model: this.modelDoc, required: false }, 'User', 'Depart'],
     });
+    const data_transmit = await this.modelTransmit.findOne({
+      where: { barcode: barcode.id },
+    });
+    console.log(data_transmit);
+    if (data_transmit) {
+      data_transmit.active = false;
+      data_transmit.date_return = moment().toDate();
+      await data_transmit.save();
+    }
+
     if (barcode) {
       barcode.user = User.id;
       barcode.depart = User.depart;
