@@ -11,9 +11,9 @@ export class DocumentsService {
   ) {}
   async get(body: DocumentsInput) {
     const save_path: string = (
-      (await this.modelConstValue.findOne({
+      await this.modelConstValue.findOne({
         where: { name: 'DocAttach.SavePath' },
-      })) as any
+      })
     ).value;
     const client = this.SMB.get();
     const doc = await this.modelDocAttach.findByPk(body.id);

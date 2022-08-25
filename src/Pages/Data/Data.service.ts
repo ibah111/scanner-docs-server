@@ -25,9 +25,9 @@ export class DataService {
   ) {}
   async get(body: DataInput, user: AuthUserSuccess) {
     const save_path: string = (
-      (await this.modelConstValue.findOne({
+      await this.modelConstValue.findOne({
         where: { name: 'DocAttach.SavePath' },
-      })) as any
+      })
     ).value;
     const client = this.SMB.get();
 
@@ -46,13 +46,15 @@ export class DataService {
     if (barcode) {
       barcode.user = User.id;
       barcode.depart = User.depart;
+      barcode.status = 2;
+      if (barcode.changed())
+        await barcode.$create('Log', {
+          user: User.id,
+          depart: User.depart,
+          status: barcode.status,
+          date: moment().toDate(),
+        });
       await barcode.save();
-      await barcode.$create('Log', {
-        user: User.id,
-        depart: User.depart,
-        status: barcode.status,
-        date: moment().toDate(),
-      });
       const UserOld = barcode.User;
       const DepartOld = barcode.Depart;
       await barcode.reload();
@@ -65,7 +67,7 @@ export class DataService {
       );
 
       // TODO
-      const doc = await this.modelDocAttach.findByPk(1381265);
+      const doc = await this.modelDocAttach.findByPk(barcode.Doc.law_act_id);
       const tmp = save_path.split('\\');
       const dir = tmp[tmp.length - 1];
 

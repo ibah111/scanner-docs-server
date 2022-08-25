@@ -68,7 +68,7 @@ export class LocalService {
     }
   }
   async DepartSync() {
-    const parent_ids: any = {};
+    const parent_ids: Record<number, number> = {};
     const res = (
       await axios({
         method: 'post',
