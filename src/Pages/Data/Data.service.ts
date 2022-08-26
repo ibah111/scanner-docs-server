@@ -40,19 +40,21 @@ export class DataService {
       include: [{ model: this.modelDoc, required: false }, 'User', 'Depart'],
     });
     const data_transmit = await this.modelTransmit.findOne({
-      where: { barcode: barcode.id },
+      where: { barcode: barcode.id, active: true },
     });
-    console.log(data_transmit);
+
     if (data_transmit) {
       data_transmit.active = false;
       data_transmit.date_return = moment().toDate();
       await data_transmit.save();
+    } else {
     }
 
     if (barcode) {
       barcode.user = User.id;
       barcode.depart = User.depart;
       barcode.status = 2;
+
       if (barcode.changed())
         await barcode.$create('Log', {
           user: User.id,
