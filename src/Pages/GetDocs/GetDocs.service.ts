@@ -45,7 +45,6 @@ export class GetDocsService {
           },
           { model: this.modelUser, required: false },
           { model: this.modelDepart, required: false },
-
           'User',
           'Depart',
         ],
