@@ -7,7 +7,7 @@ import { Status } from 'src/Database/Local.database/models/Status.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { OpenHistoryController } from './OpenHistory.controller';
-import { OpenHistoryService } from './OpenHistoryService';
+import { OpenHistoryService } from './OpenHistory.service';
 
 @Module({
   imports: [

@@ -27,13 +27,10 @@ export class GetDocsService {
     const columns = TableDocsColumns();
     const filters = (filter: GridFilterModel) => Filter(filter, columns);
     const sorts = (sort: GridSortModel) => Sort(sort, columns);
-    const limit = body.pageSize;
+    let limit = body.pageSize;
     const offset = 0 + (body.page - 1) * limit;
     const options: FindOptions<Doc> = {};
-    options.limit = limit;
-    options.offset = offset;
-    options.where = filters(body.filterModel);
-    options.order = sorts(body.sortModel);
+
     let whereSend = '';
     let requiredSend = false;
     let operatorWS = 'contains';
@@ -47,6 +44,7 @@ export class GetDocsService {
             whereSend = item.value;
             operatorWS = item.operatorValue;
             requiredSend = true;
+            limit = (await this.modelDoc.findAndCountAll(options)).count;
           }
           break;
         case 'date_send':
@@ -54,10 +52,15 @@ export class GetDocsService {
             dateSend = item.value;
             operatorDS = item.operatorValue;
             requiredSend = true;
+            limit = (await this.modelDoc.findAndCountAll(options)).count;
           }
           break;
       }
     }
+    options.limit = limit;
+    options.offset = offset;
+    options.where = filters(body.filterModel);
+    options.order = sorts(body.sortModel);
     options.include = [
       {
         model: this.modelBarcode,

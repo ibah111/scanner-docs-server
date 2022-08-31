@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { OpenHistoryInput } from './OpenHistory.input';
-import { OpenHistoryService } from './OpenHistoryService';
+import { OpenHistoryService } from './OpenHistory.service';
 
 @Controller('openHistory')
 export class OpenHistoryController {
