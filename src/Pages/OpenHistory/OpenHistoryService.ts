@@ -29,9 +29,8 @@ export class OpenHistoryService {
         },
         {
           model: this.modelTransmit,
-          required: false,
+          required: true,
           where: { active: false },
-          order: ['id'],
         },
         { model: this.modelUser, required: false },
         { model: this.modelDepart, required: false },

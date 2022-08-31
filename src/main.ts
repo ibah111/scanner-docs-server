@@ -13,8 +13,6 @@ import { VersionService } from './Modules/Version/version.service';
 import { getSwaggerOptions, getSwaggerOptionsCustom } from './utils/swagger';
 import client from './utils/client';
 import https from './utils/https';
-
-tz.setDefault('GMT');
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -41,6 +39,5 @@ async function bootstrap() {
   );
   SwaggerModule.setup('api', app, document, getSwaggerOptionsCustom());
   await app.listen(client('port'), '0.0.0.0');
-  // await app.listen(3001);
 }
 bootstrap();

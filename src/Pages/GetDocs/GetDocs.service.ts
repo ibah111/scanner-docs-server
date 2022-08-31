@@ -11,6 +11,7 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
+import Operators from 'src/utils/Filter/Operator';
 
 @Injectable()
 export class GetDocsService {
@@ -33,6 +34,30 @@ export class GetDocsService {
     options.offset = offset;
     options.where = filters(body.filterModel);
     options.order = sorts(body.sortModel);
+    let whereSend = '';
+    let requiredSend = false;
+    let operatorWS = 'contains';
+    let dateSend = '';
+    let operatorDS = 'before';
+
+    for (const item of body.filterModel.items) {
+      switch (item.columnField) {
+        case 'where_send':
+          if (item.value) {
+            whereSend = item.value;
+            operatorWS = item.operatorValue;
+            requiredSend = true;
+          }
+          break;
+        case 'date_send':
+          if (item.value) {
+            dateSend = item.value;
+            operatorDS = item.operatorValue;
+            requiredSend = true;
+          }
+          break;
+      }
+    }
     options.include = [
       {
         model: this.modelBarcode,
@@ -40,16 +65,25 @@ export class GetDocsService {
         include: [
           {
             model: this.modelTransmit,
-            required: false,
-            where: { active: true },
+            required: requiredSend,
+            where: {
+              active: true,
+              where_send: Operators(operatorWS, whereSend, 'string'),
+              date_send: Operators(operatorDS, dateSend, 'date'),
+            },
           },
-          { model: this.modelUser, required: false },
-          { model: this.modelDepart, required: false },
-          'User',
-          'Depart',
+          {
+            model: this.modelUser,
+            required: true,
+          },
+          {
+            model: this.modelDepart,
+            required: true,
+          },
         ],
       },
     ];
+
     return await this.modelDoc.findAndCountAll(options);
   }
 }
