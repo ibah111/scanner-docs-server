@@ -4,7 +4,6 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { tz } from 'moment-timezone';
 import { AppModule } from './app.module';
 import { LocalService } from './Database/Local.database/Local.service';
 

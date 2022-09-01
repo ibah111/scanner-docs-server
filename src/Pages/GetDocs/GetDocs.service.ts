@@ -2,7 +2,7 @@ import { InjectModel } from '@contact/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { GetDocsInput } from './GetDocs.input';
-import { FindOptions, Op } from '@contact/sequelize';
+import { FindOptions } from '@contact/sequelize';
 import Filter from 'src/utils/Filter';
 import TableDocsColumns from 'src/utils/Columns/TableDocs';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid-premium';
@@ -26,7 +26,7 @@ export class GetDocsService {
     const columns = TableDocsColumns();
     const filters = (filter: GridFilterModel) => Filter(filter, columns);
     const sorts = (sort: GridSortModel) => Sort(sort, columns);
-    let limit = body.pageSize;
+    const limit = body.pageSize;
     const offset = body.page * limit;
     const options: FindOptions<Doc> = {};
     options.limit = limit;
