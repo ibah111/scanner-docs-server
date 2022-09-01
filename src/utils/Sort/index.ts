@@ -1,4 +1,4 @@
-import { OrderItem } from '@contact/sequelize/types';
+import { OrderItem, Sequelize } from '@contact/sequelize';
 import { GridColumns, GridSortModel } from '@mui/x-data-grid-premium';
 import getFieldHandler from '../Filter/getFieldHamdler';
 
@@ -9,7 +9,7 @@ export default function Sort(sortModel: GridSortModel, columns: GridColumns) {
     sortModel.forEach((sort) => {
       const field = getField(sort.field);
       if (field) {
-        const item: OrderItem = [sort.field, sort.sort];
+        const item: OrderItem = [Sequelize.col(`${sort.field}`), sort.sort];
         orders.push(item);
       }
     });
@@ -17,6 +17,5 @@ export default function Sort(sortModel: GridSortModel, columns: GridColumns) {
     const item: OrderItem = ['id', 'asc'];
     orders.push(item);
   }
-
   return orders;
 }

@@ -13,16 +13,20 @@ const TableDocsColumns = (): GridColumns => [
     headerName: 'Подразделение',
     type: 'string',
   },
-  { field: 'Barcode.User.f', headerName: 'Текущий держатель', type: 'string' },
-  // {
-  //   field: 'Barcode.Transmits.date_send',
-  //   headerName: 'Дата отправки в банк/ОСП',
-  //   type: 'date',
-  // },
-  // {
-  //   field: 'Barcode.Transmits',
-  //   headerName: 'Куда отправлено',
-  //   type: 'string',
-  // },
+  {
+    field: 'Barcode.User.f',
+    headerName: 'Текущий держатель',
+    type: 'string',
+  },
+  {
+    field: 'Barcode.Transmits.date_send',
+    headerName: 'Дата отправки в банк/ОСП',
+    type: 'date',
+  },
+  {
+    field: 'Barcode.Transmits.where_send',
+    headerName: 'Куда отправлено',
+    type: 'string',
+  },
 ];
 export default TableDocsColumns;
