@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateInput {
@@ -32,20 +32,18 @@ export class CreateInput {
   title: string;
   @IsNumber()
   @IsOptional()
-  @ApiProperty({
+  @ApiPropertyOptional({
     description:
       'Вводим номер судебного иска/приказа (необязательный параметр)',
     type: Number,
-    required: false,
   })
   law_act?: number;
   @IsNumber()
   @IsOptional()
-  @ApiProperty({
+  @ApiPropertyOptional({
     description:
       'Вводимм номер исполнительного документа (необязательный параметр)',
     type: Number,
-    required: false,
   })
   law_exec?: number;
   @IsNotEmpty()
