@@ -139,16 +139,16 @@ export class LocalService {
   async StatusSeed() {
     if ((await this.modelStatus.count()) === 0) {
       await this.modelStatus.create({
-        name: 'Expect',
-        title: 'Ожидает',
+        name: 'Forming',
+        title: 'Формирование',
       });
       await this.modelStatus.create({
-        name: 'Processing',
-        title: 'Обработка',
+        name: 'Working',
+        title: 'В работе',
       });
       await this.modelStatus.create({
         name: 'Sending',
-        title: 'Отправка',
+        title: 'Отправление',
       });
     }
   }
