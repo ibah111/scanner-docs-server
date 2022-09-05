@@ -8,6 +8,7 @@ import { LocalModels } from './models';
     SequelizeModule.forRoot({
       dialect: 'sqlite',
       storage: 'database.sqlite',
+      logging: false,
       models: LocalModels,
     }),
     SequelizeModule.forFeature(LocalModels),

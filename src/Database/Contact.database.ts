@@ -11,6 +11,7 @@ import models from '@contact/models';
       username: 'contact',
       password: 'contact',
       database: 'i_collect',
+      logging: false,
       models,
     }),
   ],
