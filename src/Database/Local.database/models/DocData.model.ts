@@ -8,57 +8,55 @@ import {
   Model,
   PrimaryKey,
   Table,
-  Unique,
 } from '@contact/sequelize-typescript';
 import { Depart } from './Depart.model';
-import { DocData } from './DocData.model';
+import { Doc } from './Doc.model';
 import { Log } from './Log.model';
+import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
-import { User_Role } from './User_Role.model';
-@Table({ tableName: 'Users', timestamps: false })
-export class User extends Model {
+import { User } from './User.model';
+
+@Table({ tableName: 'docData' })
+export class DocData extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column
   id: number;
 
   @Column
-  f: string;
-
-  @Column
-  i: string;
-
-  @Column
-  o: string;
+  parent_id: number;
 
   @AllowNull(false)
-  @Unique
+  @ForeignKey(() => Doc)
   @Column
-  login: string;
-
-  @Column
-  position: string;
+  doc_id: number;
+  @BelongsTo(() => Doc)
+  Doc: Doc;
 
   @AllowNull(false)
-  @Unique
+  @ForeignKey(() => Status)
   @Column
-  bitrix_id: number;
+  status: number;
+  @BelongsTo(() => Status)
+  Status: Status;
 
+  @AllowNull(false)
+  @ForeignKey(() => User)
+  @Column
+  user: number;
+  @BelongsTo(() => User)
+  User: User;
+
+  @AllowNull(false)
   @ForeignKey(() => Depart)
   @Column
   depart: number;
   @BelongsTo(() => Depart)
-  Depart: Depart;
-
-  @HasMany(() => DocData)
-  DocData: DocData[];
+  Depart: Depart[];
 
   @HasMany(() => Log)
   Logs: Log[];
 
   @HasMany(() => Transmit)
-  Transmits: Transmit;
-
-  @HasMany(() => User_Role)
-  Users_Roles: User_Role[];
+  Transmits: Transmit[];
 }

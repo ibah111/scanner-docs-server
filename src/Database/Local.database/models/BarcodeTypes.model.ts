@@ -8,17 +8,17 @@ import {
   Table,
   Unique,
 } from '@contact/sequelize-typescript';
-import { DocData } from './DocData.model';
-import { Log } from './Log.model';
-@Table({ tableName: 'status' })
-export class Status extends Model {
+import { Barcode } from './Barcode.model';
+
+@Table({ tableName: 'barcodeTypes' })
+export class BarcodeTypes extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column
   id: number;
 
-  @Unique
   @AllowNull(false)
+  @Unique
   @Column
   name: string;
 
@@ -26,9 +26,6 @@ export class Status extends Model {
   @Column
   title: string;
 
-  @HasMany(() => DocData)
-  DocData: DocData[];
-
-  @HasMany(() => Log)
-  Logs: Log[];
+  @HasMany(() => Barcode)
+  Barcodes: Barcode[];
 }

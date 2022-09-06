@@ -5,17 +5,11 @@ export class CreateInput {
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
-    description: 'Вводим id пользователя ДО',
-    type: Number,
-  })
-  user: number;
-  @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty({
     description: 'Вводим id документа из ДО',
     type: Number,
   })
   doc_id: number;
+
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
@@ -23,6 +17,7 @@ export class CreateInput {
     type: Number,
   })
   mail_id: number;
+
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
@@ -30,6 +25,7 @@ export class CreateInput {
     type: String,
   })
   title: string;
+
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
@@ -38,6 +34,7 @@ export class CreateInput {
     type: Number,
   })
   law_act?: number;
+
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
@@ -46,11 +43,4 @@ export class CreateInput {
     type: Number,
   })
   law_exec?: number;
-  @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty({
-    description: 'Вводим id департамента',
-    type: Number,
-  })
-  depart: number;
 }

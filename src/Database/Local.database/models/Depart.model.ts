@@ -9,6 +9,7 @@ import {
   Unique,
 } from '@contact/sequelize-typescript';
 import { Barcode } from './Barcode.model';
+import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';
 
@@ -35,8 +36,8 @@ export class Depart extends Model {
   @Column
   parent_id: number;
 
-  @HasMany(() => Barcode)
-  Barcodes: Barcode[];
+  @HasMany(() => DocData)
+  DocData: DocData[];
 
   @HasMany(() => User)
   Users: User[];

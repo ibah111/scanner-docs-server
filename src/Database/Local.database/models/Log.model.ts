@@ -10,6 +10,7 @@ import {
 } from '@contact/sequelize-typescript';
 import { Barcode } from './Barcode.model';
 import { Depart } from './Depart.model';
+import { DocData } from './DocData.model';
 import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
 import { User } from './User.model';
@@ -28,11 +29,11 @@ export class Log extends Model {
   User: User;
 
   @AllowNull(false)
-  @ForeignKey(() => Barcode)
+  @ForeignKey(() => DocData)
   @Column
-  barcode: number;
-  @BelongsTo(() => Barcode)
-  Barcode: Barcode;
+  doc_data_id: number;
+  @BelongsTo(() => DocData)
+  DocData: DocData;
 
   @AllowNull(false)
   @ForeignKey(() => Depart)

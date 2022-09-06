@@ -9,6 +9,8 @@ import { Sequelize } from '@contact/sequelize-typescript';
 import translit from 'src/utils/translit';
 import { Role } from './models/Role.model';
 import { User_Role } from './models/User_Role.model';
+import { BarcodeTypes } from './models/BarcodeTypes.model';
+import { DocTypes } from './models/DocTypes.model';
 
 @Injectable()
 export class LocalService {
@@ -19,6 +21,9 @@ export class LocalService {
     @InjectModel(Status) private readonly modelStatus: typeof Status,
     @InjectModel(Role) private readonly modelRole: typeof Role,
     @InjectModel(User_Role) private readonly modelUser_Role: typeof User_Role,
+    @InjectModel(BarcodeTypes)
+    private readonly modelBarcodeTypes: typeof BarcodeTypes,
+    @InjectModel(DocTypes) private readonly modelDocTypes: typeof DocTypes,
   ) {}
   async init() {
     await this.sequelize.sync();
@@ -28,6 +33,8 @@ export class LocalService {
     await this.UserSync();
     await this.StatusSeed();
     await this.RoleSeed();
+    await this.BarcodeTypesSeed();
+    await this.DocTypesSeed();
   }
   async UserSync() {
     const res = (
@@ -149,6 +156,32 @@ export class LocalService {
       await this.modelStatus.create({
         name: 'Sending',
         title: 'Отправление',
+      });
+    }
+  }
+
+  async BarcodeTypesSeed() {
+    if ((await this.modelBarcodeTypes.count()) === 0) {
+      await this.modelBarcodeTypes.create({
+        name: 'Doc',
+        title: 'Документ',
+      });
+      await this.modelBarcodeTypes.create({
+        name: 'Box',
+        title: 'Короб',
+      });
+    }
+  }
+
+  async DocTypesSeed() {
+    if ((await this.modelDocTypes.count()) === 0) {
+      await this.modelDocTypes.create({
+        name: 'writ of execution',
+        title: 'Исполнительный лист',
+      });
+      await this.modelDocTypes.create({
+        name: 'court order',
+        title: 'Судебный приказ',
       });
     }
   }

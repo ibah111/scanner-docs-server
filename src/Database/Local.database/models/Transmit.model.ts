@@ -9,7 +9,7 @@ import {
   PrimaryKey,
   Table,
 } from '@contact/sequelize-typescript';
-import { Barcode } from './Barcode.model';
+import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';
 
@@ -23,12 +23,12 @@ export class Transmit extends Model {
   @Column
   active: boolean;
 
-  @ForeignKey(() => Barcode)
+  @ForeignKey(() => DocData)
   @AllowNull(false)
   @Column
-  barcode: number;
-  @BelongsTo(() => Barcode)
-  Barcode: Barcode;
+  doc_data_id: number;
+  @BelongsTo(() => DocData)
+  DocData: DocData;
 
   @ForeignKey(() => User)
   @AllowNull(false)

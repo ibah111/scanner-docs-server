@@ -4,43 +4,25 @@ import {
   BelongsTo,
   Column,
   ForeignKey,
+  HasMany,
+  HasOne,
   Model,
   PrimaryKey,
   Table,
-  Unique,
 } from '@contact/sequelize-typescript';
+import { Barcode } from './Barcode.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
-import { Box } from './Box.model';
 import { Doc } from './Doc.model';
-@Table({ tableName: 'Barcodes' })
-export class Barcode extends Model {
+@Table({ tableName: 'Box' })
+export class Box extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column
   id: number;
 
   @AllowNull(false)
-  @Unique
   @Column
-  code: string;
-
-  @AllowNull(false)
-  @Column
-  item_id: number;
-
-  @AllowNull(false)
-  @ForeignKey(() => Doc)
-  @Column
-  doc_id: number;
-  @BelongsTo(() => Doc)
-  Doc: Doc;
-
-  @AllowNull(true)
-  @ForeignKey(() => Box)
-  @Column
-  box_id: number;
-  @BelongsTo(() => Doc)
-  Box: Box;
+  code: number;
 
   @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
@@ -48,4 +30,14 @@ export class Barcode extends Model {
   type: number;
   @BelongsTo(() => BarcodeTypes)
   BarcodeTypes: BarcodeTypes;
+
+  @HasMany(() => Doc)
+  Doc: Doc[];
+
+  @HasOne(() => Barcode, {
+    scope: {
+      type: 2,
+    },
+  })
+  Barcode: Barcode;
 }

@@ -6,6 +6,8 @@ import { SearchModule } from './Search/Search.module';
 import { SendModule } from './Send/Send.module';
 import { GetDocsModule } from './GetDocs/GetDocs.module';
 import { DocumentsModule } from './Documents/Documents.module';
+import { OpenHistoryModule } from './OpenHistory/OpenHistory.module';
+import { CreateBoxModule } from './CreateBox/CreateBox.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { DocumentsModule } from './Documents/Documents.module';
     LoginModule,
     GetDocsModule,
     DocumentsModule,
+    OpenHistoryModule,
+    CreateBoxModule,
   ],
 })
 export class PagesModule {}

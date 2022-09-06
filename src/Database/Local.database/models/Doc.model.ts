@@ -1,13 +1,18 @@
 import {
   AllowNull,
   AutoIncrement,
+  BelongsTo,
   Column,
+  ForeignKey,
   HasOne,
   Model,
   PrimaryKey,
   Table,
 } from '@contact/sequelize-typescript';
 import { Barcode } from './Barcode.model';
+import { Box } from './Box.model';
+import { DocData } from './DocData.model';
+import { DocTypes } from './DocTypes.model';
 
 @Table({ tableName: 'docs' })
 export class Doc extends Model {
@@ -38,6 +43,31 @@ export class Doc extends Model {
   @Column
   date: Date;
 
-  @HasOne(() => Barcode)
+  @AllowNull(false)
+  @Column
+  barcode: string;
+
+  @AllowNull(false)
+  @ForeignKey(() => DocTypes)
+  @Column
+  type: number;
+  @BelongsTo(() => DocTypes)
+  DocTypes: DocTypes;
+
+  @AllowNull(true)
+  @ForeignKey(() => Box)
+  @Column
+  box_id: number;
+  @BelongsTo(() => Box)
+  Box: Box;
+
+  @HasOne(() => DocData)
+  DocData: DocData;
+
+  @HasOne(() => Barcode, {
+    scope: {
+      type: 1,
+    },
+  })
   Barcode: Barcode;
 }
