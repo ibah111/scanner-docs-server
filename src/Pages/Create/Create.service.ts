@@ -33,6 +33,7 @@ export class CreateService {
     if (user === null) {
       return 'Пользователь не существует';
     }
+
     data_doc.title = body.title;
     data_doc.law_act_id = body.law_act;
     data_doc.mail_id = body.mail_id;
@@ -51,7 +52,7 @@ export class CreateService {
     docData.status = 1;
     docData.parent_id = data_doc.id;
     await docData.save();
-    data_log.doc_data_id = data_bar.id;
+    data_log.doc_data_id = docData.id;
     data_log.user = docData.user;
     data_log.depart = docData.depart;
     data_log.status = docData.status;
