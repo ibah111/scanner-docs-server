@@ -11,6 +11,7 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
+import { DocData } from 'src/Database/Local.database/models/DocData.model';
 
 @Injectable()
 export class GetDocsService {
@@ -20,6 +21,7 @@ export class GetDocsService {
     @InjectModel(Barcode) private modelBarcode: typeof Barcode,
     @InjectModel(User) private modelUser: typeof User,
     @InjectModel(Depart) private modelDepart: typeof Depart,
+    @InjectModel(DocData) private modelDocData: typeof DocData,
   ) {}
 
   async find(body: GetDocsInput) {
@@ -36,7 +38,7 @@ export class GetDocsService {
     options.order = sorts(body.sortModel);
     options.include = [
       {
-        model: this.modelBarcode,
+        model: this.modelDocData,
         required: true,
         include: [
           {

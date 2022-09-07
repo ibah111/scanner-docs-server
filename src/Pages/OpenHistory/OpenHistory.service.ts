@@ -20,13 +20,9 @@ export class OpenHistoryService {
   ) {}
   async find(body: OpenHistoryInput) {
     const result = await this.modelLog.findAll({
-      where: { barcode: body.code },
+      where: { doc_data_id: body.code },
 
       include: [
-        {
-          model: this.modelBarcode,
-          required: false,
-        },
         {
           model: this.modelTransmit,
           required: true,

@@ -7,9 +7,12 @@ import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { User } from 'src/Database/Local.database/models/User.model';
+import { DocData } from 'src/Database/Local.database/models/DocData.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Barcode, Log, Depart, Doc, User])],
+  imports: [
+    SequelizeModule.forFeature([Barcode, Log, Depart, Doc, User, DocData]),
+  ],
   controllers: [CreateController],
   providers: [CreateService],
 })

@@ -8,7 +8,6 @@ import {
   PrimaryKey,
   Table,
 } from '@contact/sequelize-typescript';
-import { Barcode } from './Barcode.model';
 import { Depart } from './Depart.model';
 import { DocData } from './DocData.model';
 import { Status } from './Status.model';

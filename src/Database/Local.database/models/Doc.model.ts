@@ -44,10 +44,6 @@ export class Doc extends Model {
   date: Date;
 
   @AllowNull(false)
-  @Column
-  barcode: string;
-
-  @AllowNull(false)
   @ForeignKey(() => DocTypes)
   @Column
   type: number;

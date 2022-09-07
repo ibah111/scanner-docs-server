@@ -33,22 +33,23 @@ export class CreateService {
     if (user === null) {
       return 'Пользователь не существует';
     }
-
     data_doc.title = body.title;
     data_doc.law_act_id = body.law_act;
     data_doc.mail_id = body.mail_id;
     data_doc.law_exec_id = body.law_exec;
     data_doc.contact_doc_id = body.doc_id;
+    data_doc.type = body.type;
     data_doc.date = moment().toDate();
     await data_doc.save();
     data_bar.type = 1;
-    data_bar.doc_id = data_doc.id;
+    data_bar.item_id = data_doc.id;
     data_bar.code = generateRandom(11);
     await data_bar.save();
+    docData.barcode = data_bar.code;
     docData.user = User.id;
     docData.depart = User.depart;
     docData.status = 1;
-    docData.doc_id = data_doc.id;
+    docData.parent_id = data_doc.id;
     await docData.save();
     data_log.doc_data_id = data_bar.id;
     data_log.user = docData.user;

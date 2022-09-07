@@ -157,6 +157,10 @@ export class LocalService {
         name: 'Sending',
         title: 'Отправление',
       });
+      await this.modelStatus.create({
+        name: 'Returning',
+        title: 'Возврат',
+      });
     }
   }
 

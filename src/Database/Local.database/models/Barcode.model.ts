@@ -24,23 +24,11 @@ export class Barcode extends Model {
   @Column
   code: string;
 
+  @ForeignKey(() => Box)
+  @ForeignKey(() => Doc)
   @AllowNull(false)
   @Column
   item_id: number;
-
-  @AllowNull(false)
-  @ForeignKey(() => Doc)
-  @Column
-  doc_id: number;
-  @BelongsTo(() => Doc)
-  Doc: Doc;
-
-  @AllowNull(true)
-  @ForeignKey(() => Box)
-  @Column
-  box_id: number;
-  @BelongsTo(() => Doc)
-  Box: Box;
 
   @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)

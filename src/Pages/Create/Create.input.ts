@@ -39,8 +39,17 @@ export class CreateInput {
   @IsOptional()
   @ApiPropertyOptional({
     description:
-      'Вводимм номер исполнительного документа (необязательный параметр)',
+      'Вводим номер исполнительного документа (необязательный параметр)',
     type: Number,
   })
   law_exec?: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiPropertyOptional({
+    description:
+      'Вводим тип документа 1 - Исполнительный лист, 2 - Судебный приказ',
+    type: Number,
+  })
+  type: number;
 }

@@ -23,13 +23,14 @@ export class DocData extends Model {
   @Column
   id: number;
 
+  @AllowNull(false)
   @Column
-  parent_id: number;
+  barcode: string;
 
   @AllowNull(false)
   @ForeignKey(() => Doc)
   @Column
-  doc_id: number;
+  parent_id: number;
   @BelongsTo(() => Doc)
   Doc: Doc;
 
