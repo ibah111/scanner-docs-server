@@ -19,7 +19,7 @@ export class CreateBoxService {
     const data_bar = await this.modelBarcode.build();
 
     data_bar.type = 2;
-    data_bar.code = generateRandom(11);
+    data_bar.code = generateRandom(12);
     await data_bar.save();
     data_box.code = data_bar.id;
     data_box.type = 2;

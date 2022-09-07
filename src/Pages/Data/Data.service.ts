@@ -56,10 +56,16 @@ export class DataService {
       where: { doc_data_id: barcode.id, active: true },
     });
 
+    const data_log = await this.modelLog.findOne({
+      where: { doc_data_id: barcode.id, status: 3 },
+    });
+
     if (data_transmit) {
       data_transmit.active = false;
       data_transmit.date_return = moment().toDate();
       await data_transmit.save();
+      data_log.status = 4;
+      await data_log.save();
     }
 
     if (barcode) {

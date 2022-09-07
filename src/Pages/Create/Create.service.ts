@@ -43,7 +43,7 @@ export class CreateService {
     await data_doc.save();
     data_bar.type = 1;
     data_bar.item_id = data_doc.id;
-    data_bar.code = generateRandom(11);
+    data_bar.code = generateRandom(12);
     await data_bar.save();
     docData.barcode = data_bar.code;
     docData.user = User.id;
