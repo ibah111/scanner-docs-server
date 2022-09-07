@@ -13,6 +13,7 @@ import {
 import { Barcode } from './Barcode.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { Doc } from './Doc.model';
+import { DocData } from './DocData.model';
 @Table({ tableName: 'Box' })
 export class Box extends Model {
   @AutoIncrement
@@ -21,18 +22,14 @@ export class Box extends Model {
   id: number;
 
   @AllowNull(false)
-  @Column
-  code: number;
-
-  @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
   @Column
   type: number;
   @BelongsTo(() => BarcodeTypes)
   BarcodeTypes: BarcodeTypes;
 
-  @HasMany(() => Doc)
-  Doc: Doc[];
+  @HasMany(() => DocData)
+  DocData: DocData[];
 
   @HasOne(() => Barcode, {
     scope: {

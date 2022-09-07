@@ -50,13 +50,6 @@ export class Doc extends Model {
   @BelongsTo(() => DocTypes)
   DocTypes: DocTypes;
 
-  @AllowNull(true)
-  @ForeignKey(() => Box)
-  @Column
-  box_id: number;
-  @BelongsTo(() => Box)
-  Box: Box;
-
   @HasOne(() => DocData)
   DocData: DocData;
 
