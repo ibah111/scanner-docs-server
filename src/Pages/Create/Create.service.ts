@@ -39,14 +39,14 @@ export class CreateService {
     data_doc.mail_id = body.mail_id;
     data_doc.law_exec_id = body.law_exec;
     data_doc.contact_doc_id = body.doc_id;
-    data_doc.type = body.type;
+    data_doc.type_doc = body.type;
+    data_doc.type = 1;
     data_doc.date = moment().toDate();
     await data_doc.save();
     data_bar.type = 1;
     data_bar.item_id = data_doc.id;
     data_bar.code = generateRandom(12);
     await data_bar.save();
-    docData.barcode = data_bar.code;
     docData.user = User.id;
     docData.depart = User.depart;
     docData.status = 1;

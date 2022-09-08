@@ -9,7 +9,6 @@ import {
   PrimaryKey,
   Table,
 } from '@contact/sequelize-typescript';
-import { Box } from './Box.model';
 import { Depart } from './Depart.model';
 import { Doc } from './Doc.model';
 import { Log } from './Log.model';
@@ -23,10 +22,6 @@ export class DocData extends Model {
   @PrimaryKey
   @Column
   id: number;
-
-  @AllowNull(false)
-  @Column
-  barcode: string;
 
   @AllowNull(false)
   @ForeignKey(() => Doc)
@@ -55,13 +50,6 @@ export class DocData extends Model {
   depart: number;
   @BelongsTo(() => Depart)
   Depart: Depart[];
-
-  @AllowNull(true)
-  @ForeignKey(() => Box)
-  @Column
-  box_id: number;
-  @BelongsTo(() => Box)
-  Box: Box;
 
   @HasMany(() => Log)
   Logs: Log[];

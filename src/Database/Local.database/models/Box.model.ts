@@ -13,7 +13,6 @@ import {
 import { Barcode } from './Barcode.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { Doc } from './Doc.model';
-import { DocData } from './DocData.model';
 @Table({ tableName: 'Box' })
 export class Box extends Model {
   @AutoIncrement
@@ -28,10 +27,11 @@ export class Box extends Model {
   @BelongsTo(() => BarcodeTypes)
   BarcodeTypes: BarcodeTypes;
 
-  @HasMany(() => DocData)
-  DocData: DocData[];
+  @HasMany(() => Doc)
+  Doc: Doc[];
 
   @HasOne(() => Barcode, {
+    constraints: false,
     scope: {
       type: 2,
     },

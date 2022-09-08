@@ -7,6 +7,7 @@ import { GetDocsModule } from './GetDocs/GetDocs.module';
 import { DocumentsModule } from './Documents/Documents.module';
 import { OpenHistoryModule } from './OpenHistory/OpenHistory.module';
 import { CreateBoxModule } from './CreateBox/CreateBox.module';
+import { OpenRowsBoxModule } from './OpenRowsBox/OpenRowsBox.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CreateBoxModule } from './CreateBox/CreateBox.module';
     DocumentsModule,
     OpenHistoryModule,
     CreateBoxModule,
+    OpenRowsBoxModule,
   ],
 })
 export class PagesModule {}

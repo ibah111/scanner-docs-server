@@ -121,6 +121,10 @@ export class LocalService {
         name: 'viewer_logs',
         title: 'Просмотрщик логов',
       },
+      {
+        name: 'former_box',
+        title: 'Формировщик коробки',
+      },
     ];
     if (Roles.length === 0) {
       const role_admin = await this.modelRole.create(roles[0]);

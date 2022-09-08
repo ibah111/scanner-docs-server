@@ -30,6 +30,20 @@ export class Barcode extends Model {
   @Column
   item_id: number;
 
+  @BelongsTo(() => Doc, {
+    constraints: false,
+    scope: {
+      type: 1,
+    },
+  })
+  Doc: Doc;
+  @BelongsTo(() => Box, {
+    constraints: false,
+    scope: {
+      type: 2,
+    },
+  })
+  Box: Box;
   @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
   @Column
