@@ -7,16 +7,13 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
 import moment from 'moment';
-import { ConstValue, DocAttach } from '@contact/models';
 import { Result } from 'src/Schemas/Result.model';
 import { SMBService } from 'src/Modules/Smb/Smb.service';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
-import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';
-import { ResultData, Results } from './Data.output';
-import { doc } from 'prettier';
+import { Results } from './Data.output';
 
 @Injectable()
 export class DataService {
@@ -27,20 +24,11 @@ export class DataService {
     @InjectModel(Barcode) private modelBarcode: typeof Barcode,
     @InjectModel(Transmit) private modelTransmit: typeof Transmit,
     @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(DocAttach) private modelDocAttach: typeof DocAttach,
-    @InjectModel(ConstValue) private modelConstValue: typeof ConstValue,
     @InjectModel(DocData) private modelDocData: typeof DocData,
-    @InjectModel(Log) private modelLog: typeof Log,
+
     @InjectModel(Box) private modelBox: typeof Box,
   ) {}
   async get(body: DataInput, user: AuthUserSuccess) {
-    const save_path: string = (
-      await this.modelConstValue.findOne({
-        where: { name: 'DocAttach.SavePath' },
-      })
-    ).value;
-    const client = this.SMB.get();
-
     const User = await this.modelUser.findOne({
       where: { bitrix_id: user.id },
     });

@@ -20,8 +20,7 @@ export interface DepartAttributes {
   title: string;
   parent_id: number;
 }
-export interface DepartCreationAttributes
-  extends Optional<DepartAttributes, 'id'> {}
+export type DepartCreationAttributes = Optional<DepartAttributes, 'id'>;
 
 @Table({ tableName: 'Departs' })
 export class Depart extends Model<DepartAttributes, DepartCreationAttributes> {

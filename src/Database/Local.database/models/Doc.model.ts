@@ -27,7 +27,7 @@ export interface DocAttributes {
   type_doc: number;
   type: number;
 }
-export interface DocCreationAttributes extends Optional<DocAttributes, 'id'> {}
+export type DocCreationAttributes = Optional<DocAttributes, 'id'>;
 @Table({ tableName: 'docs' })
 export class Doc extends Model<DocAttributes, DocCreationAttributes> {
   @AutoIncrement

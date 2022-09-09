@@ -1,7 +1,6 @@
 import { InjectModel } from '@contact/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import moment from 'moment';
-import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';

@@ -28,8 +28,7 @@ export interface UserAttributes {
   depart: number;
   Depart: Depart;
 }
-export interface UserCreationAttributes
-  extends Optional<UserAttributes, 'id'> {}
+export type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
 @Table({ tableName: 'Users', timestamps: false })
 export class User extends Model<UserAttributes, UserCreationAttributes> {

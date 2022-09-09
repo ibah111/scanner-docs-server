@@ -27,8 +27,7 @@ export interface DocDataAttributes {
   User: User;
 }
 
-export interface DocDataCreationAttributes
-  extends Optional<DocDataAttributes, 'id'> {}
+export type DocDataCreationAttributes = Optional<DocDataAttributes, 'id'>;
 
 @Table({ tableName: 'docData' })
 export class DocData extends Model<
