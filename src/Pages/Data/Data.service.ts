@@ -15,6 +15,8 @@ import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';
+import { ResultData, Results } from './Data.output';
+import { doc } from 'prettier';
 
 @Injectable()
 export class DataService {
@@ -127,36 +129,41 @@ export class DataService {
           DepartOld,
         };
     }
-
+    const result: Results[] = [];
     if (barcode.type == 2) {
-      for (let i = 0; i < barcode.Box.Docs.length; i++) {
-        barcode.Box.Docs[i].DocData.user = User.id;
-        barcode.Box.Docs[i].DocData.depart = User.depart;
-        barcode.Box.Docs[i].DocData.status = 2;
-
-        if (barcode.Box.Docs[i].DocData.changed()) {
-          await barcode.Box.Docs[i].DocData.$create('Log', {
+      for (const Doc of barcode.Box.Docs) {
+        Doc.DocData.user = User.id;
+        Doc.DocData.depart = User.depart;
+        Doc.DocData.status = 2;
+        if (Doc.DocData.changed()) {
+          await Doc.DocData.$create('Log', {
             user: User.id,
             depart: User.depart,
-            status: barcode.Box.Docs[i].DocData.status,
+            status: Doc.DocData.status,
             date: moment().toDate(),
           });
         }
-        await barcode.Box.Docs[i].DocData.save();
-      }
-
-      const data = JSON.parse(JSON.stringify(barcode.Box.Docs)) as Doc[];
-      return await Promise.all(
-        data.map(async (doc) => ({
-          ...doc,
+        await Doc.DocData.save();
+        const UserOld = Doc.DocData.User;
+        const DepartOld = Doc.DocData.Depart;
+        await Doc.DocData.reload();
+        result.push({
+          ...JSON.parse(JSON.stringify(Doc)),
           doc: (
             await axios.post<Result>('https://apps.usb.ru:3001/getDocs', {
               token: body.token,
-              docs: [doc.mail_id],
+              docs: [Doc.mail_id],
             })
           ).data[0],
-        })),
-      );
+          DocData: {
+            ...JSON.parse(JSON.stringify(Doc.DocData)),
+            UserOld,
+            DepartOld,
+          },
+        });
+      }
+      const data = result as unknown as Doc[];
+      return JSON.parse(JSON.stringify(data));
     }
 
     throw new NotFoundException('Данные не найдены');

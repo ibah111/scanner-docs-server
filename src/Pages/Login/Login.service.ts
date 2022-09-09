@@ -1,6 +1,6 @@
+import { User } from '@contact/models';
 import { InjectModel } from '@contact/nestjs-sequelize';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from 'src/Database/Local.database/models/User.model';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { RoleSuccess } from 'src/Modules/Guards/Roles.guard';
 

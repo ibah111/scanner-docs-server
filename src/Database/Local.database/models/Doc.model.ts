@@ -14,9 +14,22 @@ import { BarcodeTypes } from './BarcodeTypes.model';
 import { Box } from './Box.model';
 import { DocData } from './DocData.model';
 import { DocTypes } from './DocTypes.model';
-
+import { Optional } from '@contact/sequelize';
+export interface DocAttributes {
+  id: number;
+  title: string;
+  contact_doc_id: number;
+  mail_id: number;
+  law_act_id: number;
+  law_exec_id: number;
+  date: Date;
+  box_id: number;
+  type_doc: number;
+  type: number;
+}
+export interface DocCreationAttributes extends Optional<DocAttributes, 'id'> {}
 @Table({ tableName: 'docs' })
-export class Doc extends Model {
+export class Doc extends Model<DocAttributes, DocCreationAttributes> {
   @AutoIncrement
   @PrimaryKey
   @Column

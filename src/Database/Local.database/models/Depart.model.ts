@@ -8,13 +8,23 @@ import {
   Table,
   Unique,
 } from '@contact/sequelize-typescript';
-import { Barcode } from './Barcode.model';
+import { Optional } from '@contact/sequelize';
 import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';
 
+export interface DepartAttributes {
+  id: number;
+  bitrix_id: number;
+  name: string;
+  title: string;
+  parent_id: number;
+}
+export interface DepartCreationAttributes
+  extends Optional<DepartAttributes, 'id'> {}
+
 @Table({ tableName: 'Departs' })
-export class Depart extends Model {
+export class Depart extends Model<DepartAttributes, DepartCreationAttributes> {
   @AutoIncrement
   @PrimaryKey
   @Column

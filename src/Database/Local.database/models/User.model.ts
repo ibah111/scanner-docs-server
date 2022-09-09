@@ -15,8 +15,24 @@ import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { Transmit } from './Transmit.model';
 import { User_Role } from './User_Role.model';
+import { Optional } from '@contact/sequelize';
+
+export interface UserAttributes {
+  id: number;
+  f: string;
+  i: string;
+  o: string;
+  login: string;
+  position: string;
+  bitrix_id: number;
+  depart: number;
+  Depart: Depart;
+}
+export interface UserCreationAttributes
+  extends Optional<UserAttributes, 'id'> {}
+
 @Table({ tableName: 'Users', timestamps: false })
-export class User extends Model {
+export class User extends Model<UserAttributes, UserCreationAttributes> {
   @AutoIncrement
   @PrimaryKey
   @Column

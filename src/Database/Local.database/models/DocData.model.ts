@@ -15,9 +15,26 @@ import { Log } from './Log.model';
 import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
 import { User } from './User.model';
+import { Optional } from '@contact/sequelize';
+export interface DocDataAttributes {
+  id: number;
+  parent_id: number;
+  status: number;
+  user: number;
+  depart: number;
+  Doc: Doc;
+  Status: Status;
+  User: User;
+}
+
+export interface DocDataCreationAttributes
+  extends Optional<DocDataAttributes, 'id'> {}
 
 @Table({ tableName: 'docData' })
-export class DocData extends Model {
+export class DocData extends Model<
+  DocDataAttributes,
+  DocDataCreationAttributes
+> {
   @AutoIncrement
   @PrimaryKey
   @Column
@@ -49,7 +66,7 @@ export class DocData extends Model {
   @Column
   depart: number;
   @BelongsTo(() => Depart)
-  Depart: Depart[];
+  Depart: Depart;
 
   @HasMany(() => Log)
   Logs: Log[];
