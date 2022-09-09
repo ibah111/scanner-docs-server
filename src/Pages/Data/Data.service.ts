@@ -14,7 +14,6 @@ import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
-import { Op } from '@contact/sequelize';
 import { Box } from 'src/Database/Local.database/models/Box.model';
 
 @Injectable()
@@ -53,6 +52,17 @@ export class DataService {
           include: [
             {
               model: this.modelDoc,
+              required: false,
+              include: [
+                {
+                  model: this.modelDocData,
+                  required: false,
+                  include: [
+                    { model: this.modelUser, required: false },
+                    { model: this.modelDepart, required: false },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -75,10 +85,10 @@ export class DataService {
         },
       ],
     });
-
     const data_transmit = await this.modelTransmit.findOne({
       where: { doc_data_id: barcode.Doc.DocData.id, active: true },
     });
+
     if (barcode.type == 1 && data_transmit) {
       data_transmit.active = false;
       data_transmit.date_return = moment().toDate();
@@ -98,10 +108,10 @@ export class DataService {
           date: moment().toDate(),
         });
       }
-      await barcode.save();
+      await barcode.Doc.DocData.save();
       const UserOld = barcode.Doc.DocData.User;
       const DepartOld = barcode.Doc.DocData.Depart;
-      await barcode.reload();
+      await barcode.Doc.DocData.reload();
       const result = await axios.post<Result>(
         'https://apps.usb.ru:3001/getDocs',
         {
@@ -109,29 +119,46 @@ export class DataService {
           docs: [barcode.Doc.mail_id],
         },
       );
-
-      // TODO
-      const doc = await this.modelDocAttach.findByPk(
-        barcode.Doc.contact_doc_id,
-      );
-      const tmp = save_path.split('\\');
-      const dir = tmp[tmp.length - 1];
-
-      const path = `${dir}${doc.REL_SERVER_PATH}${doc.FILE_SERVER_NAME}`;
-      const file_data = await client.readFile(path);
-
       if (result.data)
         return {
           ...JSON.parse(JSON.stringify(barcode)),
           doc: result.data[0],
           UserOld,
           DepartOld,
-          file: { name: doc.name, data: file_data },
         };
     }
-    if ((barcode.type = 2)) {
-      return barcode;
+
+    if (barcode.type == 2) {
+      for (let i = 0; i < barcode.Box.Docs.length; i++) {
+        barcode.Box.Docs[i].DocData.user = User.id;
+        barcode.Box.Docs[i].DocData.depart = User.depart;
+        barcode.Box.Docs[i].DocData.status = 2;
+
+        if (barcode.Box.Docs[i].DocData.changed()) {
+          await barcode.Box.Docs[i].DocData.$create('Log', {
+            user: User.id,
+            depart: User.depart,
+            status: barcode.Box.Docs[i].DocData.status,
+            date: moment().toDate(),
+          });
+        }
+        await barcode.Box.Docs[i].DocData.save();
+      }
+
+      const data = JSON.parse(JSON.stringify(barcode.Box.Docs)) as Doc[];
+      return await Promise.all(
+        data.map(async (doc) => ({
+          ...doc,
+          doc: (
+            await axios.post<Result>('https://apps.usb.ru:3001/getDocs', {
+              token: body.token,
+              docs: [doc.mail_id],
+            })
+          ).data[0],
+        })),
+      );
     }
+
     throw new NotFoundException('Данные не найдены');
   }
 }

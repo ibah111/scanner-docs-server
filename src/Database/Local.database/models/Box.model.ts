@@ -28,7 +28,7 @@ export class Box extends Model {
   BarcodeTypes: BarcodeTypes;
 
   @HasMany(() => Doc)
-  Doc: Doc[];
+  Docs: Doc[];
 
   @HasOne(() => Barcode, {
     constraints: false,
