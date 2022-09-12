@@ -52,4 +52,9 @@ export class CreateInput {
     type: Number,
   })
   type: number;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional({ description: 'Токен пользователя', type: String })
+  token: string;
 }

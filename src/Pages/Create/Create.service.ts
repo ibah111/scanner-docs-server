@@ -1,10 +1,12 @@
 import { InjectModel } from '@contact/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import moment from 'moment';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Log } from 'src/Database/Local.database/models/Log.model';
+import { Result } from 'src/Database/Local.database/models/Result.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import generateRandom from 'src/utils/generateRandom';
@@ -18,6 +20,7 @@ export class CreateService {
     @InjectModel(User) private modelUser: typeof User,
     @InjectModel(Doc) private modelDoc: typeof Doc,
     @InjectModel(DocData) private modelDocData: typeof DocData,
+    @InjectModel(Result) private modelResult: typeof Result,
   ) {}
   async find(body: CreateInput, user: AuthUserSuccess) {
     if (!(body.law_act || body.law_exec))
@@ -26,6 +29,7 @@ export class CreateService {
     const data_log = this.modelLog.build();
     const data_doc = this.modelDoc.build();
     const docData = this.modelDocData.build();
+    const data_result = this.modelResult.build();
     const User = await this.modelUser.findOne({
       where: { bitrix_id: user.id },
     });
@@ -43,6 +47,17 @@ export class CreateService {
     data_doc.type = 1;
     data_doc.date = moment().toDate();
     await data_doc.save();
+
+    const result = await axios.post('https://apps.usb.ru:3001/getDocs', {
+      token: body.token,
+      docs: [data_doc.mail_id],
+    });
+    data_result.kd = result.data[0].kd;
+    data_result.reestr = result.data[0].reestr;
+    data_result.fio_dol = result.data[0].fio_dol;
+    data_result.date_post = result.data[0].date_post;
+    await data_result.save();
+
     data_bar.type = 1;
     data_bar.item_id = data_doc.id;
     data_bar.code = generateRandom(12);
@@ -51,6 +66,7 @@ export class CreateService {
     docData.depart = User.depart;
     docData.status = 1;
     docData.parent_id = data_doc.id;
+    docData.result = data_result.id;
     await docData.save();
     data_log.doc_data_id = docData.id;
     data_log.user = docData.user;

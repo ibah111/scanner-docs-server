@@ -1,4 +1,5 @@
 import { GridColumns } from '@mui/x-data-grid-premium';
+import { Doc } from 'src/Database/Local.database/models/Doc.model';
 
 const TableDocsColumns = (): GridColumns => [
   { field: 'Doc.id', headerName: 'ID', type: 'number' },
@@ -9,24 +10,31 @@ const TableDocsColumns = (): GridColumns => [
   { field: 'law_exec_id', headerName: 'law_exec', type: 'number' },
   { field: 'date', headerName: 'date', type: 'date' },
   {
-    field: 'Barcode.Depart.title',
+    field: 'DocData.Depart.title',
     headerName: 'Подразделение',
     type: 'string',
   },
   {
-    field: 'Barcode.User.f',
+    field: 'DocData.User.f',
     headerName: 'Текущий держатель',
     type: 'string',
   },
   {
-    field: 'Barcode.Transmits.date_send',
+    field: 'DocData.Transmits.date_send',
     headerName: 'Дата отправки в банк/ОСП',
     type: 'date',
   },
   {
-    field: 'Barcode.Transmits.where_send',
+    field: 'DocData.Transmits.where_send',
     headerName: 'Куда отправлено',
     type: 'string',
   },
+  { field: 'Barcode.code', headerName: 'Номер штрихкода', type: 'sting' },
+  {
+    field: 'DocData.Result.fio_dol',
+    headerName: 'ФИО должника',
+    type: 'string',
+  },
+  { field: 'DocData.Result.reestr', headerName: 'Реестр', type: 'string' },
 ];
 export default TableDocsColumns;

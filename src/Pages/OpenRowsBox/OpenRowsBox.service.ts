@@ -8,12 +8,14 @@ import { GridFilterModel, GridSortModel } from '@mui/x-data-grid-premium';
 import Sort from 'src/utils/Sort';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { OpenRowsBoxInput } from './OpenRowsBox.input';
+import { Result } from 'src/Database/Local.database/models/Result.model';
 
 @Injectable()
 export class OpenRowsBoxService {
   constructor(
     @InjectModel(Doc) private modelDoc: typeof Doc,
     @InjectModel(DocData) private modelDocData: typeof DocData,
+    @InjectModel(Result) private modelResult: typeof Result,
   ) {}
 
   async find(body: OpenRowsBoxInput) {
@@ -25,6 +27,7 @@ export class OpenRowsBoxService {
     const options: FindOptions<Doc> = {};
     options.limit = limit;
     options.offset = offset;
+    options.subQuery = false;
     options.where = filters(body.filterModel);
     options.order = sorts(body.sortModel);
     options.include = [
@@ -34,8 +37,10 @@ export class OpenRowsBoxService {
           status: 1,
         },
         required: true,
+        include: [{ model: this.modelResult, required: true }],
       },
     ];
+
     return await this.modelDoc.findAndCountAll(options);
   }
 }

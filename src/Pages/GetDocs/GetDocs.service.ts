@@ -12,6 +12,7 @@ import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
+import { Result } from 'src/Database/Local.database/models/Result.model';
 
 @Injectable()
 export class GetDocsService {
@@ -22,6 +23,7 @@ export class GetDocsService {
     @InjectModel(User) private modelUser: typeof User,
     @InjectModel(Depart) private modelDepart: typeof Depart,
     @InjectModel(DocData) private modelDocData: typeof DocData,
+    @InjectModel(Result) private modelResult: typeof Result,
   ) {}
 
   async find(body: GetDocsInput) {
@@ -54,8 +56,13 @@ export class GetDocsService {
             where: { active: true },
             required: false,
           },
+          {
+            model: this.modelResult,
+            required: true,
+          },
         ],
       },
+      { model: this.modelBarcode, required: true },
     ];
     return await this.modelDoc.findAndCountAll(options);
   }

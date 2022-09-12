@@ -14,6 +14,7 @@ import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Results } from './Data.output';
+import { Log } from 'src/Database/Local.database/models/Log.model';
 
 @Injectable()
 export class DataService {
@@ -25,7 +26,7 @@ export class DataService {
     @InjectModel(Transmit) private modelTransmit: typeof Transmit,
     @InjectModel(User) private modelUser: typeof User,
     @InjectModel(DocData) private modelDocData: typeof DocData,
-
+    @InjectModel(Log) private modelLog: typeof Log,
     @InjectModel(Box) private modelBox: typeof Box,
   ) {}
   async get(body: DataInput, user: AuthUserSuccess) {
@@ -79,10 +80,16 @@ export class DataService {
       where: { doc_data_id: barcode.Doc.DocData.id, active: true },
     });
 
+    const data_log = await this.modelLog.findOne({
+      where: { doc_data_id: barcode.Doc.DocData.id, status: 3 },
+    });
+
     if (barcode.type == 1 && data_transmit) {
       data_transmit.active = false;
       data_transmit.date_return = moment().toDate();
       await data_transmit.save();
+      data_log.status = 4;
+      await data_log.save();
     }
 
     if (barcode.type == 1) {
@@ -94,7 +101,7 @@ export class DataService {
         await barcode.Doc.DocData.$create('Log', {
           user: User.id,
           depart: User.depart,
-          status: barcode.Doc.DocData.status,
+          status: 4,
           date: moment().toDate(),
         });
       }

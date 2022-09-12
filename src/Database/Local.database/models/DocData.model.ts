@@ -16,6 +16,7 @@ import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
 import { User } from './User.model';
 import { Optional } from '@contact/sequelize';
+import { Result } from './Result.model';
 export interface DocDataAttributes {
   id: number;
   parent_id: number;
@@ -66,6 +67,13 @@ export class DocData extends Model<
   depart: number;
   @BelongsTo(() => Depart)
   Depart: Depart;
+
+  @AllowNull(true)
+  @ForeignKey(() => Result)
+  @Column
+  result: number;
+  @BelongsTo(() => Result)
+  Result: Result;
 
   @HasMany(() => Log)
   Logs: Log[];

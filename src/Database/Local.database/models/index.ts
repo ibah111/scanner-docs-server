@@ -11,6 +11,7 @@ import { Box } from './Box.model';
 import { DocData } from './DocData.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { DocTypes } from './DocTypes.model';
+import { Result } from './Result.model';
 
 export const LocalModels = [
   Barcode,
@@ -26,4 +27,5 @@ export const LocalModels = [
   DocData,
   BarcodeTypes,
   DocTypes,
+  Result,
 ];
