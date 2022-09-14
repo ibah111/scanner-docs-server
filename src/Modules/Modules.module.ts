@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { EventsModule } from './Events/events.modele';
+import { EventsModule } from './Events/events.module';
 import { SmbModule } from './Smb/Smb.module';
 import { VersionModule } from './Version/version.module';
 

@@ -9,6 +9,7 @@ import Sort from 'src/utils/Sort';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { OpenRowsBoxInput } from './OpenRowsBox.input';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 
 @Injectable()
 export class OpenRowsBoxService {
@@ -16,6 +17,7 @@ export class OpenRowsBoxService {
     @InjectModel(Doc) private modelDoc: typeof Doc,
     @InjectModel(DocData) private modelDocData: typeof DocData,
     @InjectModel(Result) private modelResult: typeof Result,
+    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
   ) {}
 
   async find(body: OpenRowsBoxInput) {
@@ -39,8 +41,8 @@ export class OpenRowsBoxService {
         required: true,
         include: [{ model: this.modelResult, required: true }],
       },
+      { model: this.modelBarcode, required: true },
     ];
-
     return await this.modelDoc.findAndCountAll(options);
   }
 }
