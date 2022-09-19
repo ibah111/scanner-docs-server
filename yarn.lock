@@ -1532,6 +1532,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/platform-ws@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "@nestjs/platform-ws@npm:9.0.11"
+  dependencies:
+    tslib: 2.4.0
+    ws: 8.8.1
+  peerDependencies:
+    "@nestjs/common": ^9.0.0
+    "@nestjs/websockets": ^9.0.0
+    rxjs: ^7.1.0
+  checksum: 235b907cb32da7d5e0b40c41c6b55d7e23f529537cca0e11a9abd21cf667d1173e06eee4455e5251bac991121ff03be2e7f63246fe1143d56aeb17fb05d2a68c
+  languageName: node
+  linkType: hard
+
 "@nestjs/schematics@npm:^9.0.0, @nestjs/schematics@npm:^9.0.3":
   version: 9.0.3
   resolution: "@nestjs/schematics@npm:9.0.3"
@@ -1709,6 +1723,13 @@ __metadata:
   dependencies:
     "@sinonjs/commons": ^1.7.0
   checksum: 7d3aef54e17c1073101cb64d953157c19d62a40e261a30923fa1ee337b049c5f29cc47b1f0c477880f42b5659848ba9ab897607ac8ea4acd5c30ddcfac57fca6
+  languageName: node
+  linkType: hard
+
+"@socket.io/component-emitter@npm:~3.1.0":
+  version: 3.1.0
+  resolution: "@socket.io/component-emitter@npm:3.1.0"
+  checksum: db069d95425b419de1514dffe945cc439795f6a8ef5b9465715acf5b8b50798e2c91b8719cbf5434b3fe7de179d6cdcd503c277b7871cb3dd03febb69bdd50fa
   languageName: node
   linkType: hard
 
@@ -6886,6 +6907,7 @@ __metadata:
     "@nestjs/core": ^9.0.11
     "@nestjs/platform-fastify": ^9.0.11
     "@nestjs/platform-socket.io": ^9.0.11
+    "@nestjs/platform-ws": ^9.0.11
     "@nestjs/schematics": ^9.0.3
     "@nestjs/swagger": ^6.1.2
     "@nestjs/testing": ^9.0.11
@@ -6911,6 +6933,7 @@ __metadata:
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
     rxjs: ^7.5.6
+    socket.io: ^4.5.2
     source-map-support: ^0.5.21
     sqlite3: ^5.0.11
     supertest: ^6.2.4
@@ -8189,6 +8212,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"socket.io-parser@npm:~4.2.0":
+  version: 4.2.1
+  resolution: "socket.io-parser@npm:4.2.1"
+  dependencies:
+    "@socket.io/component-emitter": ~3.1.0
+    debug: ~4.3.1
+  checksum: 2582202f22538d7e6b4436991378cb4cea3b2f8219cda24923ae35afd291ab5ad6120e7d093e41738256b6c6ad10c667dd25753c2d9a2340fead04e9286f152d
+  languageName: node
+  linkType: hard
+
 "socket.io@npm:4.5.1":
   version: 4.5.1
   resolution: "socket.io@npm:4.5.1"
@@ -8200,6 +8233,20 @@ __metadata:
     socket.io-adapter: ~2.4.0
     socket.io-parser: ~4.0.4
   checksum: 86afd6dcce0c96de85b20a0e37fa4a21e2e96bd6e36d2518acfad37597bcb5208feafbbac20cd34ee4b9356d40418a43938bcf4a206ba693ba3c771ffcef724f
+  languageName: node
+  linkType: hard
+
+"socket.io@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "socket.io@npm:4.5.2"
+  dependencies:
+    accepts: ~1.3.4
+    base64id: ~2.0.0
+    debug: ~4.3.2
+    engine.io: ~6.2.0
+    socket.io-adapter: ~2.4.0
+    socket.io-parser: ~4.2.0
+  checksum: 8527dd78fa3cf483a2cf0f09f64c4591186931b6765e5d8456dd3022b8786407952e3b931a83a86513c9f56852442e12f3497c761a113113e32b0c867c5ad5a7
   languageName: node
   linkType: hard
 
@@ -9379,6 +9426,21 @@ __metadata:
     imurmurhash: ^0.1.4
     signal-exit: ^3.0.7
   checksum: 5da60bd4eeeb935eec97ead3df6e28e5917a6bd317478e4a85a5285e8480b8ed96032bbcc6ecd07b236142a24f3ca871c924ec4a6575e623ec1b11bf8c1c253c
+  languageName: node
+  linkType: hard
+
+"ws@npm:8.8.1":
+  version: 8.8.1
+  resolution: "ws@npm:8.8.1"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 2152cf862cae0693f3775bc688a6afb2e989d19d626d215e70f5fcd8eb55b1c3b0d3a6a4052905ec320e2d7734e20aeedbf9744496d62f15a26ad79cf4cf7dae
   languageName: node
   linkType: hard
 

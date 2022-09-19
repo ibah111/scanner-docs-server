@@ -9,9 +9,11 @@ import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import { EventsModule } from 'src/Modules/Events/events.module';
 
 @Module({
   imports: [
+    EventsModule,
     SequelizeModule.forFeature([
       Barcode,
       Log,

@@ -31,6 +31,7 @@
     "@nestjs/core": "^9.0.11",
     "@nestjs/platform-fastify": "^9.0.11",
     "@nestjs/platform-socket.io": "^9.0.11",
+    "@nestjs/platform-ws": "^9.0.11",
     "@nestjs/swagger": "^6.1.2",
     "@nestjs/websockets": "^9.0.11",
     "axios": "^0.27.2",
@@ -43,6 +44,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.6",
+    "socket.io": "^4.5.2",
     "sqlite3": "^5.0.11",
     "tedious": "^15.1.0"
   },

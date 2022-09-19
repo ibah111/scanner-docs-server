@@ -8,6 +8,7 @@ import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { User } from 'src/Database/Local.database/models/User.model';
+import { EventsGateway } from 'src/Modules/Events/events.gateway';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import generateRandom from 'src/utils/generateRandom';
 import { CreateInput } from './Create.input';
@@ -21,6 +22,7 @@ export class CreateService {
     @InjectModel(Doc) private modelDoc: typeof Doc,
     @InjectModel(DocData) private modelDocData: typeof DocData,
     @InjectModel(Result) private modelResult: typeof Result,
+    private readonly eventsGateway: EventsGateway,
   ) {}
   async find(body: CreateInput, user: AuthUserSuccess) {
     if (!(body.law_act || body.law_exec))
@@ -74,6 +76,7 @@ export class CreateService {
     data_log.status = docData.status;
     data_log.date = moment().toDate();
     await data_log.save();
+    this.eventsGateway.addItemBox(data_bar.id);
     return data_bar.code;
   }
 }
