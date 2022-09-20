@@ -1,13 +1,12 @@
 import { GridColumns } from '@mui/x-data-grid-premium';
-import { Doc } from 'src/Database/Local.database/models/Doc.model';
 
 const TableDocsColumns = (): GridColumns => [
   { field: 'Doc.id', headerName: 'ID', type: 'number' },
   { field: 'Doc.title', headerName: 'Название документа', type: 'string' },
   { field: 'contact_doc_id', headerName: 'Номер документа', type: 'number' },
   { field: 'mail_id', headerName: 'mail', type: 'number' },
-  { field: 'law_act_id', headerName: 'law_act', type: 'number' },
-  { field: 'law_exec_id', headerName: 'law_exec', type: 'number' },
+  { field: 'law_act_id', headerName: 'Юридическое дело', type: 'number' },
+  { field: 'law_exec_id', headerName: 'Исполнительное дело', type: 'number' },
   { field: 'date', headerName: 'date', type: 'date' },
   {
     field: 'DocData.Depart.title',
@@ -36,5 +35,10 @@ const TableDocsColumns = (): GridColumns => [
     type: 'string',
   },
   { field: 'DocData.Result.reestr', headerName: 'Реестр', type: 'string' },
+  {
+    field: 'DocData.Result.kd',
+    headerName: 'Кредитный договор',
+    type: 'string',
+  },
 ];
 export default TableDocsColumns;

@@ -1,4 +1,12 @@
-import { ConstValue, DocAttach } from '@contact/models';
+import {
+  ConstValue,
+  Debt,
+  DocAttach,
+  LawAct,
+  LawExec,
+  Person,
+  Portfolio,
+} from '@contact/models';
 import { SequelizeModule } from '@contact/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
@@ -24,6 +32,12 @@ import { GetDocsService } from './GetDocs.service';
       Depart,
       DocData,
       Result,
+      LawAct,
+      Person,
+      Debt,
+
+      Portfolio,
+      LawExec,
     ]),
     SmbModule,
   ],

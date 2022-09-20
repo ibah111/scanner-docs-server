@@ -59,7 +59,7 @@ export class CreateService {
     data_result.fio_dol = result.data[0].fio_dol;
     data_result.date_post = result.data[0].date_post;
     await data_result.save();
-
+    console.log(data_result.fio_dol);
     data_bar.type = 1;
     data_bar.item_id = data_doc.id;
     data_bar.code = generateRandom(12);

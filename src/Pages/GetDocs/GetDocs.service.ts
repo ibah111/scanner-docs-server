@@ -13,6 +13,7 @@ import { User } from 'src/Database/Local.database/models/User.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import { LawAct, Person, Debt, Portfolio, LawExec } from '@contact/models';
 
 @Injectable()
 export class GetDocsService {
@@ -24,6 +25,11 @@ export class GetDocsService {
     @InjectModel(Depart) private modelDepart: typeof Depart,
     @InjectModel(DocData) private modelDocData: typeof DocData,
     @InjectModel(Result) private modelResult: typeof Result,
+    @InjectModel(LawAct) private modelLawAct: typeof LawAct,
+    @InjectModel(Person) private modelPerson: typeof Person,
+    @InjectModel(Debt) private modelDebt: typeof Debt,
+    @InjectModel(Portfolio) private modelPortfolio: typeof Portfolio,
+    @InjectModel(LawExec) private modelLawExec: typeof LawExec,
   ) {}
 
   async find(body: GetDocsInput) {
@@ -64,6 +70,65 @@ export class GetDocsService {
       },
       { model: this.modelBarcode, required: true },
     ];
+
+    const doc_data = await this.modelDoc.findAndCountAll(options);
+    for (const docData of doc_data.rows) {
+      const data_result = await this.modelResult.findAll();
+      if (docData.law_act_id != null) {
+        const docLawAct = await this.modelLawAct.findOne({
+          where: { id: docData.law_act_id },
+          include: [
+            { model: this.modelPerson, required: false },
+            { model: this.modelPortfolio, required: false },
+            {
+              model: this.modelDebt,
+              required: false,
+            },
+          ],
+        });
+        for (const res of data_result) {
+          if (docData.DocData.result == res.id) {
+            res.kd = docLawAct.Debt.contract;
+            res.reestr = docLawAct.Portfolio.name;
+            res.fio_dol =
+              docLawAct.Person.f +
+              ' ' +
+              docLawAct.Person.i +
+              ' ' +
+              docLawAct.Person.o;
+            res.date_post = docLawAct.Portfolio.load_dt;
+
+            await res.save();
+          }
+        }
+      } else {
+        const docLawExec = await this.modelLawExec.findOne({
+          where: { id: docData.law_act_id },
+          include: [
+            { model: this.modelPerson, required: false },
+            { model: this.modelPortfolio, required: false },
+            {
+              model: this.modelDebt,
+              required: false,
+            },
+          ],
+        });
+        for (const res of data_result) {
+          if (docData.DocData.result == res.id) {
+            res.kd = docLawExec.Debt.contract;
+            res.reestr = docLawExec.Portfolio.name;
+            res.fio_dol =
+              docLawExec.Person.f +
+              ' ' +
+              docLawExec.Person.i +
+              ' ' +
+              docLawExec.Person.o;
+            res.date_post = docLawExec.Portfolio.load_dt;
+            await res.save();
+          }
+        }
+      }
+    }
     return await this.modelDoc.findAndCountAll(options);
   }
 }
