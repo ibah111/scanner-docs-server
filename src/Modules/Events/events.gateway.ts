@@ -1,4 +1,3 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
 import {
   ConnectedSocket,
   SubscribeMessage,

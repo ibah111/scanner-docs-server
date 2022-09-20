@@ -5,5 +5,5 @@ export class OpenRowsBoxInput {
   sortModel: GridSortModel;
   page: number;
   pageSize: number;
-  token: any;
+  token: string;
 }
