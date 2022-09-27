@@ -19,6 +19,9 @@ export class Result extends Model {
   @AllowNull(true)
   @Column
   kd: string;
+  @AllowNull(true)
+  @Column
+  st_pnkt: string;
 
   @AllowNull(false)
   @Column

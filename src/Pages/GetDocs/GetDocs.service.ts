@@ -86,6 +86,7 @@ export class GetDocsService {
             },
           ],
         });
+
         for (const res of data_result) {
           if (docData.DocData.result == res.id) {
             res.kd = docLawAct.Debt.contract;
@@ -103,7 +104,7 @@ export class GetDocsService {
         }
       } else {
         const docLawExec = await this.modelLawExec.findOne({
-          where: { id: docData.law_act_id },
+          where: { id: docData.law_exec_id },
           include: [
             { model: this.modelPerson, required: false },
             { model: this.modelPortfolio, required: false },
@@ -124,6 +125,7 @@ export class GetDocsService {
               ' ' +
               docLawExec.Person.o;
             res.date_post = docLawExec.Portfolio.load_dt;
+
             await res.save();
           }
         }

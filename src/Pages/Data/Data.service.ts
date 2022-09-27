@@ -1,13 +1,12 @@
 import { InjectModel } from '@contact/nestjs-sequelize';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DataInput } from './Data.input';
-import axios from 'axios';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
 import moment from 'moment';
-import { Result } from 'src/Schemas/Result.model';
+
 import { SMBService } from 'src/Modules/Smb/Smb.service';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
@@ -15,7 +14,7 @@ import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Results } from './Data.output';
 import { Log } from 'src/Database/Local.database/models/Log.model';
-
+import { Result } from 'src/Database/Local.database/models/Result.model';
 @Injectable()
 export class DataService {
   constructor(
@@ -28,6 +27,7 @@ export class DataService {
     @InjectModel(DocData) private modelDocData: typeof DocData,
     @InjectModel(Log) private modelLog: typeof Log,
     @InjectModel(Box) private modelBox: typeof Box,
+    @InjectModel(Result) private modelResult: typeof Result,
   ) {}
   async get(body: DataInput, user: AuthUserSuccess) {
     const User = await this.modelUser.findOne({
@@ -51,6 +51,7 @@ export class DataService {
                   include: [
                     { model: this.modelUser, required: false },
                     { model: this.modelDepart, required: false },
+                    { model: this.modelResult, required: false },
                   ],
                 },
               ],
@@ -70,6 +71,7 @@ export class DataService {
                   required: false,
                 },
                 { model: this.modelDepart, required: false },
+                { model: this.modelResult, required: false },
               ],
             },
           ],
@@ -92,75 +94,43 @@ export class DataService {
       await data_log.save();
     }
 
+    const result: Results[] = [];
+    let doc_data = [];
     if (barcode.type == 1) {
-      barcode.Doc.DocData.user = User.id;
-      barcode.Doc.DocData.depart = User.depart;
-      barcode.Doc.DocData.status = 2;
+      doc_data = [barcode.Doc];
+    } else {
+      doc_data = barcode.Box.Docs;
+    }
 
-      if (barcode.Doc.DocData.changed()) {
-        await barcode.Doc.DocData.$create('Log', {
+    for (const Doc of doc_data) {
+      Doc.DocData.user = User.id;
+      Doc.DocData.depart = User.depart;
+      Doc.DocData.status = 2;
+
+      if (Doc.DocData.changed()) {
+        await Doc.DocData.$create('Log', {
           user: User.id,
           depart: User.depart,
-          status: 4,
+          status: Doc.DocData.status,
           date: moment().toDate(),
         });
       }
-      await barcode.Doc.DocData.save();
-      const UserOld = barcode.Doc.DocData.User;
-      const DepartOld = barcode.Doc.DocData.Depart;
-      await barcode.Doc.DocData.reload();
-      const result = await axios.post<Result>(
-        'https://apps.usb.ru:3001/getDocs',
-        {
-          token: body.token,
-          docs: [barcode.Doc.mail_id],
-        },
-      );
-      if (result.data)
-        return {
-          ...JSON.parse(JSON.stringify(barcode)),
-          doc: result.data[0],
+
+      await Doc.DocData.save();
+
+      const UserOld = Doc.DocData.User;
+      const DepartOld = Doc.DocData.Depart;
+      await Doc.DocData.reload();
+      result.push({
+        ...JSON.parse(JSON.stringify(Doc)),
+        DocData: {
+          ...JSON.parse(JSON.stringify(Doc.DocData)),
           UserOld,
           DepartOld,
-        };
+        },
+      });
     }
-    const result: Results[] = [];
-    if (barcode.type == 2) {
-      for (const Doc of barcode.Box.Docs) {
-        Doc.DocData.user = User.id;
-        Doc.DocData.depart = User.depart;
-        Doc.DocData.status = 2;
-        if (Doc.DocData.changed()) {
-          await Doc.DocData.$create('Log', {
-            user: User.id,
-            depart: User.depart,
-            status: Doc.DocData.status,
-            date: moment().toDate(),
-          });
-        }
-        await Doc.DocData.save();
-        const UserOld = Doc.DocData.User;
-        const DepartOld = Doc.DocData.Depart;
-        await Doc.DocData.reload();
-        result.push({
-          ...JSON.parse(JSON.stringify(Doc)),
-          doc: (
-            await axios.post<Result>('https://apps.usb.ru:3001/getDocs', {
-              token: body.token,
-              docs: [Doc.mail_id],
-            })
-          ).data[0],
-          DocData: {
-            ...JSON.parse(JSON.stringify(Doc.DocData)),
-            UserOld,
-            DepartOld,
-          },
-        });
-      }
-      const data = result as unknown as Doc[];
-      return JSON.parse(JSON.stringify(data));
-    }
-
-    throw new NotFoundException('Данные не найдены');
+    const data = result as unknown as Doc[];
+    return JSON.parse(JSON.stringify(data));
   }
 }

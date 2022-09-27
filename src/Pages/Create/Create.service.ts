@@ -54,6 +54,7 @@ export class CreateService {
       token: body.token,
       docs: [data_doc.mail_id],
     });
+    data_result.st_pnkt = result.data[0].st_pnkt;
     data_result.kd = result.data[0].kd;
     data_result.reestr = result.data[0].reestr;
     data_result.fio_dol = result.data[0].fio_dol;
