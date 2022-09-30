@@ -1,5 +1,9 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/Modules/Guards/auth.guard';
+import {
+  Auth,
+  AuthGuard,
+  AuthUserSuccess,
+} from 'src/Modules/Guards/auth.guard';
 import { CreateBoxInput } from './CreateBox.input';
 import { CreateBoxService } from './CreateBox.service';
 
@@ -8,7 +12,7 @@ import { CreateBoxService } from './CreateBox.service';
 export class CreateBoxController {
   constructor(private createBoxService: CreateBoxService) {}
   @Post()
-  async find(@Body() body: CreateBoxInput) {
-    return await this.createBoxService.find(body);
+  async find(@Body() body: CreateBoxInput, @Auth() user: AuthUserSuccess) {
+    return await this.createBoxService.find(body, user);
   }
 }

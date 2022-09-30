@@ -54,6 +54,14 @@ export class DataService {
                     { model: this.modelResult, required: false },
                   ],
                 },
+                {
+                  model: this.modelBox,
+                  required: false,
+                  include: [
+                    { model: this.modelUser, required: false },
+                    { model: this.modelDepart, required: false },
+                  ],
+                },
               ],
             },
           ],
@@ -85,6 +93,9 @@ export class DataService {
     const data_log = await this.modelLog.findOne({
       where: { doc_data_id: barcode.Doc.DocData.id, status: 3 },
     });
+    const data_box = await this.modelBox.findOne({
+      where: { id: barcode.item_id },
+    });
 
     if (barcode.type == 1 && data_transmit) {
       data_transmit.active = false;
@@ -92,6 +103,14 @@ export class DataService {
       await data_transmit.save();
       data_log.status = 4;
       await data_log.save();
+    }
+    if (barcode.type == 2) {
+      data_box.user = User.id;
+      data_box.depart = User.depart;
+      await data_box.save();
+      data_box.user = User.id;
+      data_box.depart = User.depart;
+      await data_box.reload();
     }
 
     const result: Results[] = [];
