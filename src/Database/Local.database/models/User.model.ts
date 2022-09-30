@@ -16,6 +16,7 @@ import { Log } from './Log.model';
 import { Transmit } from './Transmit.model';
 import { User_Role } from './User_Role.model';
 import { Optional } from '@contact/sequelize';
+import { Box } from './Box.model';
 
 export interface UserAttributes {
   id: number;
@@ -76,4 +77,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
   @HasMany(() => User_Role)
   Users_Roles: User_Role[];
+  @HasMany(() => Box)
+  Boxs: Box[];
 }

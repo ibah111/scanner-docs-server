@@ -12,6 +12,7 @@ import { Optional } from '@contact/sequelize';
 import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';
+import { Box } from './Box.model';
 
 export interface DepartAttributes {
   id: number;
@@ -53,4 +54,6 @@ export class Depart extends Model<DepartAttributes, DepartCreationAttributes> {
 
   @HasMany(() => Log)
   Logs: Log[];
+  @HasMany(() => Box)
+  Boxs: Box[];
 }
