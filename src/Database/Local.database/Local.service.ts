@@ -49,6 +49,7 @@ export class LocalService {
     const departs = await this.modelDepart.findAll();
     const users = await this.modelUser.findAll();
     const user_ids = users.map((user) => user.bitrix_id);
+    const user_contact_login = data.map((user) => user.login);
     for (const depart of departs) {
       tmp[depart.bitrix_id] = depart.id;
     }
@@ -71,6 +72,11 @@ export class LocalService {
           depart: Number(tmp[user.depart]),
           position: user.position,
         });
+      }
+    }
+    for (const user of users) {
+      if (!user_contact_login.includes(user.login)) {
+        await user.destroy();
       }
     }
   }
