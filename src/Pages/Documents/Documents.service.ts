@@ -1,5 +1,6 @@
 import { ConstValue, DocAttach } from '@contact/models';
 import { InjectModel } from '@contact/nestjs-sequelize';
+import { NotFoundException } from '@nestjs/common';
 import { SMBService } from 'src/Modules/Smb/Smb.service';
 import { DocumentsInput } from './Documents.input';
 
@@ -19,8 +20,9 @@ export class DocumentsService {
     const doc = await this.modelDocAttach.findByPk(body.id);
     const tmp = save_path.split('\\');
     const dir = tmp[tmp.length - 1];
-
     const path = `${dir}${doc.REL_SERVER_PATH}${doc.FILE_SERVER_NAME}`;
+    if (!(await client.exists(path)))
+      throw new NotFoundException('Файл не найден');
     const file_data = await client.readFile(path);
     return file_data;
   }
