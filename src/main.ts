@@ -36,7 +36,8 @@ async function bootstrap() {
     config,
     getSwaggerOptions(),
   );
-  SwaggerModule.setup('api', app, document, getSwaggerOptionsCustom());
+  SwaggerModule.setup('docs', app, document, getSwaggerOptionsCustom());
   await app.listen(client('port'), '0.0.0.0');
+  console.log(`Server started: ${await app.getUrl()}`);
 }
 bootstrap();
