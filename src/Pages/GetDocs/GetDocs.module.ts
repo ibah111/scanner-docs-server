@@ -16,7 +16,6 @@ import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
-import { SmbModule } from 'src/Modules/Smb/Smb.module';
 import { GetDocsController } from './GetDocs.controller';
 import { GetDocsService } from './GetDocs.service';
 
@@ -39,7 +38,6 @@ import { GetDocsService } from './GetDocs.service';
       Portfolio,
       LawExec,
     ]),
-    SmbModule,
   ],
   controllers: [GetDocsController],
   providers: [GetDocsService],

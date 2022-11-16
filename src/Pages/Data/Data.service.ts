@@ -6,8 +6,6 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
 import moment from 'moment';
-
-import { SMBService } from 'src/Modules/Smb/Smb.service';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
@@ -15,6 +13,7 @@ import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Results } from './Data.output';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import { SMBService } from '@tools/nestjs-smb2';
 @Injectable()
 export class DataService {
   constructor(

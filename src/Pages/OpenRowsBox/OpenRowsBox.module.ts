@@ -4,15 +4,11 @@ import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
-import { SmbModule } from 'src/Modules/Smb/Smb.module';
 import { OpenRowsBoxController } from './OpenRowsBox.controller';
 import { OpenRowsBoxService } from './OpenRowsBox.service';
 
 @Module({
-  imports: [
-    SequelizeModule.forFeature([Doc, DocData, Result, Barcode]),
-    SmbModule,
-  ],
+  imports: [SequelizeModule.forFeature([Doc, DocData, Result, Barcode])],
   controllers: [OpenRowsBoxController],
   providers: [OpenRowsBoxService],
 })
