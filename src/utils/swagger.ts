@@ -4,9 +4,9 @@ import client from './client';
 
 export function getSwaggerOptions() {
   const options: SwaggerDocumentOptions = {};
-  if (!client('demo')) {
-    options.include = [CreateModule];
-  }
+  //if (!client('demo')) {
+  // //options.include = [CreateModule];
+  //}
   return options;
 }
 export function getSwaggerOptionsCustom() {

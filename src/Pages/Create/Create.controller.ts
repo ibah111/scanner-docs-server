@@ -9,7 +9,6 @@ import {
 } from 'src/Modules/Guards/auth.guard';
 
 @Controller('create')
-@ApiTags('creates')
 @UseGuards(AuthGuard)
 export class CreateController {
   constructor(private createService: CreateService) {}
