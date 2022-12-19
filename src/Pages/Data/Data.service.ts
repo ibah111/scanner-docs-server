@@ -86,11 +86,11 @@ export class DataService {
       ],
     });
     const data_transmit = await this.modelTransmit.findOne({
-      where: { doc_data_id: barcode!.Doc.DocData.id, active: true },
+      where: { doc_data_id: barcode!.Doc!.DocData!.id, active: true },
     });
 
     const data_log = await this.modelLog.findOne({
-      where: { doc_data_id: barcode!.Doc.DocData.id, status: 3 },
+      where: { doc_data_id: barcode!.Doc!.DocData!.id, status: 3 },
     });
     const data_box = await this.modelBox.findOne({
       where: { id: barcode!.item_id },
@@ -113,32 +113,32 @@ export class DataService {
     }
 
     const result: Results[] = [];
-    let doc_data = [];
+    let doc_data: Doc[] = [];
     if (barcode!.type == 1) {
-      doc_data = [barcode!.Doc];
+      doc_data = [barcode!.Doc!];
     } else {
-      doc_data = barcode!.Box.Docs;
+      doc_data = barcode!.Box!.Docs!;
     }
 
     for (const Doc of doc_data) {
-      Doc.DocData.user = User!.id;
-      Doc.DocData.depart = User!.depart;
-      Doc.DocData.status = 2;
+      Doc.DocData!.user = User!.id;
+      Doc.DocData!.depart = User!.depart;
+      Doc.DocData!.status = 2;
 
-      if (Doc.DocData.changed()) {
-        await Doc.DocData.$create('Log', {
+      if (Doc.DocData!.changed()) {
+        await Doc.DocData!.$create('Log', {
           user: User!.id,
           depart: User!.depart,
-          status: Doc.DocData.status,
+          status: Doc.DocData!.status,
           date: moment().toDate(),
         });
       }
 
-      await Doc.DocData.save();
+      await Doc.DocData!.save();
 
-      const UserOld = Doc.DocData.User;
-      const DepartOld = Doc.DocData.Depart;
-      await Doc.DocData.reload();
+      const UserOld = Doc.DocData!.User;
+      const DepartOld = Doc.DocData!.Depart;
+      await Doc.DocData!.reload();
       result.push({
         ...JSON.parse(JSON.stringify(Doc)),
         DocData: {

@@ -89,7 +89,7 @@ export class GetDocsService {
         });
       } else {
         docLaw = await this.modelLawExec.findOne({
-          where: { id: docData.law_exec_id },
+          where: { id: docData.law_exec_id! },
           include: [
             { model: this.modelPerson, required: false },
             { model: this.modelPortfolio, required: false },
@@ -101,7 +101,7 @@ export class GetDocsService {
         });
       }
       for (const res of data_result) {
-        if (docData.DocData.result == res.id) {
+        if (docData.DocData!.result == res.id) {
           res.kd = docLaw!.Debt!.contract;
           res.reestr = docLaw!.Portfolio!.name;
           res.fio_dol =

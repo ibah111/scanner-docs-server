@@ -17,7 +17,7 @@ export class UsersService {
       include: [{ model: this.modelUser_Role, include: [this.modelRole] }],
     });
     if (data) {
-      return data.Users_Roles.map((value) => value.Role.name);
+      return data.Users_Roles!.map((value) => value.Role!.name);
     } else {
       return [];
     }

@@ -33,7 +33,7 @@ export class SendService {
     data_transmit.where_send = body.WhereSend;
     data_transmit.active = true;
     await data_transmit.save();
-    if (barcode) {
+    if (barcode?.DocData) {
       barcode.DocData.user = User!.id;
       barcode.DocData.depart = User!.depart;
       barcode.DocData.status = 3;
