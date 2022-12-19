@@ -1,7 +1,14 @@
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+} from '@contact/sequelize';
 import {
   AllowNull,
   AutoIncrement,
   Column,
+  DataType,
   HasMany,
   Model,
   PrimaryKey,
@@ -12,21 +19,24 @@ import {
 import { Doc } from './Doc.model';
 
 @Table({ tableName: 'docTypes' })
-export class DocTypes extends Model {
+export class DocTypes extends Model<
+  InferAttributes<DocTypes>,
+  InferCreationAttributes<DocTypes>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
   @Unique
-  @Column
+  @Column(DataType.INTEGER)
   name: string;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.STRING)
   title: string;
 
   @HasMany(() => Doc)
-  Doc: Doc[];
+  Doc: NonAttribute<Doc[]>;
 }

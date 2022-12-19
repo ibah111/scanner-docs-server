@@ -1,8 +1,16 @@
 import {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey as FK,
+  NonAttribute,
+} from '@contact/sequelize';
+import {
   AllowNull,
   AutoIncrement,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   Model,
   PrimaryKey,
@@ -12,23 +20,26 @@ import { Role } from './Role.model';
 import { User } from './User.model';
 
 @Table({ tableName: 'Users_Roles' })
-export class User_Role extends Model {
+export class User_Role extends Model<
+  InferAttributes<User_Role>,
+  InferCreationAttributes<User_Role>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column
-  user_id: number;
+  @Column(DataType.INTEGER)
+  user_id: FK<number>;
   @BelongsTo(() => User)
-  User: User;
+  User?: NonAttribute<User>;
 
   @AllowNull(false)
   @ForeignKey(() => Role)
-  @Column
-  role_id: number;
+  @Column(DataType.INTEGER)
+  role_id: FK<number>;
   @BelongsTo(() => Role)
-  Role: Role;
+  Role?: NonAttribute<Role>;
 }

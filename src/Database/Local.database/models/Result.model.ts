@@ -1,7 +1,14 @@
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+} from '@contact/sequelize';
 import {
   AllowNull,
   AutoIncrement,
   Column,
+  DataType,
   HasOne,
   Model,
   PrimaryKey,
@@ -10,31 +17,32 @@ import {
 import { DocData } from './DocData.model';
 
 @Table({ tableName: 'Result' })
-export class Result extends Model {
+export class Result extends Model<
+  InferAttributes<Result>,
+  InferCreationAttributes<Result>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
-  @AllowNull(true)
-  @Column
-  kd: string;
-  @AllowNull(true)
-  @Column
-  st_pnkt: string;
+  @Column(DataType.STRING)
+  kd: string | null;
+  @Column(DataType.STRING)
+  st_pnkt: string | null;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.STRING)
   reestr: string;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.STRING)
   fio_dol: string;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.DATE)
   date_post: Date;
 
   @HasOne(() => DocData)
-  DocData: DocData;
+  DocData?: NonAttribute<DocData>;
 }

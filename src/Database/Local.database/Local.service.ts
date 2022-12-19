@@ -98,16 +98,18 @@ export class LocalService {
     const Depart_ids = Departs.map((Depart) => Depart.bitrix_id);
     for (const value of data) {
       if (Depart_ids.includes(Number(value.id))) {
-        const instance = Departs.find((D) => D.bitrix_id === Number(value.id));
-        instance.parent_id =
-          value.parent_id > 0 ? parent_ids[value.parent_id] : null;
+        const instance = Departs.find((D) => D.bitrix_id === Number(value.id))!;
+        instance.parent_id = value.parent_id
+          ? parent_ids[value.parent_id]
+          : null;
         instance.title = value.title;
         await instance.save();
         parent_ids[value.id] = instance.id;
       } else {
         const instance = await this.modelDepart.create({
-          parent_id:
-            value.parent_id > 0 ? Number(parent_ids[value.parent_id]) : null,
+          parent_id: value.parent_id
+            ? Number(parent_ids[value.parent_id])
+            : null,
           bitrix_id: value.id,
           name: translit(value.title),
           title: value.title,

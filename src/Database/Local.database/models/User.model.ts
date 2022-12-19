@@ -3,6 +3,7 @@ import {
   AutoIncrement,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   HasMany,
   Model,
@@ -15,55 +16,64 @@ import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { Transmit } from './Transmit.model';
 import { User_Role } from './User_Role.model';
-import { Optional } from '@contact/sequelize';
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey as FK,
+  NonAttribute,
+} from '@contact/sequelize';
 import { Box } from './Box.model';
 
 @Table({ tableName: 'Users', timestamps: false })
-export class User extends Model {
+export class User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
-  @Column
-  f: string;
+  @Column(DataType.STRING)
+  f: string | null;
 
-  @Column
-  i: string;
+  @Column(DataType.STRING)
+  i: string | null;
 
-  @Column
-  o: string;
+  @Column(DataType.STRING)
+  o: string | null;
 
   @AllowNull(false)
   @Unique
-  @Column
+  @Column(DataType.STRING)
   login: string;
 
-  @Column
-  position: string;
+  @Column(DataType.STRING)
+  position: string | null;
 
   @AllowNull(false)
   @Unique
-  @Column
+  @Column(DataType.INTEGER)
   bitrix_id: number;
 
   @ForeignKey(() => Depart)
-  @Column
-  depart: number;
+  @Column(DataType.INTEGER)
+  depart: FK<number>;
   @BelongsTo(() => Depart)
-  Depart: Depart;
+  Depart?: NonAttribute<Depart>;
 
   @HasMany(() => DocData)
-  DocData: DocData[];
+  DocData?: NonAttribute<DocData[]>;
 
   @HasMany(() => Log)
-  Logs: Log[];
+  Logs?: NonAttribute<Log[]>;
 
   @HasMany(() => Transmit)
-  Transmits: Transmit;
+  Transmits?: NonAttribute<Transmit[]>;
 
   @HasMany(() => User_Role)
-  Users_Roles: User_Role[];
+  Users_Roles?: NonAttribute<User_Role[]>;
   @HasMany(() => Box)
-  Boxs: Box[];
+  Boxs?: NonAttribute<Box[]>;
 }

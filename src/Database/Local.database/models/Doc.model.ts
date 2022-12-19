@@ -1,8 +1,16 @@
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey as FK,
+  NonAttribute,
+} from '@contact/sequelize';
 import {
   AllowNull,
   AutoIncrement,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   HasOne,
   Model,
@@ -15,57 +23,59 @@ import { Box } from './Box.model';
 import { DocData } from './DocData.model';
 import { DocTypes } from './DocTypes.model';
 @Table({ tableName: 'docs' })
-export class Doc extends Model {
+export class Doc extends Model<
+  InferAttributes<Doc>,
+  InferCreationAttributes<Doc>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.STRING)
   title: string;
 
   @AllowNull(false)
-  @Column
-  contact_doc_id: number;
+  @Column(DataType.INTEGER)
+  contact_doc_id: FK<number>;
 
   @AllowNull(false)
-  @Column
-  mail_id: number;
+  @Column(DataType.INTEGER)
+  mail_id: FK<number>;
 
-  @Column
-  law_act_id: number;
+  @Column(DataType.INTEGER)
+  law_act_id: FK<number | null>;
 
-  @Column
-  law_exec_id: number;
+  @Column(DataType.INTEGER)
+  law_exec_id: FK<number | null>;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.DATE)
   date: Date;
 
-  @AllowNull(true)
   @ForeignKey(() => Box)
-  @Column
-  box_id: number;
+  @Column(DataType.INTEGER)
+  box_id: FK<number | null>;
   @BelongsTo(() => Box)
-  Box: Box;
+  Box?: NonAttribute<Box>;
 
   @AllowNull(false)
   @ForeignKey(() => DocTypes)
-  @Column
-  type_doc: number;
+  @Column(DataType.INTEGER)
+  type_doc: FK<number>;
   @BelongsTo(() => DocTypes)
-  DocTypes: DocTypes;
+  DocTypes?: NonAttribute<DocTypes>;
 
   @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
-  @Column
-  type: number;
+  @Column(DataType.INTEGER)
+  type: FK<number>;
   @BelongsTo(() => BarcodeTypes)
-  BarcodeTypes: BarcodeTypes;
+  BarcodeTypes?: NonAttribute<BarcodeTypes>;
 
   @HasOne(() => DocData)
-  DocData: DocData;
+  DocData?: NonAttribute<DocData>;
 
   @HasOne(() => Barcode, {
     constraints: false,
@@ -73,5 +83,5 @@ export class Doc extends Model {
       type: 1,
     },
   })
-  Barcode: Barcode;
+  Barcode?: NonAttribute<Barcode>;
 }

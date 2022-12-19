@@ -2,49 +2,58 @@ import {
   AllowNull,
   AutoIncrement,
   Column,
+  DataType,
   HasMany,
   Model,
   PrimaryKey,
   Table,
   Unique,
 } from '@contact/sequelize-typescript';
-import { Optional } from '@contact/sequelize';
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+} from '@contact/sequelize';
 import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';
 import { Box } from './Box.model';
 
 @Table({ tableName: 'Departs' })
-export class Depart extends Model {
+export class Depart extends Model<
+  InferAttributes<Depart>,
+  InferCreationAttributes<Depart>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.INTEGER)
   bitrix_id: number;
 
   @AllowNull(false)
   @Unique
-  @Column
+  @Column(DataType.STRING)
   name: string;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.INTEGER)
   title: string;
 
-  @Column
-  parent_id: number;
+  @Column(DataType.INTEGER)
+  parent_id: number | null;
 
   @HasMany(() => DocData)
-  DocData: DocData[];
+  DocData?: NonAttribute<DocData[]>;
 
   @HasMany(() => User)
-  Users: User[];
+  Users?: NonAttribute<User[]>;
 
   @HasMany(() => Log)
-  Logs: Log[];
+  Logs?: NonAttribute<Log[]>;
   @HasMany(() => Box)
-  Boxs: Box[];
+  Boxs?: NonAttribute<Box[]>;
 }

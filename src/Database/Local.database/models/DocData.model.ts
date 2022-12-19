@@ -3,6 +3,7 @@ import {
   AutoIncrement,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   HasMany,
   Model,
@@ -15,69 +16,63 @@ import { Log } from './Log.model';
 import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
 import { User } from './User.model';
-import { Optional } from '@contact/sequelize';
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+  ForeignKey as FK,
+} from '@contact/sequelize';
 import { Result } from './Result.model';
-export interface DocDataAttributes {
-  id: number;
-  parent_id: number;
-  status: number;
-  user: number;
-  depart: number;
-  Doc: Doc;
-  Status: Status;
-  User: User;
-}
-
-export type DocDataCreationAttributes = Optional<DocDataAttributes, 'id'>;
 
 @Table({ tableName: 'docData' })
 export class DocData extends Model<
-  DocDataAttributes,
-  DocDataCreationAttributes
+  InferAttributes<DocData>,
+  InferCreationAttributes<DocData>
 > {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
   @ForeignKey(() => Doc)
-  @Column
-  parent_id: number;
+  @Column(DataType.INTEGER)
+  parent_id: FK<number>;
   @BelongsTo(() => Doc)
-  Doc: Doc;
+  Doc?: NonAttribute<Doc>;
 
   @AllowNull(false)
   @ForeignKey(() => Status)
-  @Column
-  status: number;
+  @Column(DataType.INTEGER)
+  status: FK<number>;
   @BelongsTo(() => Status)
-  Status: Status;
+  Status?: NonAttribute<Status>;
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column
-  user: number;
+  @Column(DataType.INTEGER)
+  user: FK<number>;
   @BelongsTo(() => User)
-  User: User;
+  User?: NonAttribute<User>;
 
   @AllowNull(false)
   @ForeignKey(() => Depart)
-  @Column
-  depart: number;
+  @Column(DataType.INTEGER)
+  depart: FK<number>;
   @BelongsTo(() => Depart)
-  Depart: Depart;
+  Depart?: NonAttribute<Depart>;
 
   @AllowNull(true)
   @ForeignKey(() => Result)
-  @Column
-  result: number;
+  @Column(DataType.INTEGER)
+  result: FK<number>;
   @BelongsTo(() => Result)
-  Result: Result;
+  Result?: NonAttribute<Result>;
 
   @HasMany(() => Log)
-  Logs: Log[];
+  Logs?: NonAttribute<Log[]>;
 
   @HasMany(() => Transmit)
-  Transmits: Transmit[];
+  Transmits?: NonAttribute<Transmit[]>;
 }

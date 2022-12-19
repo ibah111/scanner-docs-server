@@ -1,8 +1,16 @@
+import type {
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey as FK,
+  CreationOptional,
+  NonAttribute,
+} from '@contact/sequelize';
 import {
   AllowNull,
   AutoIncrement,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   HasMany,
   HasOne,
@@ -16,35 +24,38 @@ import { Depart } from './Depart.model';
 import { Doc } from './Doc.model';
 import { User } from './User.model';
 @Table({ tableName: 'Box' })
-export class Box extends Model {
+export class Box extends Model<
+  InferAttributes<Box>,
+  InferCreationAttributes<Box>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
-  @Column
-  type: number;
+  @Column(DataType.INTEGER)
+  type: FK<number>;
   @BelongsTo(() => BarcodeTypes)
-  BarcodeTypes: BarcodeTypes;
+  BarcodeTypes?: NonAttribute<BarcodeTypes>;
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column
-  user: number;
+  @Column(DataType.INTEGER)
+  user: FK<number>;
   @BelongsTo(() => User)
-  User: User;
+  User?: NonAttribute<User>;
 
   @AllowNull(false)
   @ForeignKey(() => Depart)
-  @Column
-  depart: number;
+  @Column(DataType.INTEGER)
+  depart: FK<number>;
   @BelongsTo(() => Depart)
-  Depart: Depart;
+  Depart?: NonAttribute<Depart>;
 
   @HasMany(() => Doc)
-  Docs: Doc[];
+  Docs?: NonAttribute<Doc[]>;
 
   @HasOne(() => Barcode, {
     constraints: false,
@@ -52,5 +63,5 @@ export class Box extends Model {
       type: 2,
     },
   })
-  Barcode: Barcode;
+  Barcode?: NonAttribute<Barcode>;
 }

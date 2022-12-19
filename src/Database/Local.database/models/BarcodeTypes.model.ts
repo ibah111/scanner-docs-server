@@ -1,7 +1,14 @@
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+} from '@contact/sequelize';
 import {
   AllowNull,
   AutoIncrement,
   Column,
+  DataType,
   HasMany,
   Model,
   PrimaryKey,
@@ -11,21 +18,24 @@ import {
 import { Barcode } from './Barcode.model';
 
 @Table({ tableName: 'barcodeTypes' })
-export class BarcodeTypes extends Model {
+export class BarcodeTypes extends Model<
+  InferAttributes<BarcodeTypes>,
+  InferCreationAttributes<BarcodeTypes>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
   @Unique
-  @Column
+  @Column(DataType.STRING)
   name: string;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.STRING)
   title: string;
 
   @HasMany(() => Barcode)
-  Barcodes: Barcode[];
+  Barcodes?: NonAttribute<Barcode[]>;
 }

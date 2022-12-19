@@ -1,8 +1,16 @@
+import type {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey as FK,
+  NonAttribute,
+} from '@contact/sequelize';
 import {
   AllowNull,
   AutoIncrement,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   Model,
   PrimaryKey,
@@ -14,47 +22,50 @@ import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
 import { User } from './User.model';
 @Table({ tableName: 'Logs' })
-export class Log extends Model {
+export class Log extends Model<
+  InferAttributes<Log>,
+  InferCreationAttributes<Log>
+> {
   @AutoIncrement
   @PrimaryKey
-  @Column
-  id: number;
+  @Column(DataType.INTEGER)
+  id: CreationOptional<number>;
 
   @AllowNull(false)
   @ForeignKey(() => User)
-  @Column
-  user: number;
+  @Column(DataType.INTEGER)
+  user: FK<number>;
   @BelongsTo(() => User)
-  User: User;
+  User?: NonAttribute<User>;
 
   @AllowNull(false)
   @ForeignKey(() => DocData)
-  @Column
-  doc_data_id: number;
+  @Column(DataType.INTEGER)
+  doc_data_id: FK<number>;
   @BelongsTo(() => DocData)
-  DocData: DocData;
+  DocData?: NonAttribute<DocData>;
 
   @AllowNull(false)
   @ForeignKey(() => Depart)
-  @Column
-  depart: number;
+  @Column(DataType.INTEGER)
+  depart: FK<number>;
   @BelongsTo(() => Depart)
-  Depart: Depart[];
+  Depart?: NonAttribute<Depart[]>;
 
   @AllowNull(false)
   @ForeignKey(() => Status)
-  @Column
-  status: number;
+  @Column(DataType.INTEGER)
+  status: FK<number>;
   @BelongsTo(() => Status)
-  Status: Status[];
+  Status?: NonAttribute<Status[]>;
 
   @ForeignKey(() => Transmit)
-  @Column
-  transmit: number;
+  @Column(DataType.INTEGER)
+  transmit: FK<number | null>;
   @BelongsTo(() => Transmit)
-  Transmit: Transmit[];
+  Transmit?: NonAttribute<Transmit[]>;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.DATE)
   date: Date;
 }
