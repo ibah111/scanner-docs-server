@@ -1989,6 +1989,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/git-semver-tags@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "@types/git-semver-tags@npm:4.1.1"
+  checksum: d8fc8316b20b298ea92a81bd3c076fbcdd2f9ef82f3a318431eb363670e351d9317ac6d964fa39d8bec04fbf248056f9ca27d21dca1641621f3da760ae0ff2fd
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.3":
   version: 4.1.5
   resolution: "@types/graceful-fs@npm:4.1.5"
@@ -7096,6 +7103,7 @@ __metadata:
     "@tools/nestjs-smb2": ^0.0.3
     "@tools/terminus-indicators": ^0.0.19
     "@types/crypto-js": ^4.1.1
+    "@types/git-semver-tags": ^4.1.1
     "@types/jest": ^29.2.4
     "@types/node": ^18.11.17
     "@types/supertest": ^2.0.12

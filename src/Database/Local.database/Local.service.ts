@@ -11,6 +11,9 @@ import { Role } from './models/Role.model';
 import { User_Role } from './models/User_Role.model';
 import { BarcodeTypes } from './models/BarcodeTypes.model';
 import { DocTypes } from './models/DocTypes.model';
+import { BitrixSchema } from '../Bitrix/Bitrix.schema';
+import { UserSchema } from '../Bitrix/User.schema';
+import { DepartSchema } from '../Bitrix/Depart.schema';
 
 @Injectable()
 export class LocalService {
@@ -38,14 +41,16 @@ export class LocalService {
   }
   async UserSync() {
     const res = (
-      await axios({
-        method: 'post',
-        url: `${server()}/scripts/structure.php`,
-        data: { action: 'user', token: server('token') },
-      })
+      await axios.post<BitrixSchema<UserSchema[]>>(
+        `${server()}/scripts/structure.php`,
+        {
+          action: 'user',
+          token: server('token'),
+        },
+      )
     ).data;
     const data = res?.result;
-    const tmp = {};
+    const tmp: Record<number, number> = {};
     const departs = await this.modelDepart.findAll();
     const users = await this.modelUser.findAll();
     const user_ids = users.map((user) => user.bitrix_id);
@@ -55,7 +60,7 @@ export class LocalService {
     }
     for (const user of data) {
       if (user_ids.includes(Number(user.id))) {
-        const User = users.find((U) => U.bitrix_id === Number(user.id));
+        const User = users.find((U) => U.bitrix_id === Number(user.id))!;
         User.f = user.f;
         User.i = user.i;
         User.o = user.o;
@@ -83,11 +88,10 @@ export class LocalService {
   async DepartSync() {
     const parent_ids: Record<number, number> = {};
     const res = (
-      await axios({
-        method: 'post',
-        url: `${server()}/scripts/structure.php`,
-        data: { action: 'depart', token: server('token') },
-      })
+      await axios.post<BitrixSchema<DepartSchema[]>>(
+        `${server()}/scripts/structure.php`,
+        { action: 'depart', token: server('token') },
+      )
     ).data;
     const data = res?.result;
     const Departs = await this.modelDepart.findAll();

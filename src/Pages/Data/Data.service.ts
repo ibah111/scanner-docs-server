@@ -86,49 +86,49 @@ export class DataService {
       ],
     });
     const data_transmit = await this.modelTransmit.findOne({
-      where: { doc_data_id: barcode.Doc.DocData.id, active: true },
+      where: { doc_data_id: barcode!.Doc.DocData.id, active: true },
     });
 
     const data_log = await this.modelLog.findOne({
-      where: { doc_data_id: barcode.Doc.DocData.id, status: 3 },
+      where: { doc_data_id: barcode!.Doc.DocData.id, status: 3 },
     });
     const data_box = await this.modelBox.findOne({
-      where: { id: barcode.item_id },
+      where: { id: barcode!.item_id },
     });
 
-    if (barcode.type == 1 && data_transmit) {
+    if (barcode!.type == 1 && data_transmit) {
       data_transmit.active = false;
       data_transmit.date_return = moment().toDate();
       await data_transmit.save();
-      data_log.status = 4;
-      await data_log.save();
+      data_log!.status = 4;
+      await data_log!.save();
     }
-    if (barcode.type == 2) {
-      data_box.user = User.id;
-      data_box.depart = User.depart;
-      await data_box.save();
-      data_box.user = User.id;
-      data_box.depart = User.depart;
-      await data_box.reload();
+    if (barcode!.type == 2) {
+      data_box!.user = User!.id;
+      data_box!.depart = User!.depart;
+      await data_box!.save();
+      data_box!.user = User!.id;
+      data_box!.depart = User!.depart;
+      await data_box!.reload();
     }
 
     const result: Results[] = [];
     let doc_data = [];
-    if (barcode.type == 1) {
-      doc_data = [barcode.Doc];
+    if (barcode!.type == 1) {
+      doc_data = [barcode!.Doc];
     } else {
-      doc_data = barcode.Box.Docs;
+      doc_data = barcode!.Box.Docs;
     }
 
     for (const Doc of doc_data) {
-      Doc.DocData.user = User.id;
-      Doc.DocData.depart = User.depart;
+      Doc.DocData.user = User!.id;
+      Doc.DocData.depart = User!.depart;
       Doc.DocData.status = 2;
 
       if (Doc.DocData.changed()) {
         await Doc.DocData.$create('Log', {
-          user: User.id,
-          depart: User.depart,
+          user: User!.id,
+          depart: User!.depart,
           status: Doc.DocData.status,
           date: moment().toDate(),
         });

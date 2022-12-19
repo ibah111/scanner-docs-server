@@ -1,7 +1,7 @@
 import { Op } from '@contact/sequelize';
-
+type Result = Record<symbol, boolean | Result[]>;
 export default function DateCol(operator: string, value: string) {
-  const result = {};
+  const result: Result = {};
   switch (operator) {
     case 'is':
       if (value) result[Op.is] = value === 'true';

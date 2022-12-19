@@ -1,11 +1,13 @@
 import { Op } from '@contact/sequelize';
 
 export default function NumericCol(operator: string, value: string) {
-  const result = {};
+  const result: Record<symbol, string | string[] | null> = {};
   switch (operator) {
-    case 'equals':
+    case 'is':
+    case '=':
       result[Op.eq] = value;
       break;
+    case 'not':
     case '!=':
       result[Op.not] = value;
       break;
@@ -27,8 +29,8 @@ export default function NumericCol(operator: string, value: string) {
     case 'isNotEmpty':
       result[Op.not] = null;
       break;
-    case 'contains':
-      result[Op.substring] = value;
+    case 'isAnyOf':
+      result[Op.in] = value || [];
       break;
   }
   return result;

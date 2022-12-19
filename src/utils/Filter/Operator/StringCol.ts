@@ -1,7 +1,7 @@
 import { Op } from '@contact/sequelize';
 
 export default function StringCol(operator: string, value: string) {
-  const result = {};
+  const result: Record<symbol, string | string[] | null> = {};
   switch (operator) {
     case 'contains':
       result[Op.substring] = `${value}`;
@@ -22,7 +22,7 @@ export default function StringCol(operator: string, value: string) {
       result[Op.not] = null;
       break;
     case 'isAnyOf':
-      result[Op.in] = value;
+      result[Op.in] = value || [];
       break;
   }
   return result;

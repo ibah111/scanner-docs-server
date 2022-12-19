@@ -9,7 +9,7 @@ export default function Sort(sortModel: GridSortModel, columns: GridColumns) {
     sortModel.forEach((sort) => {
       const field = getField(sort.field);
       if (field) {
-        const item: OrderItem = [Sequelize.col(`${sort.field}`), sort.sort];
+        const item: OrderItem = [Sequelize.col(`${sort.field}`), sort.sort!];
         orders.push(item);
       }
     });

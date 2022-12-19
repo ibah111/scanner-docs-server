@@ -11,6 +11,6 @@ export function getSwaggerOptions() {
 }
 export function getSwaggerOptionsCustom() {
   const options: SwaggerCustomOptions = {};
-  options.validatorUrl = null;
+  options.validatorUrl = '';
   return options;
 }

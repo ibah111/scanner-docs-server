@@ -1,12 +1,16 @@
-import { DepartAttributes } from 'src/Database/Local.database/models/Depart.model';
-import { DocAttributes } from 'src/Database/Local.database/models/Doc.model';
-import { DocDataAttributes } from 'src/Database/Local.database/models/DocData.model';
-import { UserAttributes } from 'src/Database/Local.database/models/User.model';
+import { Attributes } from '@contact/sequelize';
+import { Depart } from 'src/Database/Local.database/models/Depart.model';
+import { Doc } from 'src/Database/Local.database/models/Doc.model';
+import {
+  DocData,
+  DocDataAttributes,
+} from 'src/Database/Local.database/models/DocData.model';
+import { User } from 'src/Database/Local.database/models/User.model';
 
-export interface ResultData extends DocDataAttributes {
-  UserOld: UserAttributes;
-  DepartOld: DepartAttributes;
+export interface ResultData extends Attributes<DocData> {
+  UserOld: Attributes<User>;
+  DepartOld: Attributes<Depart>;
 }
-export interface Results extends DocAttributes {
+export interface Results extends Attributes<Doc> {
   DocData: ResultData;
 }

@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import gitSemverTags from 'git-semver-tags';
-import s from 'semver';
+import path from 'path';
+import semver from 'semver';
+import fs from 'fs';
 
 const gitGet = (): Promise<string> =>
   new Promise((resolve) => {
     gitSemverTags({ tagPrefix: 'v' }, (err, result) => {
-      const tags = result.map((value) => s.clean(value));
-      resolve(tags[0]);
+      if (result) {
+        const tags = result.map((value) => semver.clean(value));
+        resolve(tags[0]!);
+      } else resolve(fs.readFileSync(path.join(__dirname, 'version'), 'utf8'));
     });
   });
 

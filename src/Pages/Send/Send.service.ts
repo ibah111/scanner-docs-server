@@ -28,19 +28,19 @@ export class SendService {
     });
     const data_transmit = this.modelTransmit.build();
     data_transmit.doc_data_id = body.id;
-    data_transmit.sender = User.id;
+    data_transmit.sender = User!.id;
     data_transmit.date_send = body.DateSend;
     data_transmit.where_send = body.WhereSend;
     data_transmit.active = true;
     await data_transmit.save();
     if (barcode) {
-      barcode.DocData.user = User.id;
-      barcode.DocData.depart = User.depart;
+      barcode.DocData.user = User!.id;
+      barcode.DocData.depart = User!.depart;
       barcode.DocData.status = 3;
       if (barcode)
         await barcode.DocData.$create('Log', {
-          user: User.id,
-          depart: User.depart,
+          user: User!.id,
+          depart: User!.depart,
           status: barcode.DocData.status,
           transmit: data_transmit.id,
           date: moment().toDate(),

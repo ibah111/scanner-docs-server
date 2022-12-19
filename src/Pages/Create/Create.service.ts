@@ -41,9 +41,9 @@ export class CreateService {
     }
 
     data_doc.title = body.title;
-    data_doc.law_act_id = body.law_act;
+    data_doc.law_act_id = body.law_act || null;
     data_doc.mail_id = body.mail_id;
-    data_doc.law_exec_id = body.law_exec;
+    data_doc.law_exec_id = body.law_exec || null;
     data_doc.contact_doc_id = body.doc_id;
     data_doc.type_doc = body.type;
     data_doc.type = 1;
@@ -64,8 +64,8 @@ export class CreateService {
     data_bar.item_id = data_doc.id;
     data_bar.code = generateRandom(12);
     await data_bar.save();
-    docData.user = User.id;
-    docData.depart = User.depart;
+    docData.user = User!.id;
+    docData.depart = User!.depart;
     docData.status = 1;
     docData.parent_id = data_doc.id;
     docData.result = data_result.id;

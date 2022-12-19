@@ -16,7 +16,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ https: https() }),
+    new FastifyAdapter({ https: https()! }),
   );
   const localService = app.get(LocalService);
   await localService.init();

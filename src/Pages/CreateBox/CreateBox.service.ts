@@ -37,8 +37,8 @@ export class CreateBoxService {
     });
 
     data_box.type = 2;
-    data_box.user = User.id;
-    data_box.depart = User.depart;
+    data_box.user = User!.id;
+    data_box.depart = User!.depart;
     await data_box.save();
     data_bar.item_id = data_box.id;
     data_bar.type = 2;

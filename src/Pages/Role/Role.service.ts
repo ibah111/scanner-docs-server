@@ -22,7 +22,7 @@ export class RoleService {
   }
   async removeRole(id: number) {
     const role = await this.modelUser_Role.findByPk(id);
-    await role.destroy();
+    await role!.destroy();
     return true;
   }
   async addRole(body: RoleInputAddRole) {

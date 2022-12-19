@@ -2,7 +2,7 @@ import { Op } from '@contact/sequelize';
 import moment from 'moment';
 
 export default function DateCol(operator: string, value: string) {
-  const result = {};
+  const result: Record<symbol, Date | Date[] | null> = {};
   const data = moment(value);
   switch (operator) {
     case 'is':

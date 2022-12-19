@@ -14,17 +14,8 @@ import { Log } from './Log.model';
 import { User } from './User.model';
 import { Box } from './Box.model';
 
-export interface DepartAttributes {
-  id: number;
-  bitrix_id: number;
-  name: string;
-  title: string;
-  parent_id: number;
-}
-export type DepartCreationAttributes = Optional<DepartAttributes, 'id'>;
-
 @Table({ tableName: 'Departs' })
-export class Depart extends Model<DepartAttributes, DepartCreationAttributes> {
+export class Depart extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column

@@ -102,11 +102,15 @@ export class GetDocsService {
       }
       for (const res of data_result) {
         if (docData.DocData.result == res.id) {
-          res.kd = docLaw.Debt.contract;
-          res.reestr = docLaw.Portfolio.name;
+          res.kd = docLaw!.Debt!.contract;
+          res.reestr = docLaw!.Portfolio!.name;
           res.fio_dol =
-            docLaw.Person.f + ' ' + docLaw.Person.i + ' ' + docLaw.Person.o;
-          res.date_post = docLaw.Portfolio.load_dt;
+            docLaw!.Person!.f +
+            ' ' +
+            docLaw!.Person!.i +
+            ' ' +
+            docLaw!.Person!.o;
+          res.date_post = docLaw!.Portfolio!.load_dt;
 
           await res.save();
         }

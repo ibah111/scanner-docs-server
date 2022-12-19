@@ -18,21 +18,8 @@ import { User_Role } from './User_Role.model';
 import { Optional } from '@contact/sequelize';
 import { Box } from './Box.model';
 
-export interface UserAttributes {
-  id: number;
-  f: string;
-  i: string;
-  o: string;
-  login: string;
-  position: string;
-  bitrix_id: number;
-  depart: number;
-  Depart: Depart;
-}
-export type UserCreationAttributes = Optional<UserAttributes, 'id'>;
-
 @Table({ tableName: 'Users', timestamps: false })
-export class User extends Model<UserAttributes, UserCreationAttributes> {
+export class User extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column

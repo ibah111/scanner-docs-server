@@ -7,12 +7,12 @@ export default function Filter(
   filterModel: GridFilterModel,
   columnModel: GridColumns,
 ): WhereOptions {
-  const where = [];
-  const result = {};
+  const where: WhereOptions[] = [];
+  const result: Record<symbol, WhereOptions[]> = {};
   const getField = getFieldHandler(columnModel);
   filterModel.items.forEach((item) => {
     const Field = getField(item.columnField);
-    if (Field) where.push(getItem(item, Field.type));
+    if (Field) where.push(getItem(item, Field.type!));
   });
 
   if (filterModel.items.length > 0) {
