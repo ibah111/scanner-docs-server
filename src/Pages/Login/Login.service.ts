@@ -1,5 +1,5 @@
 import { User } from '@contact/models';
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { RoleSuccess } from 'src/Modules/Guards/Roles.guard';

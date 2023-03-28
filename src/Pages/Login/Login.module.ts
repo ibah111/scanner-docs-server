@@ -1,5 +1,5 @@
 import { User } from '@contact/models';
-import { SequelizeModule } from '@contact/nestjs-sequelize';
+import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { LoginController } from './Login.controller';
 import { LoginService } from './Login.service';

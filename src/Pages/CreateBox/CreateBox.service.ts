@@ -1,5 +1,5 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
-import { Op } from '@contact/sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
+import { Op } from '@sql-tools/sequelize';
 import { Injectable } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';

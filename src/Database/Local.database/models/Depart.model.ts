@@ -8,13 +8,13 @@ import {
   PrimaryKey,
   Table,
   Unique,
-} from '@contact/sequelize-typescript';
+} from '@sql-tools/sequelize-typescript';
 import type {
   CreationOptional,
   InferAttributes,
   InferCreationAttributes,
   NonAttribute,
-} from '@contact/sequelize';
+} from '@sql-tools/sequelize';
 import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';

@@ -1,9 +1,9 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
-import { Role } from 'src/Database/Local.database/models//Role.model';
-import { User } from 'src/Database/Local.database/models//User.model';
-import { User_Role } from 'src/Database/Local.database/models//User_Role.model';
-
+import { Role } from 'src/Database/Local.database/models/Role.model';
+import { User } from 'src/Database/Local.database/models/User.model';
+import { User_Role } from 'src/Database/Local.database/models/User_Role.model';
+console.log(User);
 @Injectable()
 export class UsersService {
   constructor(

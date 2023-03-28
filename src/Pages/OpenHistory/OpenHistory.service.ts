@@ -1,5 +1,5 @@
 import { User } from '@contact/models';
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';

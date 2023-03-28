@@ -1,4 +1,4 @@
-import { SequelizeModule } from '@contact/nestjs-sequelize';
+import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';

@@ -1,5 +1,5 @@
 import { ConstValue, DocAttach } from '@contact/models';
-import { SequelizeModule } from '@contact/nestjs-sequelize';
+import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { DocumentsController } from './Documents.controller';
 import { DocumentsService } from './Documents.service';

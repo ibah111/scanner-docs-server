@@ -1,4 +1,4 @@
-import { OrderItem, Sequelize } from '@contact/sequelize';
+import { OrderItem, Sequelize } from '@sql-tools/sequelize';
 import { GridColumns, GridSortModel } from '@mui/x-data-grid-premium';
 import getFieldHandler from '../Filter/getFieldHamdler';
 

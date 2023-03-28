@@ -1,8 +1,8 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { GetDocsInput } from './GetDocs.input';
-import { FindOptions } from '@contact/sequelize';
+import { FindOptions } from '@sql-tools/sequelize';
 import Filter from 'src/utils/Filter';
 import TableDocsColumns from 'src/utils/Columns/TableDocs';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid-premium';

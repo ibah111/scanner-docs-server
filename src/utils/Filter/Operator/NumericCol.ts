@@ -1,4 +1,4 @@
-import { Op } from '@contact/sequelize';
+import { Op } from '@sql-tools/sequelize';
 
 export default function NumericCol(operator: string, value: string) {
   const result: Record<symbol, string | string[] | null> = {};

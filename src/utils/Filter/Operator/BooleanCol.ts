@@ -1,4 +1,4 @@
-import { Op } from '@contact/sequelize';
+import { Op } from '@sql-tools/sequelize';
 type Result = Record<symbol, boolean | Result[]>;
 export default function DateCol(operator: string, value: string) {
   const result: Result = {};

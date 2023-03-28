@@ -1,4 +1,4 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DataInput } from './Data.input';

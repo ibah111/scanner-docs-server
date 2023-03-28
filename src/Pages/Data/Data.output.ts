@@ -1,4 +1,4 @@
-import { Attributes } from '@contact/sequelize';
+import { Attributes } from '@sql-tools/sequelize';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';

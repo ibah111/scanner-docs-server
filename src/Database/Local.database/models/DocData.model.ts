@@ -9,7 +9,7 @@ import {
   Model,
   PrimaryKey,
   Table,
-} from '@contact/sequelize-typescript';
+} from '@sql-tools/sequelize-typescript';
 import { Depart } from './Depart.model';
 import { Doc } from './Doc.model';
 import { Log } from './Log.model';
@@ -22,7 +22,7 @@ import type {
   InferCreationAttributes,
   NonAttribute,
   ForeignKey as FK,
-} from '@contact/sequelize';
+} from '@sql-tools/sequelize';
 import { Result } from './Result.model';
 
 @Table({ tableName: 'docData' })

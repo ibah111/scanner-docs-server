@@ -1,4 +1,4 @@
-import { Op } from '@contact/sequelize';
+import { Op } from '@sql-tools/sequelize';
 import moment from 'moment';
 
 export default function DateCol(operator: string, value: string) {

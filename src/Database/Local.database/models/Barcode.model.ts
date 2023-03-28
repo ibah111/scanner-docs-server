@@ -4,7 +4,7 @@ import type {
   InferCreationAttributes,
   ForeignKey as FK,
   NonAttribute,
-} from '@contact/sequelize';
+} from '@sql-tools/sequelize';
 import {
   AllowNull,
   AutoIncrement,
@@ -16,7 +16,7 @@ import {
   PrimaryKey,
   Table,
   Unique,
-} from '@contact/sequelize-typescript';
+} from '@sql-tools/sequelize-typescript';
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { Box } from './Box.model';
 import { Doc } from './Doc.model';

@@ -1,11 +1,11 @@
-import { InjectConnection, InjectModel } from '@contact/nestjs-sequelize';
+import { InjectConnection, InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Depart } from './models/Depart.model';
 import { Status } from './models/Status.model';
 import { User } from './models/User.model';
 import axios from 'axios';
 import server from 'src/utils/server';
-import { Sequelize } from '@contact/sequelize-typescript';
+import { Sequelize } from '@sql-tools/sequelize-typescript';
 import translit from 'src/utils/translit';
 import { Role } from './models/Role.model';
 import { User_Role } from './models/User_Role.model';

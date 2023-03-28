@@ -1,5 +1,5 @@
 import { ConstValue, DocAttach } from '@contact/models';
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { NotFoundException } from '@nestjs/common';
 import { SMBService } from '@tools/nestjs-smb2';
 import { DocumentsInput } from './Documents.input';

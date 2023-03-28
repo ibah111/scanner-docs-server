@@ -1,4 +1,4 @@
-import { InjectModel } from '@contact/nestjs-sequelize';
+import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';

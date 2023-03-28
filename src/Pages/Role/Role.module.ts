@@ -1,4 +1,4 @@
-import { SequelizeModule } from '@contact/nestjs-sequelize';
+import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { Role } from 'src/Database/Local.database/models/Role.model';
 import { User } from 'src/Database/Local.database/models/User.model';

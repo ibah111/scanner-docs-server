@@ -3,7 +3,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
   NonAttribute,
-} from '@contact/sequelize';
+} from '@sql-tools/sequelize';
 import {
   AllowNull,
   AutoIncrement,
@@ -14,7 +14,7 @@ import {
   PrimaryKey,
   Table,
   Unique,
-} from '@contact/sequelize-typescript';
+} from '@sql-tools/sequelize-typescript';
 import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 @Table({ tableName: 'status' })

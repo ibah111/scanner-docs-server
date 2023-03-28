@@ -3,7 +3,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
   NonAttribute,
-} from '@contact/sequelize';
+} from '@sql-tools/sequelize';
 import {
   AllowNull,
   AutoIncrement,
@@ -13,7 +13,7 @@ import {
   Model,
   PrimaryKey,
   Table,
-} from '@contact/sequelize-typescript';
+} from '@sql-tools/sequelize-typescript';
 import { User_Role } from './User_Role.model';
 
 @Table({ tableName: 'Roles' })

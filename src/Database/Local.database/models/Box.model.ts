@@ -4,7 +4,7 @@ import type {
   ForeignKey as FK,
   CreationOptional,
   NonAttribute,
-} from '@contact/sequelize';
+} from '@sql-tools/sequelize';
 import {
   AllowNull,
   AutoIncrement,
@@ -17,7 +17,7 @@ import {
   Model,
   PrimaryKey,
   Table,
-} from '@contact/sequelize-typescript';
+} from '@sql-tools/sequelize-typescript';
 import { Barcode } from './Barcode.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { Depart } from './Depart.model';

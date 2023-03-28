@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CreateController } from './Create.controller';
 import { CreateService } from './Create.service';
-import { SequelizeModule } from '@contact/nestjs-sequelize';
+import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
