@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { Role } from 'src/Database/Local.database/models/Role.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { User_Role } from 'src/Database/Local.database/models/User_Role.model';
-console.log(User);
 @Injectable()
 export class UsersService {
   constructor(

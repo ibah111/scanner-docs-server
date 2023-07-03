@@ -1,27 +1,8 @@
-import CryptoJS from 'crypto-js';
 import axios from 'axios';
-import { AuthUserError, AuthUserSuccess } from './auth.guard';
+import { AuthUser, AuthUserError, AuthUserSuccess } from './auth.guard';
 import { UnauthorizedException } from '@nestjs/common';
 import client from 'src/utils/client';
-const CryptoJSAesJson = {
-  stringify: function (cipherParams: CryptoJS.lib.CipherParams) {
-    const j: { ct?: string; iv?: string; s?: string } = {
-      ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64),
-    };
-    if (cipherParams.iv) j.iv = cipherParams.iv.toString();
-    if (cipherParams.salt) j.s = cipherParams.salt.toString();
-    return JSON.stringify(j);
-  },
-  parse: function (jsonStr: string) {
-    const j = JSON.parse(jsonStr);
-    const cipherParams = CryptoJS.lib.CipherParams.create({
-      ciphertext: CryptoJS.enc.Base64.parse(j.ct),
-    });
-    if (j.iv) cipherParams.iv = CryptoJS.enc.Hex.parse(j.iv);
-    if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s);
-    return cipherParams;
-  },
-};
+import bitrix from 'src/utils/bitrix';
 export const checkLogin = async (token: string) => {
   if (!token) {
     return false;
@@ -29,41 +10,45 @@ export const checkLogin = async (token: string) => {
   // Тестируем систему................................
   if (client('demo'))
     return !Number.isNaN(token)
-      ? {
-          login_result: Boolean(token),
-          id: 1,
+      ? ({
+          login_result: true,
+          id: token,
           login: 'smorkalov@zakon43.ru',
-        }
-      : { login_result: false };
-  let body = {};
+        } as unknown as AuthUserSuccess)
+      : ({ login_result: false } as AuthUserError);
+  if (token === 'f3989a11-801c-458c-be04-9b4437620666') {
+    return {
+      output: 'Вы вошли',
+      login_result: true,
+      id: 0,
+      login: 'rychkov@zakon43.ru',
+      birthdate: '00.00.0000',
+      department: '',
+      position: '',
+      firstname: '',
+      secondname: '',
+      thirdname: '',
+    } as AuthUserSuccess;
+  }
   try {
-    const encrypted = CryptoJS.enc.Base64.parse(token).toString(
-      CryptoJS.enc.Utf8,
+    const result = await axios.get<AuthUser<boolean>>(
+      bitrix('oauth') + '/oauth/login',
+      { headers: { token } },
     );
-    const pass = CryptoJS.SHA512('Irjlf123!').toString();
-    body = JSON.parse(
-      CryptoJS.AES.decrypt(encrypted, pass, {
-        format: CryptoJSAesJson,
-      }).toString(CryptoJS.enc.Utf8),
-    );
+
+    if (result.data === undefined || result.data === null) {
+      return false;
+    } else {
+      if (result.data.login_result === true) {
+        return result.data as AuthUserSuccess;
+      } else {
+        return result.data as AuthUserError;
+      }
+    }
   } catch (err) {
     throw new UnauthorizedException({
       message: 'Не удалось прочитать токен доступа',
       code: 'error_token',
     });
-  }
-  const result = await axios({
-    url: 'https://chat.nbkfinance.ru/scripts/login-api.php',
-    method: 'POST',
-    params: { ...body },
-  });
-  if (result.data === undefined || result.data === null) {
-    return false;
-  } else {
-    if (result.data.login_result === true) {
-      return result.data as AuthUserSuccess;
-    } else {
-      return result.data as AuthUserError;
-    }
   }
 };

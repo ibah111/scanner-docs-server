@@ -4,7 +4,6 @@ import { Depart } from './models/Depart.model';
 import { Status } from './models/Status.model';
 import { User } from './models/User.model';
 import axios from 'axios';
-import server from 'src/utils/server';
 import { Sequelize } from '@sql-tools/sequelize-typescript';
 import translit from 'src/utils/translit';
 import { Role } from './models/Role.model';
@@ -14,6 +13,7 @@ import { DocTypes } from './models/DocTypes.model';
 import { BitrixSchema } from '../Bitrix/Bitrix.schema';
 import { UserSchema } from '../Bitrix/User.schema';
 import { DepartSchema } from '../Bitrix/Depart.schema';
+import bitrix from 'src/utils/bitrix';
 
 @Injectable()
 export class LocalService {
@@ -42,10 +42,10 @@ export class LocalService {
   async UserSync() {
     const res = (
       await axios.post<BitrixSchema<UserSchema[]>>(
-        `${server()}/scripts/structure.php`,
+        `${bitrix()}/scripts/structure.php`,
         {
           action: 'user',
-          token: server('token'),
+          token: bitrix('token_structure'),
         },
       )
     ).data;
@@ -89,8 +89,8 @@ export class LocalService {
     const parent_ids: Record<number, number> = {};
     const res = (
       await axios.post<BitrixSchema<DepartSchema[]>>(
-        `${server()}/scripts/structure.php`,
-        { action: 'depart', token: server('token') },
+        `${bitrix()}/scripts/structure.php`,
+        { action: 'depart', token: bitrix('token_structure') },
       )
     ).data;
     const data = res?.result;
