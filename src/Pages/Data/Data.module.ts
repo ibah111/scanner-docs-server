@@ -1,6 +1,5 @@
 import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Module } from '@nestjs/common';
-import { SmbModule } from '@tools/nestjs-smb2';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
@@ -12,7 +11,6 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { DataController } from './Data.controller';
 import { DataService } from './Data.service';
-import config from '../../config/smb.json';
 
 @Module({
   imports: [
@@ -27,7 +25,6 @@ import config from '../../config/smb.json';
       Log,
       Result,
     ]),
-    SmbModule.register(config),
   ],
   controllers: [DataController],
   providers: [DataService],

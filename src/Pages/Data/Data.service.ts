@@ -13,11 +13,9 @@ import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Results } from './Data.output';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
-import { SMBService } from '@tools/nestjs-smb2';
 @Injectable()
 export class DataService {
   constructor(
-    private readonly SMB: SMBService,
     @InjectModel(Doc) private modelDoc: typeof Doc,
     @InjectModel(Depart) private modelDepart: typeof Depart,
     @InjectModel(Barcode) private modelBarcode: typeof Barcode,

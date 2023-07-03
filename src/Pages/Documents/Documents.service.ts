@@ -1,27 +1,40 @@
 import { ConstValue, DocAttach } from '@contact/models';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { NotFoundException } from '@nestjs/common';
-import { SMBService } from '@tools/nestjs-smb2';
+import { NotFoundException, StreamableFile } from '@nestjs/common';
 import { DocumentsInput } from './Documents.input';
+import { SmbService } from 'src/Modules/Smb/Smb.service';
+import { concatMap, from, map } from 'rxjs';
 
 export class DocumentsService {
   constructor(
-    private readonly SMB: SMBService,
+    private readonly smb: SmbService,
     @InjectModel(DocAttach) private modelDocAttach: typeof DocAttach,
     @InjectModel(ConstValue) private modelConstValue: typeof ConstValue,
   ) {}
-  async get(body: DocumentsInput) {
-    const save_path: string = (await this.modelConstValue.findOne({
-      where: { name: 'DocAttach.SavePath' },
-    }))!.value!;
-    const client = this.SMB.get();
-    const doc = await this.modelDocAttach.findByPk(body.id);
-    const tmp = save_path.split('\\');
-    const dir = tmp[tmp.length - 1];
-    const path = `${dir}${doc!.REL_SERVER_PATH}${doc!.FILE_SERVER_NAME}`;
-    if (!(await client.exists(path)))
-      throw new NotFoundException('Файл не найден');
-    const file_data = await client.readFile(path);
-    return file_data;
+  get(body: DocumentsInput) {
+    from(
+      this.modelConstValue.findOne({
+        where: { name: 'DocAttach.SavePath' },
+        rejectOnEmpty: true,
+      }),
+    ).pipe(
+      map((data) => data.value as string),
+      concatMap((save_path) =>
+        from(
+          this.modelDocAttach.findByPk(body.id, { rejectOnEmpty: true }),
+        ).pipe(map((doc) => ({ save_path, doc }))),
+      ),
+      concatMap((data) => {
+        const tmp = data.save_path.split('\\');
+        const dir = tmp[tmp.length - 1];
+        const path = `${dir}${data.doc.REL_SERVER_PATH}${data.doc.FILE_SERVER_NAME}`;
+        return this.smb.exists(path).pipe(
+          map((exists) => {
+            if (!exists) throw new NotFoundException('Файл не найден');
+            return new StreamableFile(this.smb.readFileStream(path));
+          }),
+        );
+      }),
+    );
   }
 }
