@@ -2362,6 +2362,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sql-tools/association-literal@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@sql-tools/association-literal@npm:0.0.3::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F192%2Fpackages%2Fnpm%2F%40sql-tools%2Fassociation-literal%2F-%2F%40sql-tools%2Fassociation-literal-0.0.3.tgz"
+  peerDependencies:
+    "@sql-tools/sequelize": ^6.27.8
+    "@sql-tools/sequelize-typescript": ^2.1.5
+  checksum: bc63a2d970fe557c922a813a426f391539b57014cc1fc4bb73bc33344f83798539e11857dab04030f8447a702ebf917955b41c6fe2b5d39254e4ec9860ba8e8f
+  languageName: node
+  linkType: hard
+
 "@sql-tools/nestjs-sequelize@npm:^10.0.0":
   version: 10.0.0
   resolution: "@sql-tools/nestjs-sequelize@npm:10.0.0::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F181%2Fpackages%2Fnpm%2F%40sql-tools%2Fnestjs-sequelize%2F-%2F%40sql-tools%2Fnestjs-sequelize-10.0.0.tgz"
@@ -9232,6 +9242,7 @@ __metadata:
     "@nestjs/testing": ^10.0.5
     "@nestjs/websockets": ^10.0.5
     "@release-it/conventional-changelog": ^6.0.0
+    "@sql-tools/association-literal": ^0.0.3
     "@sql-tools/nestjs-sequelize": ^10.0.0
     "@sql-tools/sequelize": ^6.29.4
     "@sql-tools/sequelize-typescript": ^2.1.5
