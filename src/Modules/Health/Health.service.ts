@@ -4,7 +4,6 @@ import {
   SequelizeHealthIndicator,
   SmbIndicator,
 } from '@tools/terminus-indicators';
-import { SmbService } from '../Smb/Smb.service';
 
 @Injectable()
 export class HealthService {
@@ -12,14 +11,14 @@ export class HealthService {
     private readonly health: HealthCheckService,
     private readonly http: HttpHealthIndicator,
     private readonly db: SequelizeHealthIndicator,
-    private readonly smb: SmbService,
+    private readonly smb: SmbIndicator,
   ) {}
   check() {
     return this.health.check([
       () => this.db.pingCheck('local-database'),
       () => this.db.pingCheck('contact-database', { connection: 'contact' }),
       () => this.http.pingCheck('bitrix', 'https://chat.nbkfinance.ru'),
-      () => this.smb.getHealth('smb'),
+      () => this.smb.check('smb'),
     ]);
   }
 }

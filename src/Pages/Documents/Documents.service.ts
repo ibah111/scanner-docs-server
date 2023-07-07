@@ -2,12 +2,12 @@ import { ConstValue, DocAttach } from '@contact/models';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { NotFoundException, StreamableFile } from '@nestjs/common';
 import { DocumentsInput } from './Documents.input';
-import { SmbService } from 'src/Modules/Smb/Smb.service';
 import { concatMap, from, map } from 'rxjs';
+import { SMBService } from '@tools/nestjs-smb2';
 
 export class DocumentsService {
   constructor(
-    private readonly smb: SmbService,
+    private readonly smb: SMBService,
     @InjectModel(DocAttach) private modelDocAttach: typeof DocAttach,
     @InjectModel(ConstValue) private modelConstValue: typeof ConstValue,
   ) {}
