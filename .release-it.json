@@ -1,0 +1,18 @@
+{
+  "tagName": "v${version}",
+  "git": {
+    "commitMessage": "chore: release v${version}"
+  },
+  "gitlab": {
+    "origin": "https://git.usb.ru",
+    "certificateAuthorityFile": "./https/ca.crt",
+    "release": true
+  },
+  "npm": false,
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}
