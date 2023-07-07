@@ -908,25 +908,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@contact/ntlm@npm:0.1.7":
-  version: 0.1.7
-  resolution: "@contact/ntlm@npm:0.1.7::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F85%2Fpackages%2Fnpm%2F%40contact%2Fntlm%2F-%2F%40contact%2Fntlm-0.1.7.tgz"
-  dependencies:
-    crypto-js: ^4.1.1
-  checksum: dccf2cd664cf9245d402083cd4f22bf0469207b5659ff58f81e11749729c29fb8e0c2f67f835642a2aa24f6486f340153c689a6cf3700b517b7587d90904ce5d
-  languageName: node
-  linkType: hard
-
-"@contact/smb2@npm:^0.19.0":
-  version: 0.19.0
-  resolution: "@contact/smb2@npm:0.19.0::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F84%2Fpackages%2Fnpm%2F%40contact%2Fsmb2%2F-%2F%40contact%2Fsmb2-0.19.0.tgz"
-  dependencies:
-    "@contact/ntlm": 0.1.7
-    readable-stream: ^3.6.0
-  checksum: ab6040eadaf0ddcef37a217f1353f113f504d08ee745d1a4efd2fa6aadcc6c8225c8550f7c8bd4eb144d0fafc5756f29e9b41d566a1e9914d2141447f7947825
-  languageName: node
-  linkType: hard
-
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -2442,6 +2423,22 @@ __metadata:
   dependencies:
     defer-to-connect: ^2.0.1
   checksum: fc9cb993e808806692e4a3337c90ece0ec00c89f4b67e3652a356b89730da98bc824273a6d67ca84d5f33cd85f317dcd5ce39d8cc0a2f060145a608a7cb8ce92
+  languageName: node
+  linkType: hard
+
+"@tools/nestjs-smb2@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@tools/nestjs-smb2@npm:1.0.1::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F160%2Fpackages%2Fnpm%2F%40tools%2Fnestjs-smb2%2F-%2F%40tools%2Fnestjs-smb2-1.0.1.tgz"
+  peerDependencies:
+    "@contact/smb2": 0.x
+    "@grpc/grpc-js": ^1.8.0
+    "@grpc/proto-loader": ^0.7.0
+    "@nestjs/common": ^8.0.0 || ^9.0.0 || ^10.0.0
+    "@nestjs/core": ^8.0.0 || ^9.0.0 || ^10.0.0
+    "@nestjs/microservices": ^8.0.0 || ^9.0.0 || ^10.0.0
+    reflect-metadata: ^0.1.13
+    rxjs: ^7.2.0
+  checksum: 565823ad3774f6f245705ecabfd2ff05394103daec9c8ac1a3ed6eefb3d8f272d925fed9cd68d16776f9b4cfd827a4313c89f0b3a89e1ddd382141ae81ecb904
   languageName: node
   linkType: hard
 
@@ -9217,7 +9214,6 @@ __metadata:
     "@commitlint/cli": ^17.6.6
     "@commitlint/config-conventional": ^17.6.6
     "@contact/models": ^0.3.49
-    "@contact/smb2": ^0.19.0
     "@fastify/static": ^6.10.2
     "@grpc/grpc-js": ^1.8.17
     "@grpc/proto-loader": ^0.7.7
@@ -9239,6 +9235,7 @@ __metadata:
     "@sql-tools/nestjs-sequelize": ^10.0.0
     "@sql-tools/sequelize": ^6.29.4
     "@sql-tools/sequelize-typescript": ^2.1.5
+    "@tools/nestjs-smb2": ^1.0.1
     "@tools/terminus-indicators": ^1.0.1
     "@types/crypto-js": ^4.1.1
     "@types/git-semver-tags": ^4.1.1
