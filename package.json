@@ -42,7 +42,7 @@
     "@sql-tools/nestjs-sequelize": "^10.0.0",
     "@sql-tools/sequelize": "^6.29.4",
     "@sql-tools/sequelize-typescript": "^2.1.5",
-    "@tools/nestjs-smb2": "^1.0.3",
+    "@tools/nestjs-smb2": "^1.0.4",
     "@tools/terminus-indicators": "^1.0.3",
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
