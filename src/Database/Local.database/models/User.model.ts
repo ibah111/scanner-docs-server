@@ -2,6 +2,7 @@ import {
   AllowNull,
   AutoIncrement,
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -24,6 +25,7 @@ import type {
   NonAttribute,
 } from '@sql-tools/sequelize';
 import { Box } from './Box.model';
+import { Role } from './Role.model';
 
 @Table({ tableName: 'Users', timestamps: false })
 export class User extends Model<
@@ -72,8 +74,8 @@ export class User extends Model<
   @HasMany(() => Transmit)
   Transmits?: NonAttribute<Transmit[]>;
 
-  @HasMany(() => User_Role)
-  Users_Roles?: NonAttribute<User_Role[]>;
+  @BelongsToMany(() => Role, () => User_Role)
+  Roles?: NonAttribute<Array<Role & { User_Role: User_Role }>>;
   @HasMany(() => Box)
   Boxs?: NonAttribute<Box[]>;
 }

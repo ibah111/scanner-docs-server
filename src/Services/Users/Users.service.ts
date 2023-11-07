@@ -13,10 +13,10 @@ export class UsersService {
   async group(login: string) {
     const data = await this.modelUser.findOne({
       where: { login },
-      include: [{ model: this.modelUser_Role, include: [this.modelRole] }],
+      include: [this.modelRole],
     });
     if (data) {
-      return data.Users_Roles!.map((value) => value.Role!.name);
+      return data.Roles!.map((value) => value.name);
     } else {
       return [];
     }

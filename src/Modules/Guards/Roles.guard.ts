@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UsersService } from 'src/Services/Users/Users.service';
+import { AuthResult } from './auth.guard';
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
@@ -20,8 +21,10 @@ export class RolesGuard implements CanActivate {
       roles: string | string[];
       and: boolean;
     }>('roles', ctx.getHandler());
-
-    const groups = await this.usersService.group(data.user.login);
+    const user = data.user as AuthResult;
+    const groups = await this.usersService.group(
+      user.userLocal?.login as string,
+    );
     data.roles = groups;
     if (roles) {
       if (typeof roles.roles === 'string') {

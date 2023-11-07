@@ -7,14 +7,15 @@ import {
 import {
   AllowNull,
   AutoIncrement,
+  BelongsToMany,
   Column,
   DataType,
-  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from '@sql-tools/sequelize-typescript';
 import { User_Role } from './User_Role.model';
+import { User } from './User.model';
 
 @Table({ tableName: 'Roles' })
 export class Role extends Model<
@@ -34,6 +35,6 @@ export class Role extends Model<
   @Column(DataType.STRING)
   title: string;
 
-  @HasMany(() => User_Role)
-  Users_Roles: NonAttribute<User_Role[]>;
+  @BelongsToMany(() => User, () => User_Role)
+  Users?: NonAttribute<Array<User & { User_Role: User_Role }>>;
 }
