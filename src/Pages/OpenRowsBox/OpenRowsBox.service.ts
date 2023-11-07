@@ -14,10 +14,10 @@ import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 @Injectable()
 export class OpenRowsBoxService {
   constructor(
-    @InjectModel(Doc) private modelDoc: typeof Doc,
-    @InjectModel(DocData) private modelDocData: typeof DocData,
-    @InjectModel(Result) private modelResult: typeof Result,
-    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
+    @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
+    @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
+    @InjectModel(Result, 'local') private modelResult: typeof Result,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
   ) {}
 
   async find(body: OpenRowsBoxInput) {

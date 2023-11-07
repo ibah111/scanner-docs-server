@@ -13,11 +13,11 @@ import { CreateBoxInput } from './CreateBox.input';
 @Injectable()
 export class CreateBoxService {
   constructor(
-    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
-    @InjectModel(Box) private modelBox: typeof Box,
-    @InjectModel(DocData) private modelDocData: typeof DocData,
-    @InjectModel(Doc) private modelDoc: typeof Doc,
-    @InjectModel(User) private modelUser: typeof User,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
+    @InjectModel(Box, 'local') private modelBox: typeof Box,
+    @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
+    @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
+    @InjectModel(User, 'local') private modelUser: typeof User,
   ) {}
   async find(body: CreateBoxInput, user: AuthUserSuccess) {
     if (!body.create) {

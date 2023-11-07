@@ -7,7 +7,7 @@ import { RoleController } from './Role.controller';
 import { RoleService } from './Role.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User_Role, Role, User])],
+  imports: [SequelizeModule.forFeature([User_Role, Role, User], 'local')],
   controllers: [RoleController],
   providers: [RoleService],
 })

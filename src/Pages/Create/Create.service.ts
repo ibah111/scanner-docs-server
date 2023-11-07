@@ -16,12 +16,12 @@ import { CreateInput } from './Create.input';
 @Injectable()
 export class CreateService {
   constructor(
-    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
-    @InjectModel(Log) private modelLog: typeof Log,
-    @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(Doc) private modelDoc: typeof Doc,
-    @InjectModel(DocData) private modelDocData: typeof DocData,
-    @InjectModel(Result) private modelResult: typeof Result,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
+    @InjectModel(Log, 'local') private modelLog: typeof Log,
+    @InjectModel(User, 'local') private modelUser: typeof User,
+    @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
+    @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
+    @InjectModel(Result, 'local') private modelResult: typeof Result,
     private readonly eventsGateway: EventsGateway,
   ) {}
   async find(body: CreateInput, user: AuthUserSuccess) {

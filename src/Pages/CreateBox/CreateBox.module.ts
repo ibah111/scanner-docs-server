@@ -9,7 +9,9 @@ import { CreateBoxController } from './CreateBox.controller';
 import { CreateBoxService } from './CreateBox.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Barcode, Box, DocData, Doc, User])],
+  imports: [
+    SequelizeModule.forFeature([Barcode, Box, DocData, Doc, User], 'local'),
+  ],
   controllers: [CreateBoxController],
   providers: [CreateBoxService],
 })

@@ -7,11 +7,12 @@ import { LocalModels } from './models';
   imports: [
     SequelizeModule.forRoot({
       dialect: 'sqlite',
+      name: 'local',
       storage: 'database.sqlite',
       logging: false,
       models: LocalModels,
     }),
-    SequelizeModule.forFeature(LocalModels),
+    SequelizeModule.forFeature(LocalModels, 'local'),
   ],
   providers: [LocalService],
 })

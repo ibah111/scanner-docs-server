@@ -8,7 +8,9 @@ import { OpenRowsBoxController } from './OpenRowsBox.controller';
 import { OpenRowsBoxService } from './OpenRowsBox.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Doc, DocData, Result, Barcode])],
+  imports: [
+    SequelizeModule.forFeature([Doc, DocData, Result, Barcode], 'local'),
+  ],
   controllers: [OpenRowsBoxController],
   providers: [OpenRowsBoxService],
 })

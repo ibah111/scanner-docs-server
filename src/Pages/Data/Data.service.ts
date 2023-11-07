@@ -16,15 +16,15 @@ import { Result } from 'src/Database/Local.database/models/Result.model';
 @Injectable()
 export class DataService {
   constructor(
-    @InjectModel(Doc) private modelDoc: typeof Doc,
-    @InjectModel(Depart) private modelDepart: typeof Depart,
-    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
-    @InjectModel(Transmit) private modelTransmit: typeof Transmit,
-    @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(DocData) private modelDocData: typeof DocData,
-    @InjectModel(Log) private modelLog: typeof Log,
-    @InjectModel(Box) private modelBox: typeof Box,
-    @InjectModel(Result) private modelResult: typeof Result,
+    @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
+    @InjectModel(Depart, 'local') private modelDepart: typeof Depart,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
+    @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
+    @InjectModel(User, 'local') private modelUser: typeof User,
+    @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
+    @InjectModel(Log, 'local') private modelLog: typeof Log,
+    @InjectModel(Box, 'local') private modelBox: typeof Box,
+    @InjectModel(Result, 'local') private modelResult: typeof Result,
   ) {}
   async get(body: DataInput, user: AuthUserSuccess) {
     const User = await this.modelUser.findOne({

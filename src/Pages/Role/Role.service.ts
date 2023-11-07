@@ -8,9 +8,10 @@ import { RoleInputAddRole } from './Role.input';
 @Injectable()
 export class RoleService {
   constructor(
-    @InjectModel(User) private readonly modelUser: typeof User,
-    @InjectModel(Role) private readonly modelRole: typeof Role,
-    @InjectModel(User_Role) private readonly modelUser_Role: typeof User_Role,
+    @InjectModel(User, 'local') private readonly modelUser: typeof User,
+    @InjectModel(Role, 'local') private readonly modelRole: typeof Role,
+    @InjectModel(User_Role, 'local')
+    private readonly modelUser_Role: typeof User_Role,
   ) {}
   async get() {
     return {

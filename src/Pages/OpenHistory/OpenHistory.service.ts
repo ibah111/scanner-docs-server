@@ -11,12 +11,12 @@ import { Status } from 'src/Database/Local.database/models/Status.model';
 @Injectable()
 export class OpenHistoryService {
   constructor(
-    @InjectModel(Transmit) private modelTransmit: typeof Transmit,
-    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
-    @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(Depart) private modelDepart: typeof Depart,
-    @InjectModel(Log) private modelLog: typeof Log,
-    @InjectModel(Status) private modelStatus: typeof Status,
+    @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
+    @InjectModel(User, 'local') private modelUser: typeof User,
+    @InjectModel(Depart, 'local') private modelDepart: typeof Depart,
+    @InjectModel(Log, 'local') private modelLog: typeof Log,
+    @InjectModel(Status, 'local') private modelStatus: typeof Status,
   ) {}
   async find(body: OpenHistoryInput) {
     const result = await this.modelLog.findAll({

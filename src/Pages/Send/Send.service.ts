@@ -11,10 +11,10 @@ import { SendInput } from './Send.input';
 @Injectable()
 export class SendService {
   constructor(
-    @InjectModel(Transmit) private modelTransmit: typeof Transmit,
-    @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(Doc) private modelDoc: typeof Doc,
-    @InjectModel(DocData) private modelDocData: typeof DocData,
+    @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
+    @InjectModel(User, 'local') private modelUser: typeof User,
+    @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
+    @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
   ) {}
   async send(body: SendInput, user: AuthUserSuccess) {
     const User = await this.modelUser.findOne({

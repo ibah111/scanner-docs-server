@@ -21,23 +21,24 @@ import { GetDocsService } from './GetDocs.service';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([
-      Doc,
-      DocAttach,
-      ConstValue,
-      Transmit,
-      Barcode,
-      User,
-      Depart,
-      DocData,
-      Result,
-      LawAct,
-      Person,
-      Debt,
-
-      Portfolio,
-      LawExec,
-    ]),
+    SequelizeModule.forFeature(
+      [
+        Doc,
+        DocAttach,
+        ConstValue,
+        Transmit,
+        Barcode,
+        User,
+        Depart,
+        DocData,
+        Result,
+      ],
+      'local',
+    ),
+    SequelizeModule.forFeature(
+      [LawAct, LawExec, Person, Debt, Portfolio],
+      'contact',
+    ),
   ],
   controllers: [GetDocsController],
   providers: [GetDocsService],

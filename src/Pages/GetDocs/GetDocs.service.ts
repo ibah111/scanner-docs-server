@@ -18,18 +18,18 @@ import { LawAct, Person, Debt, Portfolio, LawExec } from '@contact/models';
 @Injectable()
 export class GetDocsService {
   constructor(
-    @InjectModel(Doc) private modelDoc: typeof Doc,
-    @InjectModel(Transmit) private modelTransmit: typeof Transmit,
-    @InjectModel(Barcode) private modelBarcode: typeof Barcode,
-    @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(Depart) private modelDepart: typeof Depart,
-    @InjectModel(DocData) private modelDocData: typeof DocData,
-    @InjectModel(Result) private modelResult: typeof Result,
-    @InjectModel(LawAct) private modelLawAct: typeof LawAct,
-    @InjectModel(Person) private modelPerson: typeof Person,
-    @InjectModel(Debt) private modelDebt: typeof Debt,
-    @InjectModel(Portfolio) private modelPortfolio: typeof Portfolio,
-    @InjectModel(LawExec) private modelLawExec: typeof LawExec,
+    @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
+    @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
+    @InjectModel(User, 'local') private modelUser: typeof User,
+    @InjectModel(Depart, 'local') private modelDepart: typeof Depart,
+    @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
+    @InjectModel(Result, 'local') private modelResult: typeof Result,
+    @InjectModel(LawAct, 'contact') private modelLawAct: typeof LawAct,
+    @InjectModel(Person, 'contact') private modelPerson: typeof Person,
+    @InjectModel(Debt, 'contact') private modelDebt: typeof Debt,
+    @InjectModel(Portfolio, 'contact') private modelPortfolio: typeof Portfolio,
+    @InjectModel(LawExec, 'contact') private modelLawExec: typeof LawExec,
   ) {}
 
   async find(body: GetDocsInput) {

@@ -8,7 +8,9 @@ import { SendController } from './Send.controller';
 import { SendService } from './Send.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Transmit, User, Doc, DocData])],
+  imports: [
+    SequelizeModule.forFeature([Transmit, User, Doc, DocData], 'local'),
+  ],
   controllers: [SendController],
   providers: [SendService],
 })

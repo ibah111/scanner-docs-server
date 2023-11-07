@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { DocumentsController } from './Documents.controller';
 import { DocumentsService } from './Documents.service';
 @Module({
-  imports: [SequelizeModule.forFeature([DocAttach, ConstValue])],
+  imports: [SequelizeModule.forFeature([DocAttach, ConstValue], 'contact')],
   controllers: [DocumentsController],
   providers: [DocumentsService],
 })

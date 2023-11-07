@@ -14,15 +14,10 @@ import { EventsModule } from 'src/Modules/Events/events.module';
 @Module({
   imports: [
     EventsModule,
-    SequelizeModule.forFeature([
-      Barcode,
-      Log,
-      Depart,
-      Doc,
-      User,
-      DocData,
-      Result,
-    ]),
+    SequelizeModule.forFeature(
+      [Barcode, Log, Depart, Doc, User, DocData, Result],
+      'local',
+    ),
   ],
   controllers: [CreateController],
   providers: [CreateService],

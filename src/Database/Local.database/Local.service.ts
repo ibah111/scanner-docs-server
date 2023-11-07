@@ -18,15 +18,17 @@ import bitrix from 'src/utils/bitrix';
 @Injectable()
 export class LocalService {
   constructor(
-    @InjectConnection() private readonly sequelize: Sequelize,
-    @InjectModel(User) private readonly modelUser: typeof User,
-    @InjectModel(Depart) private readonly modelDepart: typeof Depart,
-    @InjectModel(Status) private readonly modelStatus: typeof Status,
-    @InjectModel(Role) private readonly modelRole: typeof Role,
-    @InjectModel(User_Role) private readonly modelUser_Role: typeof User_Role,
-    @InjectModel(BarcodeTypes)
+    @InjectConnection('local') private readonly sequelize: Sequelize,
+    @InjectModel(User, 'local') private readonly modelUser: typeof User,
+    @InjectModel(Depart, 'local') private readonly modelDepart: typeof Depart,
+    @InjectModel(Status, 'local') private readonly modelStatus: typeof Status,
+    @InjectModel(Role, 'local') private readonly modelRole: typeof Role,
+    @InjectModel(User_Role, 'local')
+    private readonly modelUser_Role: typeof User_Role,
+    @InjectModel(BarcodeTypes, 'local')
     private readonly modelBarcodeTypes: typeof BarcodeTypes,
-    @InjectModel(DocTypes) private readonly modelDocTypes: typeof DocTypes,
+    @InjectModel(DocTypes, 'local')
+    private readonly modelDocTypes: typeof DocTypes,
   ) {}
   async init() {
     await this.sequelize.sync();

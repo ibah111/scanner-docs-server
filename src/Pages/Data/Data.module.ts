@@ -14,17 +14,10 @@ import { DataService } from './Data.service';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([
-      Barcode,
-      DocData,
-      Doc,
-      Transmit,
-      User,
-      Depart,
-      Box,
-      Log,
-      Result,
-    ]),
+    SequelizeModule.forFeature(
+      [Barcode, DocData, Doc, Transmit, User, Depart, Box, Log, Result],
+      'local',
+    ),
   ],
   controllers: [DataController],
   providers: [DataService],

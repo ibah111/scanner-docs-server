@@ -6,7 +6,7 @@ import { RoleSuccess } from 'src/Modules/Guards/Roles.guard';
 
 @Injectable()
 export class LoginService {
-  constructor(@InjectModel(User) private modelUser: typeof User) {}
+  constructor(@InjectModel(User, 'local') private modelUser: typeof User) {}
   async login(user: AuthUserSuccess, roles: RoleSuccess) {
     const login = await this.modelUser.findOne({
       where: { email: user.login },

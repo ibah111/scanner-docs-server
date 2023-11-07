@@ -11,7 +11,10 @@ import { OpenHistoryService } from './OpenHistory.service';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Barcode, Transmit, User, Depart, Status, Log]),
+    SequelizeModule.forFeature(
+      [Barcode, Transmit, User, Depart, Status, Log],
+      'local',
+    ),
   ],
   controllers: [OpenHistoryController],
   providers: [OpenHistoryService],

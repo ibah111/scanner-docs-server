@@ -8,8 +8,9 @@ import { SMBService } from '@tools/nestjs-smb2';
 export class DocumentsService {
   constructor(
     private readonly smb: SMBService,
-    @InjectModel(DocAttach) private modelDocAttach: typeof DocAttach,
-    @InjectModel(ConstValue) private modelConstValue: typeof ConstValue,
+    @InjectModel(DocAttach, 'contact') private modelDocAttach: typeof DocAttach,
+    @InjectModel(ConstValue, 'contact')
+    private modelConstValue: typeof ConstValue,
   ) {}
   get(body: DocumentsInput) {
     from(

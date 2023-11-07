@@ -7,7 +7,7 @@ import { UsersService } from './Users.service';
 
 @Global()
 @Module({
-  imports: [SequelizeModule.forFeature([User_Role, User, Role])],
+  imports: [SequelizeModule.forFeature([User_Role, User, Role], 'local')],
   providers: [UsersService],
   exports: [UsersService],
 })

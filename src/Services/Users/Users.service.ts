@@ -6,9 +6,9 @@ import { User_Role } from 'src/Database/Local.database/models/User_Role.model';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User_Role) private modelUser_Role: typeof User_Role,
-    @InjectModel(User) private modelUser: typeof User,
-    @InjectModel(Role) private modelRole: typeof Role,
+    @InjectModel(User_Role, 'local') private modelUser_Role: typeof User_Role,
+    @InjectModel(User, 'local') private modelUser: typeof User,
+    @InjectModel(Role, 'local') private modelRole: typeof Role,
   ) {}
   async group(login: string) {
     const data = await this.modelUser.findOne({
