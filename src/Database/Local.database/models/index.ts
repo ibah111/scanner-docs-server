@@ -13,7 +13,7 @@ import { BarcodeTypes } from './BarcodeTypes.model';
 import { DocTypes } from './DocTypes.model';
 import { Result } from './Result.model';
 
-export const LocalModels = [
+export const models = [
   Barcode,
   Log,
   User,

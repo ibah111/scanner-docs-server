@@ -1,19 +1,29 @@
-import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
+import { Debt, DebtCalc, LawAct } from '@contact/models';
 import { Module } from '@nestjs/common';
-import { LocalService } from './Local.service';
-import { LocalModels } from './models';
+import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
+import { models } from './models';
+import { LocalDatabaseSeed } from './seed';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    SequelizeModule.forRoot({
-      dialect: 'sqlite',
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
       name: 'local',
-      storage: 'database.sqlite',
-      logging: false,
-      models: LocalModels,
+      useFactory: (config: ConfigService) => ({
+        dialect: 'mssql',
+        username: config.get<string>('database.username'),
+        password: config.get<string>('database.password'),
+        host: config.get<string>('database.host'),
+        database: config.get<string>('database.database'),
+        port: config.get<number>('database.port'),
+        logging: false,
+        models,
+      }),
+      inject: [ConfigService],
     }),
-    SequelizeModule.forFeature(LocalModels, 'local'),
+    SequelizeModule.forFeature([LawAct, Debt, DebtCalc], 'contact'),
   ],
-  providers: [LocalService],
+  providers: [LocalDatabaseSeed],
 })
-export class LocalDatabase {}
+export default class LocalDatabase {}
