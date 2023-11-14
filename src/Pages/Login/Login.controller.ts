@@ -12,7 +12,6 @@ export class LoginController {
     return {
       ...auth.user,
       local_id: auth.userLocal?.id as number,
-      roles: auth.userLocal?.Roles?.map((Role) => Role.name) as string[],
     };
   }
 }

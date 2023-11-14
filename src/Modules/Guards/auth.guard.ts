@@ -1,18 +1,19 @@
+import { getConnectionToken } from '@sql-tools/nestjs-sequelize';
+import { Model } from '@sql-tools/sequelize-typescript';
 import {
   CanActivate,
   createParamDecorator,
   ExecutionContext,
+  ImATeapotException,
   Injectable,
+  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
-import { checkLogin } from './check_login';
-import { ClassConstructor } from 'class-transformer';
-import { Model } from '@sql-tools/sequelize-typescript';
-import { getConnectionToken } from '@sql-tools/nestjs-sequelize';
-import { User as UserContact } from '@contact/models';
-import { User as UserLocal } from '../../Database/Local.database/models/User.model';
 import { ModuleRef } from '@nestjs/core';
-export class AuthUser<T> {
+import { ClassConstructor } from 'class-transformer';
+import { checkLogin } from './check_login';
+import { User } from '@contact/models';
+export class AuthUser<T extends boolean> {
   output: T extends true ? 'Вы вошли' : 'Вы не вошли';
   error: T extends false ? string : never;
   id: T extends true ? number : never;
@@ -27,6 +28,10 @@ export class AuthUser<T> {
 }
 export class AuthUserSuccess extends AuthUser<true> {}
 export class AuthUserError extends AuthUser<false> {}
+export class AuthResult {
+  user: AuthUserSuccess;
+  userLocal: User;
+}
 export const Auth = createParamDecorator(
   async (_data: string, ctx: ExecutionContext) => {
     const data = ctx.switchToHttp().getRequest();
@@ -38,28 +43,21 @@ export const Auth = createParamDecorator(
     });
   },
 );
-export class AuthResult {
-  user: AuthUserSuccess;
-  userLocal: UserLocal | null;
-  userContact: UserContact | null;
-}
 @Injectable()
-export class AuthGuard implements CanActivate {
-  private readonly modelUserContact = this.getRepository(
-    UserContact,
-    'contact',
-  );
-  private readonly modelUserLocal = this.getRepository(UserLocal, 'local');
+export class AuthGuard implements CanActivate, OnModuleInit {
+  private modelUser: typeof User;
   constructor(private moduleRef: ModuleRef) {}
-  private getRepository<T extends Model>(
-    model: ClassConstructor<T>,
-    connection_name: string,
-  ) {
-    const connection = this.moduleRef.get(getConnectionToken(connection_name), {
+  onModuleInit() {
+    this.modelUser = this.getRepository(User);
+  }
+
+  private getRepository<T extends Model>(model: ClassConstructor<T>) {
+    const connection = this.moduleRef.get(getConnectionToken('local'), {
       strict: false,
     });
     return connection.getRepository<T>(model);
   }
+
   async canActivate(ctx: ExecutionContext) {
     const data = ctx.switchToHttp().getRequest();
     const body = data.headers;
@@ -70,12 +68,10 @@ export class AuthGuard implements CanActivate {
         if (result?.login_result) {
           const user: AuthResult = {
             user: result,
-            userLocal: await this.modelUserLocal.findOne({
+            userLocal: await this.modelUser.findOne({
               where: { login: result.login },
               include: ['Roles'],
-            }),
-            userContact: await this.modelUserContact.findOne({
-              where: { email: result.login },
+              rejectOnEmpty: new ImATeapotException('Забыл добавить гостя'),
             }),
           };
           data.user = user;

@@ -14,15 +14,15 @@ import { DocTypes } from './DocTypes.model';
 import { Result } from './Result.model';
 
 export const models = [
+  User,
+  Role,
+  User_Role,
   Barcode,
   Log,
-  User,
   Depart,
   Status,
   Doc,
   Transmit,
-  Role,
-  User_Role,
   Box,
   DocData,
   BarcodeTypes,
