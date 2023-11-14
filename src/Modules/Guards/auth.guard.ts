@@ -12,7 +12,7 @@ import {
 import { ModuleRef } from '@nestjs/core';
 import { ClassConstructor } from 'class-transformer';
 import { checkLogin } from './check_login';
-import { User } from '@contact/models';
+import { User } from '../../Database/Local.database/models/User.model';
 export class AuthUser<T extends boolean> {
   output: T extends true ? 'Вы вошли' : 'Вы не вошли';
   error: T extends false ? string : never;

@@ -15,7 +15,7 @@ export class LocalDatabaseSeed implements OnModuleInit {
   async sync() {
     const umzug = createUmzug(
       this.sequelize,
-      join(__dirname, 'Migrations'),
+      join(__dirname, 'migrations'),
       'MigrationMeta',
     );
 
