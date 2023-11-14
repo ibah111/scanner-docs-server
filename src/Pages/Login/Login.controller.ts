@@ -9,7 +9,7 @@ export class LoginController {
   @HttpCode(200)
   @Post()
   login(@Auth() auth: AuthResult) {
-    return {
+    console.log('auth');
     try {
       return {
         ...auth.user,

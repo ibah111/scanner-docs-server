@@ -7,7 +7,7 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UsersService } from 'src/Services/Users/Users.service';
+import { UsersService } from 'src/Pages/Users/Users.service';
 import { AuthResult } from './auth.guard';
 @Injectable()
 export class RolesGuard implements CanActivate {
