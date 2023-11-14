@@ -5,7 +5,6 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { LocalService } from './Database/Local.database/Local.service';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { VersionService } from './Modules/Version/version.service';
@@ -18,9 +17,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ https: https()! }),
   );
-  const localService = app.get(LocalService);
-  await localService.init();
-  await localService.migrate();
+
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
