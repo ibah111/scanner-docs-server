@@ -895,15 +895,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@contact/models@npm:^0.3.55":
-  version: 0.3.55
-  resolution: "@contact/models@npm:0.3.55::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F69%2Fpackages%2Fnpm%2F%40contact%2Fmodels%2F-%2F%40contact%2Fmodels-0.3.55.tgz"
-  dependencies:
-    reflect-metadata: ^0.1.13
+"@contact/models@npm:^0.3.80":
+  version: 0.3.80
+  resolution: "@contact/models@npm:0.3.80::__archiveUrl=https%3A%2F%2Fgit.usb.ru%2Fapi%2Fv4%2Fprojects%2F69%2Fpackages%2Fnpm%2F%40contact%2Fmodels%2F-%2F%40contact%2Fmodels-0.3.80.tgz"
   peerDependencies:
     "@sql-tools/sequelize": ^6.27.8
     "@sql-tools/sequelize-typescript": ^2.1.5
-  checksum: 63117b5a82242095fe7a87abffc31180d43c0fb5c16955560bbd8c1ec076b74c7039063b1423283439a4fe0599339c39defe71f3af2cf0f55d03d249342a477f
+    reflect-metadata: ^0.1.13
+  checksum: a7da31ae3587b8c3f8307eef6f99fab8735ed0c39f65a6a9165e15cfd5eae1ed5e52417104e214e376a679697ae1988da643a7efb0b043d87af52390922794e0
   languageName: node
   linkType: hard
 
@@ -9294,7 +9293,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.7.1
     "@commitlint/config-conventional": ^17.7.0
-    "@contact/models": ^0.3.55
+    "@contact/models": ^0.3.80
     "@fastify/static": ^6.10.2
     "@grpc/grpc-js": ^1.9.0
     "@grpc/proto-loader": ^0.7.8

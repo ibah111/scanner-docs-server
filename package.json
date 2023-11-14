@@ -24,7 +24,7 @@
     "release": "release-it"
   },
   "dependencies": {
-    "@contact/models": "^0.3.55",
+    "@contact/models": "^0.3.80",
     "@fastify/static": "^6.10.2",
     "@grpc/grpc-js": "^1.9.0",
     "@grpc/proto-loader": "^0.7.8",

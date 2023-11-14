@@ -9,16 +9,10 @@ export class LoginController {
   @HttpCode(200)
   @Post()
   login(@Auth() auth: AuthResult) {
-    console.log('auth');
-    try {
-      return {
-        ...auth.user,
-        local_id: auth.userLocal?.id as number,
-        roles: auth.userLocal.Roles?.map((r) => r.name) || [],
-      };
-    } catch (error) {
-      console.log(error);
-      throw Error('Ошибка');
-    }
+    return {
+      ...auth.user,
+      local_id: auth.userLocal?.id as number,
+      roles: auth.userLocal.Roles?.map((r) => r.name) || [],
+    };
   }
 }
