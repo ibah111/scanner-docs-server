@@ -22,7 +22,7 @@ import { BarcodeTypes } from './BarcodeTypes.model';
 import { Box } from './Box.model';
 import { DocData } from './DocData.model';
 import { DocTypes } from './DocTypes.model';
-@Table({ tableName: 'docs' })
+@Table({ tableName: 'Docs' })
 export class Doc extends Model<
   InferAttributes<Doc>,
   InferCreationAttributes<Doc>

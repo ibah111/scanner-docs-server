@@ -17,7 +17,7 @@ import {
 } from '@sql-tools/sequelize-typescript';
 import { Barcode } from './Barcode.model';
 
-@Table({ tableName: 'barcodeTypes' })
+@Table({ tableName: 'BarcodeTypes', timestamps: false })
 export class BarcodeTypes extends Model<
   InferAttributes<BarcodeTypes>,
   InferCreationAttributes<BarcodeTypes>

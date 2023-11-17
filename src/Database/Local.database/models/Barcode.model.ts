@@ -20,7 +20,7 @@ import {
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { Box } from './Box.model';
 import { Doc } from './Doc.model';
-@Table({ tableName: 'Barcodes' })
+@Table({ tableName: 'Barcodes', paranoid: true })
 export class Barcode extends Model<
   InferAttributes<Barcode>,
   InferCreationAttributes<Barcode>

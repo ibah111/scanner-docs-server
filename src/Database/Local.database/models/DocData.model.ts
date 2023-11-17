@@ -25,7 +25,7 @@ import type {
 } from '@sql-tools/sequelize';
 import { Result } from './Result.model';
 
-@Table({ tableName: 'docData' })
+@Table({ tableName: 'DocData' })
 export class DocData extends Model<
   InferAttributes<DocData>,
   InferCreationAttributes<DocData>

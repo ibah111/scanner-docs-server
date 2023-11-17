@@ -18,7 +18,7 @@ import {
 
 import { Doc } from './Doc.model';
 
-@Table({ tableName: 'docTypes' })
+@Table({ tableName: 'DocTypes', timestamps: false })
 export class DocTypes extends Model<
   InferAttributes<DocTypes>,
   InferCreationAttributes<DocTypes>
