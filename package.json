@@ -24,6 +24,7 @@
     "release": "release-it"
   },
   "dependencies": {
+    "@casl/ability": "^6.5.0",
     "@contact/models": "^0.3.80",
     "@fastify/static": "^6.10.2",
     "@grpc/grpc-js": "^1.9.0",
