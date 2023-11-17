@@ -8,6 +8,7 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
         [
           { id: 1, name: 'admin', title: 'Администратор' },
           { id: 2, name: 'moderator', title: 'Модератор' },
+          { id: 3, name: 'worker', title: 'Работник' },
         ],
         { transaction: t },
       ),
