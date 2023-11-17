@@ -65,7 +65,7 @@ export class AuthGuard implements CanActivate, OnModuleInit {
       const result = await checkLogin(token);
       if (result) {
         if (result?.login_result) {
-          console.log(result);
+          console.log('===> '.yellow, 'LOGIN RESULT'.green, result);
           const user: AuthResult = {
             user: result,
             userLocal: await this.modelUser.findOne({

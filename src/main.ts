@@ -5,12 +5,13 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { VersionService } from './Modules/Version/version.service';
 import { getSwaggerOptions, getSwaggerOptionsCustom } from './utils/swagger';
 import client from './utils/client';
 import https from './utils/https';
+import 'colors';
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

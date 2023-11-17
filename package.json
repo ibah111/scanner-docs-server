@@ -49,6 +49,7 @@
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "colors": "^1.4.0",
     "crypto-js": "^4.1.1",
     "git-semver-tags": "^5.0.1",
     "moment": "^2.29.4",
