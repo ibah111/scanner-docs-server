@@ -1,9 +1,9 @@
 import { Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
-import { RolesGuard } from '../../Modules/Guards/Roles.guard';
 import { Auth, AuthGuard, AuthResult } from '../../Modules/Guards/auth.guard';
+import { CanGuard } from '../../Modules/CASL/Can.guard';
 
 @Controller('login')
-@UseGuards(RolesGuard)
+@UseGuards(CanGuard)
 @UseGuards(AuthGuard)
 export class LoginController {
   @HttpCode(200)
@@ -12,7 +12,7 @@ export class LoginController {
     return {
       ...auth.user,
       local_id: auth.userLocal?.id as number,
-      roles: auth.userLocal.Roles?.map((r) => r.name) || [],
+      roles: auth.userLocal?.Roles?.map((r) => r.name) || [],
     };
   }
 }

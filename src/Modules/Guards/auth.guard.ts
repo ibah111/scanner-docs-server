@@ -4,7 +4,6 @@ import {
   CanActivate,
   createParamDecorator,
   ExecutionContext,
-  ImATeapotException,
   Injectable,
   OnModuleInit,
   UnauthorizedException,
@@ -30,7 +29,7 @@ export class AuthUserSuccess extends AuthUser<true> {}
 export class AuthUserError extends AuthUser<false> {}
 export class AuthResult {
   user: AuthUserSuccess;
-  userLocal: User;
+  userLocal: User | null;
 }
 export const Auth = createParamDecorator(
   async (_data: string, ctx: ExecutionContext) => {
@@ -66,12 +65,13 @@ export class AuthGuard implements CanActivate, OnModuleInit {
       const result = await checkLogin(token);
       if (result) {
         if (result?.login_result) {
+          console.log(result);
           const user: AuthResult = {
             user: result,
             userLocal: await this.modelUser.findOne({
               where: { login: result.login },
               include: ['Roles'],
-              rejectOnEmpty: new ImATeapotException('Забыл добавить гостя'),
+              //rejectOnEmpty: new UnauthorizedException('У вас нет доступа'),
             }),
           };
           data.user = user;

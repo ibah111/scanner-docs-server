@@ -4,6 +4,7 @@ import { HealthModule } from './Health/Health.module';
 import { VersionModule } from './Version/version.module';
 import { SmbModule } from '@tools/nestjs-smb2';
 import smb from '../config/smb.json';
+import { CaslModule } from './CASL/Casl.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import smb from '../config/smb.json';
     VersionModule,
     EventsModule,
     HealthModule,
+    CaslModule,
   ],
 })
 export class ModulesModule {}
