@@ -63,14 +63,14 @@ export class Doc extends Model<
   @AllowNull(false)
   @ForeignKey(() => DocTypes)
   @Column(DataType.INTEGER)
-  type_doc: FK<number>;
+  doc_type: FK<number>;
   @BelongsTo(() => DocTypes)
   DocTypes?: NonAttribute<DocTypes>;
 
   @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
   @Column(DataType.INTEGER)
-  type: FK<number>;
+  barcode_type: FK<number>;
   @BelongsTo(() => BarcodeTypes)
   BarcodeTypes?: NonAttribute<BarcodeTypes>;
 
