@@ -14,13 +14,13 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
             autoIncrement: true,
           },
           name: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true,
           },
           title: {
             allowNull: false,
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
           },
         },
         { transaction: t },
