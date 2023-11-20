@@ -6,7 +6,9 @@ import {
 } from 'src/Modules/Guards/auth.guard';
 import { DataInput } from './Data.input';
 import { DataService } from './Data.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Data')
 @Controller('data')
 @UseGuards(AuthGuard)
 export class DataController {

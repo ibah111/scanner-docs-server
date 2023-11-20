@@ -6,7 +6,9 @@ import {
 } from 'src/Modules/Guards/auth.guard';
 import { CreateBoxInput } from './CreateBox.input';
 import { CreateBoxService } from './CreateBox.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('CreateBox')
 @Controller('createBox')
 @UseGuards(AuthGuard)
 export class CreateBoxController {

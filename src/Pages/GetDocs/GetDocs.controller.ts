@@ -2,7 +2,9 @@ import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/Modules/Guards/auth.guard';
 import { GetDocsInput } from './GetDocs.input';
 import { GetDocsService } from './GetDocs.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('GetDocs')
 @Controller('getDocs')
 @UseGuards(AuthGuard)
 export class GetDocsController {

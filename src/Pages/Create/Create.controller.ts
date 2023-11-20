@@ -6,7 +6,8 @@ import {
   AuthGuard,
   AuthUserSuccess,
 } from 'src/Modules/Guards/auth.guard';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Create')
 @Controller('create')
 @UseGuards(AuthGuard)
 export class CreateController {
