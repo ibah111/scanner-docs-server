@@ -7,12 +7,13 @@ import {
 import { SendInput } from './Send.input';
 import { SendService } from './Send.service';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Send')
 @Controller('send')
-@UseGuards(CanGuard)
 @UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class SendController {
   constructor(private sendService: SendService) {}
   @Post()

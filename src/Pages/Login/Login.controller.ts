@@ -1,12 +1,13 @@
 import { Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { Auth, AuthGuard, AuthResult } from '../../Modules/Guards/auth.guard';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Login')
 @Controller('login')
-@UseGuards(CanGuard)
 @UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class LoginController {
   @HttpCode(200)
   @Post()

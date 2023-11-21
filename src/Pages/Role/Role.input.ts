@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class RoleInputRemoveRole {
@@ -9,8 +11,12 @@ export class RoleInputRemoveRole {
 export class RoleInputAddRole {
   @IsNotEmpty()
   @IsNumber()
+  @Expose()
+  @ApiProperty()
   user_id: number;
   @IsNotEmpty()
   @IsNumber()
+  @Expose()
+  @ApiProperty()
   role_id: number;
 }

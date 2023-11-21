@@ -1,10 +1,15 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { OpenHistoryInput } from './OpenHistory.input';
 import { OpenHistoryService } from './OpenHistory.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import { CanGuard } from '../../Modules/CASL/Can.guard';
+import { AuthGuard } from '../../Modules/Guards/auth.guard';
 
 @ApiTags('OpenHistory')
 @Controller('openHistory')
+@UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class OpenHistoryController {
   constructor(private openHistoryService: OpenHistoryService) {}
 

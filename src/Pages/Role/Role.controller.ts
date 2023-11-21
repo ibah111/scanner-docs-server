@@ -3,12 +3,13 @@ import { AuthGuard } from 'src/Modules/Guards/auth.guard';
 import { RoleInputAddRole, RoleInputRemoveRole } from './Role.input';
 import { RoleService } from './Role.service';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Role')
 @Controller('role')
-@UseGuards(CanGuard)
 @UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 

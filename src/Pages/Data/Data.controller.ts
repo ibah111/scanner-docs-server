@@ -1,11 +1,14 @@
 import { Controller, HttpCode, Get, UseGuards, Param } from '@nestjs/common';
 import { Auth, AuthGuard, AuthResult } from 'src/Modules/Guards/auth.guard';
 import { DataService } from './Data.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import { CanGuard } from '../../Modules/CASL/Can.guard';
 
 @ApiTags('Data')
 @Controller('data')
 @UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class DataController {
   constructor(private dataService: DataService) {}
 

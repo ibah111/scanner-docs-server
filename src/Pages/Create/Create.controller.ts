@@ -6,10 +6,13 @@ import {
   AuthGuard,
   AuthUserSuccess,
 } from 'src/Modules/Guards/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import { CanGuard } from '../../Modules/CASL/Can.guard';
 @ApiTags('Create')
 @Controller('create')
 @UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class CreateController {
   constructor(private createService: CreateService) {}
   @Post()
