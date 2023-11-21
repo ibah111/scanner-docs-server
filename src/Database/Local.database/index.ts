@@ -10,7 +10,6 @@ import databaseConfig from '../../config/database.config';
     SequelizeModule.forRootAsync({
       name: 'local',
       useFactory: (config: ConfigType<typeof databaseConfig>) => {
-        console.log(config);
         return {
           dialect: 'mssql',
           username: config.username,
