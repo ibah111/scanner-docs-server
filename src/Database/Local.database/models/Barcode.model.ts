@@ -44,7 +44,7 @@ export class Barcode extends Model<
   @BelongsTo(() => Doc, {
     constraints: false,
     scope: {
-      type: 1,
+      barcode_type: 1,
     },
   })
   Doc?: NonAttribute<Doc>;

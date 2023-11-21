@@ -16,7 +16,7 @@ import {
 } from '@sql-tools/sequelize-typescript';
 import { DocData } from './DocData.model';
 
-@Table({ tableName: 'Result' })
+@Table({ tableName: 'Result', timestamps: false })
 export class Result extends Model<
   InferAttributes<Result>,
   InferCreationAttributes<Result>
