@@ -1,10 +1,10 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, Get, UseGuards, Param } from '@nestjs/common';
 import {
   Auth,
   AuthGuard,
+  AuthResult,
   AuthUserSuccess,
 } from 'src/Modules/Guards/auth.guard';
-import { DataInput } from './Data.input';
 import { DataService } from './Data.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -15,8 +15,8 @@ export class DataController {
   constructor(private dataService: DataService) {}
 
   @HttpCode(200)
-  @Post()
-  async get(@Body() body: DataInput, @Auth() user: AuthUserSuccess) {
-    return await this.dataService.get(body, user);
+  @Get(':code')
+  async get(@Param('code') code: string, @Auth() auth: AuthResult) {
+    return await this.dataService.get(code, auth);
   }
 }

@@ -1,9 +1,8 @@
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Injectable } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
-import { DataInput } from './Data.input';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
-import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
+import { AuthResult, AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
 import moment from 'moment';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
@@ -26,13 +25,13 @@ export class DataService {
     @InjectModel(Box, 'local') private modelBox: typeof Box,
     @InjectModel(Result, 'local') private modelResult: typeof Result,
   ) {}
-  async get(body: DataInput, user: AuthUserSuccess) {
+  async get(code: string, auth: AuthResult) {
     const User = await this.modelUser.findOne({
-      where: { bitrix_id: user.id },
+      where: { bitrix_id: auth.user.id },
     });
 
     const barcode = await this.modelBarcode.findOne({
-      where: { code: body.code },
+      where: { code },
       include: [
         {
           model: this.modelBox,
