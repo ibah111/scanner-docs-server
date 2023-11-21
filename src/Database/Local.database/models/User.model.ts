@@ -27,7 +27,7 @@ import type {
 import { Box } from './Box.model';
 import { Role } from './Role.model';
 
-@Table({ tableName: 'Users', timestamps: false })
+@Table({ tableName: 'Users' })
 export class User extends Model<
   InferAttributes<User>,
   InferCreationAttributes<User>
