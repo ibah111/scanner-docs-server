@@ -1,8 +1,8 @@
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
-import { AuthResult, AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
+import { AuthResult } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
 import moment from 'moment';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
@@ -32,6 +32,7 @@ export class DataService {
 
     const barcode = await this.modelBarcode.findOne({
       where: { code },
+      rejectOnEmpty: new NotFoundException('Такой не найден'),
       include: [
         {
           model: this.modelBox,

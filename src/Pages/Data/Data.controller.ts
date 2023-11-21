@@ -1,10 +1,5 @@
 import { Controller, HttpCode, Get, UseGuards, Param } from '@nestjs/common';
-import {
-  Auth,
-  AuthGuard,
-  AuthResult,
-  AuthUserSuccess,
-} from 'src/Modules/Guards/auth.guard';
+import { Auth, AuthGuard, AuthResult } from 'src/Modules/Guards/auth.guard';
 import { DataService } from './Data.service';
 import { ApiTags } from '@nestjs/swagger';
 
