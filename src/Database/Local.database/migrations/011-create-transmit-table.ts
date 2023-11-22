@@ -37,6 +37,16 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
           date_return: {
             type: DataTypes.DATE,
           },
+          createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+          },
+          updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+          },
         },
         { transaction: t },
       ),
