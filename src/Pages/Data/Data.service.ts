@@ -32,7 +32,7 @@ export class DataService {
 
     const barcode = await this.modelBarcode.findOne({
       where: { code },
-      rejectOnEmpty: new NotFoundException('Такой не найден'),
+      rejectOnEmpty: new NotFoundException('Такой баркод не найден'),
       include: [
         {
           model: this.modelBox,
