@@ -13,6 +13,6 @@ export class CreateController {
   constructor(private createService: CreateService) {}
   @Post()
   async find(@Body() body: CreateInput, @Auth() auth: AuthResult) {
-    return await this.createService.find(body, auth);
+    return await this.createService.create(body, auth);
   }
 }
