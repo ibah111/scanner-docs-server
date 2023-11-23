@@ -16,6 +16,7 @@ export class AuthUser<T extends boolean> {
   output: T extends true ? 'Вы вошли' : 'Вы не вошли';
   error: T extends false ? string : never;
   id: T extends true ? number : never;
+  bitrix_id: T extends true ? number : never;
   login: T extends true ? string : never;
   login_result: T;
   birthdate: T extends true ? string : never;
@@ -29,6 +30,7 @@ export class AuthUserSuccess extends AuthUser<true> {}
 export class AuthUserError extends AuthUser<false> {}
 export class AuthResult {
   user: AuthUserSuccess;
+  token: string;
   userLocal: User | null;
 }
 export const Auth = createParamDecorator(
@@ -67,6 +69,7 @@ export class AuthGuard implements CanActivate, OnModuleInit {
         if (result?.login_result) {
           const user: AuthResult = {
             user: result,
+            token,
             userLocal: await this.modelUser.findOne({
               where: { login: result.login },
               include: ['Roles'],
