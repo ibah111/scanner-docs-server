@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateInput {
@@ -8,6 +9,7 @@ export class CreateInput {
     description: 'Вводим id документа из ДО',
     type: Number,
   })
+  @Expose()
   doc_id: number;
 
   @IsNotEmpty()
@@ -16,6 +18,7 @@ export class CreateInput {
     description: 'Вводим id письма из входящей почты',
     type: Number,
   })
+  @Expose()
   mail_id: number;
 
   @IsNotEmpty()
@@ -24,6 +27,7 @@ export class CreateInput {
     description: 'Вводим название документа',
     type: String,
   })
+  @Expose()
   title: string;
 
   @IsNumber()
@@ -33,6 +37,7 @@ export class CreateInput {
       'Вводим номер судебного иска/приказа (необязательный параметр)',
     type: Number,
   })
+  @Expose()
   law_act?: number;
 
   @IsNumber()
@@ -42,6 +47,7 @@ export class CreateInput {
       'Вводим номер исполнительного документа (необязательный параметр)',
     type: Number,
   })
+  @Expose()
   law_exec?: number;
 
   @IsNumber()
@@ -51,5 +57,6 @@ export class CreateInput {
       'Вводим тип документа 1 - Исполнительный лист, 2 - Судебный приказ',
     type: Number,
   })
+  @Expose()
   type: number;
 }

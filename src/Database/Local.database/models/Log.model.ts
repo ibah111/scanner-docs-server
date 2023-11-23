@@ -21,7 +21,7 @@ import { DocData } from './DocData.model';
 import { Status } from './Status.model';
 import { Transmit } from './Transmit.model';
 import { User } from './User.model';
-@Table({ tableName: 'Logs' })
+@Table({ tableName: 'Log' })
 export class Log extends Model<
   InferAttributes<Log>,
   InferCreationAttributes<Log>

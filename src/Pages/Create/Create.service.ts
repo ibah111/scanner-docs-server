@@ -22,7 +22,7 @@ export class CreateService {
     @InjectModel(Result, 'local') private modelResult: typeof Result,
     private readonly eventsGateway: EventsGateway,
   ) {}
-  async find(body: CreateInput, auth: AuthResult) {
+  async create(body: CreateInput, auth: AuthResult) {
     if (!(body.law_act || body.law_exec))
       return 'Ошибка law_act или law_exec не заполнено';
 
@@ -54,6 +54,7 @@ export class CreateService {
         },
         { headers: { token: auth.token } },
       );
+      console.log(result);
       const m_result = await this.modelResult.create({
         st_pnkt: result.data[0].st_pnkt,
         date_post: result.data[0].date_post,
@@ -80,7 +81,6 @@ export class CreateService {
         status: doc_data.status,
       });
       log.save();
-
       this.eventsGateway.addItemBox(barcode.id);
       return barcode.code;
     } catch (error) {

@@ -29,13 +29,17 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
             type: DataTypes.INTEGER,
           },
           date: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DATE,
           },
           createdAt: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
           },
           updatedAt: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
           },
         },
         { transaction: t },
