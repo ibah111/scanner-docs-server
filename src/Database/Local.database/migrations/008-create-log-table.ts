@@ -19,6 +19,9 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
           doc_data_id: {
             type: DataTypes.INTEGER,
           },
+          status: {
+            type: DataTypes.INTEGER,
+          },
           depart: {
             type: DataTypes.INTEGER,
           },
@@ -27,6 +30,12 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
           },
           date: {
             type: DataTypes.INTEGER,
+          },
+          createdAt: {
+            type: DataTypes.BOOLEAN,
+          },
+          updatedAt: {
+            type: DataTypes.BOOLEAN,
           },
         },
         { transaction: t },
