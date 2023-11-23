@@ -4,22 +4,18 @@ import moment from 'moment';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
-import { User } from 'src/Database/Local.database/models/User.model';
-import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
+import { AuthResult } from 'src/Modules/Guards/auth.guard';
 import { SendInput } from './Send.input';
 
 @Injectable()
 export class SendService {
   constructor(
     @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
-    @InjectModel(User, 'local') private modelUser: typeof User,
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
   ) {}
-  async send(body: SendInput, user: AuthUserSuccess) {
-    const User = await this.modelUser.findOne({
-      where: { bitrix_id: user.id },
-    });
+  async send(body: SendInput, auth: AuthResult) {
+    const User = auth.userLocal;
     const barcode = await this.modelDoc.findOne({
       where: {
         id: body.id,

@@ -6,7 +6,7 @@ import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { User } from 'src/Database/Local.database/models/User.model';
-import { AuthUserSuccess } from 'src/Modules/Guards/auth.guard';
+import { AuthResult } from 'src/Modules/Guards/auth.guard';
 import generateRandom from 'src/utils/generateRandom';
 import { CreateBoxInput } from './CreateBox.input';
 
@@ -19,13 +19,11 @@ export class CreateBoxService {
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(User, 'local') private modelUser: typeof User,
   ) {}
-  async find(body: CreateBoxInput, user: AuthUserSuccess) {
+  async find(body: CreateBoxInput, user: AuthResult) {
     if (!body.create) {
       return 'Ошибка при отправке короба';
     }
-    const User = await this.modelUser.findOne({
-      where: { bitrix_id: user.id },
-    });
+    const User = user.userLocal;
 
     const data_box = this.modelBox.build();
     const data_bar = this.modelBarcode.build();
