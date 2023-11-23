@@ -27,6 +27,12 @@ async function bootstrap() {
     .setTitle('Получение штрих-кода')
     .setDescription('Введите данные чтобы получить штрих-код')
     .setVersion(versionService.version)
+    .addBasicAuth({
+      description: 'Введите token в headers',
+      name: 'token',
+      in: 'header',
+      type: 'apiKey',
+    })
     .build();
 
   const document = SwaggerModule.createDocument(
