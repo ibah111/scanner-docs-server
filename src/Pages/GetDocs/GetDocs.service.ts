@@ -71,37 +71,24 @@ export class GetDocsService {
       { model: this.modelBarcode, required: true },
     ];
 
-    const doc_data = await this.modelDoc.findAndCountAll(options);
-    for (const docData of doc_data.rows) {
+    const docs = await this.modelDoc.findAndCountAll(options);
+    for (const doc of docs.rows) {
       const data_result = await this.modelResult.findAll();
-      let docLaw;
-      if (docData.law_act_id != null) {
-        docLaw = await this.modelLawAct.findOne({
-          where: { id: docData.law_act_id },
-          include: [
-            { model: this.modelPerson, required: false },
-            { model: this.modelPortfolio, required: false },
-            {
-              model: this.modelDebt,
-              required: false,
-            },
-          ],
-        });
-      } else {
-        docLaw = await this.modelLawExec.findOne({
-          where: { id: docData.law_exec_id! },
-          include: [
-            { model: this.modelPerson, required: false },
-            { model: this.modelPortfolio, required: false },
-            {
-              model: this.modelDebt,
-              required: false,
-            },
-          ],
-        });
-      }
+
+      const docLaw = await this.modelLawAct.findOne({
+        where: { id: doc.law_act_id! },
+        include: [
+          { model: this.modelPerson, required: false },
+          { model: this.modelPortfolio, required: false },
+          {
+            model: this.modelDebt,
+            required: false,
+          },
+        ],
+      });
+
       for (const res of data_result) {
-        if (docData.DocData!.result == res.id) {
+        if (doc.DocData!.result == res.id) {
           res.kd = docLaw!.Debt!.contract;
           res.reestr = docLaw!.Portfolio!.name;
           res.fio_dol =
