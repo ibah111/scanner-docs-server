@@ -23,10 +23,9 @@ export class CreateService {
     private readonly eventsGateway: EventsGateway,
   ) {}
   async create(body: CreateInput, auth: AuthResult) {
-    if (!(body.law_act || body.law_exec))
-      return 'Ошибка law_act или law_exec не заполнено';
-
     try {
+      if (!(body.law_act || body.law_exec))
+        throw Error('Ошибка law_act или law_exec не заполнено');
       const User = auth.userLocal;
       const doc = await this.modelDoc.create({
         barcode_type: 1,
@@ -38,15 +37,11 @@ export class CreateService {
         law_act_id: body.law_act,
         law_exec_id: body.law_exec,
       });
-      doc.save();
-
       const barcode = await this.modelBarcode.create({
         type: 1,
         item_id: doc.id,
         code: generateRandom(12),
       });
-      barcode.save();
-
       const result = await axios.post(
         'https://apps.usb.ru:3001/getDocs',
         {
@@ -54,7 +49,6 @@ export class CreateService {
         },
         { headers: { token: auth.token } },
       );
-      console.log(result);
       const m_result = await this.modelResult.create({
         st_pnkt: result.data[0].st_pnkt,
         date_post: result.data[0].date_post,
@@ -62,8 +56,6 @@ export class CreateService {
         reestr: result.data[0].reestr,
         fio_dol: result.data[0].fio_dol,
       });
-      m_result.save();
-
       const doc_data = await this.modelDocData.create({
         depart: User!.depart,
         user: User!.id,
@@ -71,21 +63,18 @@ export class CreateService {
         parent_id: doc.id,
         result: m_result.id,
       });
-      doc_data.save();
-
-      const log = await this.modelLog.create({
+      await this.modelLog.create({
         date: moment().toDate(),
         depart: doc_data.depart,
         doc_data_id: doc_data.id,
         user: doc_data.user,
         status: doc_data.status,
       });
-      log.save();
       this.eventsGateway.addItemBox(barcode.id);
       return barcode.code;
     } catch (error) {
       console.log(error);
-      throw Error();
+      throw error;
     }
   }
 }
