@@ -14,12 +14,14 @@ export class RoleService {
     private readonly modelUser_Role: typeof User_Role,
   ) {}
   async get() {
-    return {
-      roles: await this.modelRole.findAll(),
-      users: await this.modelUser.findAll({
-        include: [{ model: this.modelUser_Role, include: [this.modelRole] }],
-      }),
-    };
+    const users = await this.modelUser.findAll({
+      include: [
+        {
+          model: this.modelRole,
+        },
+      ],
+    });
+    return users;
   }
   async removeRole(id: number) {
     const role = await this.modelUser_Role.findByPk(id);
