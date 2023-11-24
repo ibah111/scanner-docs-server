@@ -1,7 +1,6 @@
 import { ConstValue, DocAttach } from '@contact/models';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { NotFoundException, StreamableFile } from '@nestjs/common';
-import { DocumentsInput } from './Documents.input';
 import { concatMap, from, map } from 'rxjs';
 import { SMBService } from '@tools/nestjs-smb2';
 
@@ -12,7 +11,7 @@ export class DocumentsService {
     @InjectModel(ConstValue, 'contact')
     private modelConstValue: typeof ConstValue,
   ) {}
-  get(body: DocumentsInput) {
+  async get(id: number) {
     from(
       this.modelConstValue.findOne({
         where: { name: 'DocAttach.SavePath' },
@@ -21,9 +20,9 @@ export class DocumentsService {
     ).pipe(
       map((data) => data.value as string),
       concatMap((save_path) =>
-        from(
-          this.modelDocAttach.findByPk(body.id, { rejectOnEmpty: true }),
-        ).pipe(map((doc) => ({ save_path, doc }))),
+        from(this.modelDocAttach.findByPk(id, { rejectOnEmpty: true })).pipe(
+          map((doc) => ({ save_path, doc })),
+        ),
       ),
       concatMap((data) => {
         const tmp = data.save_path.split('\\');

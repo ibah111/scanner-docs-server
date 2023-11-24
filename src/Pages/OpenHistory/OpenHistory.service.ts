@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
-import { OpenHistoryInput } from './OpenHistory.input';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Status } from 'src/Database/Local.database/models/Status.model';
 
@@ -18,10 +17,9 @@ export class OpenHistoryService {
     @InjectModel(Log, 'local') private modelLog: typeof Log,
     @InjectModel(Status, 'local') private modelStatus: typeof Status,
   ) {}
-  async find(body: OpenHistoryInput) {
+  async openHistory(code: string) {
     const result = await this.modelLog.findAll({
-      where: { doc_data_id: body.code },
-
+      where: { doc_data_id: code },
       include: [
         {
           model: this.modelTransmit,
