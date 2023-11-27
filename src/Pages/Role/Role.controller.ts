@@ -1,6 +1,10 @@
 import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/Modules/Guards/auth.guard';
-import { RoleInputAddRole, RoleInputRemoveRole } from './Role.input';
+import {
+  GetUsersInput,
+  RoleInputAddRole,
+  RoleInputRemoveRole,
+} from './Role.input';
 import { RoleService } from './Role.service';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
 import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
@@ -15,8 +19,8 @@ export class RoleController {
 
   @HttpCode(200)
   @Post('get')
-  async get() {
-    return await this.roleService.get();
+  async get(@Body() body: GetUsersInput) {
+    return await this.roleService.get(body);
   }
   @HttpCode(200)
   @Post('removeRole')
