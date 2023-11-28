@@ -29,8 +29,8 @@ export class RoleService {
       ],
       where: filter(body.filterModel),
       order: sorter(body.sortModel),
-      limit: body.pageSize,
-      offset: body.page * body.pageSize,
+      limit: body.paginationModel.pageSize,
+      offset: body.paginationModel.page * body.paginationModel.pageSize,
     });
   }
   async removeRole(id: number) {

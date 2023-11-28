@@ -30,8 +30,8 @@ export class GetUsersInput {
   sortModel: GridSortModel;
   @Expose()
   @ApiProperty()
-  page: number;
-  @Expose()
-  @ApiProperty()
-  pageSize: number;
+  paginationModel: {
+    pageSize: number;
+    page: number;
+  };
 }
