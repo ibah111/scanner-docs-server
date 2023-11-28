@@ -12,6 +12,7 @@ import models from '@contact/models';
       password: 'contact',
       database: 'i_collect',
       logging: false,
+      repositoryMode: true,
       models,
     }),
   ],

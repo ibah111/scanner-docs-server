@@ -17,6 +17,7 @@ import databaseConfig from '../../config/database.config';
           host: config.host,
           database: config.database,
           port: config.port,
+          repositoryMode: true,
           logging: false,
           models,
         };

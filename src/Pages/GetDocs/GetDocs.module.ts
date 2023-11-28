@@ -22,21 +22,11 @@ import { GetDocsService } from './GetDocs.service';
 @Module({
   imports: [
     SequelizeModule.forFeature(
-      [
-        Doc,
-        DocAttach,
-        ConstValue,
-        Transmit,
-        Barcode,
-        User,
-        Depart,
-        DocData,
-        Result,
-      ],
+      [Doc, Transmit, Barcode, User, Depart, DocData, Result],
       'local',
     ),
     SequelizeModule.forFeature(
-      [LawAct, LawExec, Person, Debt, Portfolio],
+      [ConstValue, DocAttach, LawAct, LawExec, Person, Debt, Portfolio],
       'contact',
     ),
   ],
