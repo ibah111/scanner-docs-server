@@ -5,6 +5,7 @@ import { PagesModule } from './Pages/Pages.module';
 import { RoleModule } from './Pages/Role/Role.module';
 import { ConfigModule } from '@nestjs/config';
 import databaseConfig from './config/database.config';
+import { CommandModule } from './Command/Command.module';
 @Module({
   imports: [
     DatabaseModule,
@@ -15,6 +16,7 @@ import databaseConfig from './config/database.config';
       load: [databaseConfig],
       isGlobal: true,
     }),
+    CommandModule,
   ],
 })
 export class AppModule {}

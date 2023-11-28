@@ -21,7 +21,8 @@
     "postinstall": "husky install",
     "prepare": "husky install",
     "commitlint": "commitlint --edit",
-    "release": "release-it"
+    "release": "release-it",
+    "addAdmin": "MODE=CLI nest start"
   },
   "dependencies": {
     "@casl/ability": "^6.5.0",

@@ -11,8 +11,12 @@ import { getSwaggerOptions, getSwaggerOptionsCustom } from './utils/swagger';
 import client from './utils/client';
 import https from './utils/https';
 import 'colors';
+import { CommandFactory } from 'nest-commander';
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+async function bootstrapCli() {
+  await CommandFactory.run(AppModule);
+}
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -47,4 +51,8 @@ async function bootstrap() {
       .yellow,
   );
 }
-bootstrap();
+if (process.env.MODE === 'CLI') {
+  bootstrapCli();
+} else {
+  bootstrap();
+}
