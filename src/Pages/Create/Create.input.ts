@@ -4,13 +4,22 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateInput {
   @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    description: 'Вводим название документа',
+    type: String,
+  })
+  @Expose()
+  title: string;
+
+  @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
     description: 'Вводим id документа из ДО',
     type: Number,
   })
   @Expose()
-  doc_id: number;
+  contact_doc_id: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -21,15 +30,6 @@ export class CreateInput {
   @Expose()
   mail_id: number;
 
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({
-    description: 'Вводим название документа',
-    type: String,
-  })
-  @Expose()
-  title: string;
-
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
@@ -38,7 +38,7 @@ export class CreateInput {
     type: Number,
   })
   @Expose()
-  law_act?: number;
+  law_act_id?: number;
 
   @IsNumber()
   @IsOptional()
@@ -48,7 +48,7 @@ export class CreateInput {
     type: Number,
   })
   @Expose()
-  law_exec?: number;
+  law_exec_id?: number;
 
   @IsNumber()
   @IsOptional()
@@ -58,5 +58,5 @@ export class CreateInput {
     type: Number,
   })
   @Expose()
-  type: number;
+  doc_type: number;
 }

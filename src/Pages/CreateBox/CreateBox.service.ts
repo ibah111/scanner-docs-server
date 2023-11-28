@@ -51,6 +51,9 @@ export class CreateBoxService {
       await data_doc[i].save();
     }
 
+    /**
+     * @todo log
+     */
     return data_bar.code;
   }
 }

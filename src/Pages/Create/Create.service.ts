@@ -24,18 +24,18 @@ export class CreateService {
   ) {}
   async create(body: CreateInput, auth: AuthResult) {
     try {
-      if (!(body.law_act || body.law_exec))
-        throw Error('Ошибка law_act или law_exec не заполнено');
+      if (!(body.law_act_id || body.law_exec_id))
+        throw Error('Заполните поле law_act или law_exec');
       const User = auth.userLocal;
       const doc = await this.modelDoc.create({
         barcode_type: 1,
-        contact_doc_id: body.doc_id,
+        contact_doc_id: body.contact_doc_id,
         date: moment().toDate(),
-        doc_type: body.type,
+        doc_type: body.doc_type,
         title: body.title,
         mail_id: body.mail_id,
-        law_act_id: body.law_act,
-        law_exec_id: body.law_exec,
+        law_act_id: body.law_act_id,
+        law_exec_id: body.law_exec_id,
       });
       const barcode = await this.modelBarcode.create({
         type: 1,
@@ -53,7 +53,7 @@ export class CreateService {
         st_pnkt: result.data[0].st_pnkt,
         date_post: result.data[0].date_post,
         kd: result.data[0].kd,
-        reestr: result.data[0].reestr,
+        reestr: result.data[0].reestr || 'Реестр с почты не заполнен',
         fio_dol: result.data[0].fio_dol,
       });
       const doc_data = await this.modelDocData.create({
