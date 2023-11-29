@@ -15,6 +15,7 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
 } from '@sql-tools/sequelize-typescript';
 import { Role } from './Role.model';
 import { User } from './User.model';
@@ -29,6 +30,7 @@ export class User_Role extends Model<
   @Column(DataType.INTEGER)
   id: CreationOptional<number>;
 
+  @Unique
   @AllowNull(false)
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)

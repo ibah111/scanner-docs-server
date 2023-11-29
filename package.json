@@ -12,6 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "start:cli": "MODE=CLI nest start -- ",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -21,8 +22,7 @@
     "postinstall": "husky install",
     "prepare": "husky install",
     "commitlint": "commitlint --edit",
-    "release": "release-it",
-    "addAdmin": "MODE=CLI nest start"
+    "release": "release-it"
   },
   "dependencies": {
     "@casl/ability": "^6.5.0",
