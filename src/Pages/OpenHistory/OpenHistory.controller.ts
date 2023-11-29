@@ -14,7 +14,7 @@ export class OpenHistoryController {
 
   @HttpCode(200)
   @Post()
-  async openHistory(@Body() code: string) {
-    return await this.openHistoryService.openHistory(code);
+  async openHistory(@Body() input: { code: number }) {
+    return await this.openHistoryService.openHistory(input);
   }
 }

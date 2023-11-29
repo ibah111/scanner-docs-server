@@ -17,20 +17,24 @@ export class OpenHistoryService {
     @InjectModel(Log, 'local') private modelLog: typeof Log,
     @InjectModel(Status, 'local') private modelStatus: typeof Status,
   ) {}
-  async openHistory(code: string) {
-    const result = await this.modelLog.findAll({
-      where: { doc_data_id: code },
-      include: [
-        {
-          model: this.modelTransmit,
-          required: true,
-          where: { active: false },
-        },
-        { model: this.modelUser, required: false },
-        { model: this.modelDepart, required: false },
-        { model: this.modelStatus, required: false },
-      ],
-    });
-    return result;
+  async openHistory(input: { code: number }) {
+    try {
+      const result = await this.modelLog.findAll({
+        where: { doc_data_id: input.code },
+        include: [
+          {
+            model: this.modelTransmit,
+            required: true,
+            where: { active: false },
+          },
+          { model: this.modelUser, required: false },
+          { model: this.modelDepart, required: false },
+          { model: this.modelStatus, required: false },
+        ],
+      });
+      return result;
+    } catch (error) {
+      console.log(`Ошибка ${error}`.red);
+    }
   }
 }

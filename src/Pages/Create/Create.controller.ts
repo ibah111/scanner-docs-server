@@ -12,7 +12,7 @@ import { CanGuard } from '../../Modules/CASL/Can.guard';
 export class CreateController {
   constructor(private createService: CreateService) {}
   @Post()
-  async find(@Body() body: CreateInput, @Auth() auth: AuthResult) {
+  async create(@Body() body: CreateInput, @Auth() auth: AuthResult) {
     return await this.createService.create(body, auth);
   }
 }
