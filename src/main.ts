@@ -15,7 +15,11 @@ import { CommandFactory } from 'nest-commander';
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrapCli() {
-  await CommandFactory.run(AppModule);
+  const app = await CommandFactory.createWithoutRunning(AppModule, [
+    'warn',
+    'error',
+  ]);
+  await CommandFactory.runApplication(app);
 }
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
