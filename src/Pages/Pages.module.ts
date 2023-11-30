@@ -9,6 +9,7 @@ import { OpenHistoryModule } from './OpenHistory/OpenHistory.module';
 import { CreateBoxModule } from './CreateBox/CreateBox.module';
 import { OpenRowsBoxModule } from './OpenRowsBox/OpenRowsBox.module';
 import { UsersModule } from '../Modules/Users/Users.module';
+import { TypesModule } from './TypesPage/Types.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UsersModule } from '../Modules/Users/Users.module';
     CreateBoxModule,
     OpenRowsBoxModule,
     UsersModule,
+    TypesModule,
   ],
 })
 export class PagesModule {}
