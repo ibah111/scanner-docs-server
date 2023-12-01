@@ -1,7 +1,7 @@
 import { Op, WhereOptions } from '@sql-tools/sequelize';
 import { GridColumns, GridFilterModel } from '@mui/x-data-grid-premium';
-import getFieldHandler from './getFieldHamdler';
-import getItem from './getItem';
+import getFieldHandler from '../getFieldHamdler';
+import getItem from '../getItem';
 
 export default function Filter(
   filterModel: GridFilterModel,

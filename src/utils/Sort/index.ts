@@ -1,6 +1,6 @@
 import { OrderItem, Sequelize } from '@sql-tools/sequelize';
 import { GridColumns, GridSortModel } from '@mui/x-data-grid-premium';
-import getFieldHandler from '../Filter/getFieldHamdler';
+import getFieldHandler from '../getFieldHamdler';
 
 export default function Sort(sortModel: GridSortModel, columns: GridColumns) {
   const getField = getFieldHandler(columns);
