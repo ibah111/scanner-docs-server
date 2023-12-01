@@ -1,5 +1,5 @@
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
@@ -11,6 +11,7 @@ import { EventsGateway } from 'src/Modules/Events/events.gateway';
 import { AuthResult } from 'src/Modules/Guards/auth.guard';
 import generateRandom from 'src/utils/generateRandom';
 import { CreateInput } from './Create.input';
+import { LawAct, LawExec } from '@contact/models';
 
 @Injectable()
 export class CreateService {
@@ -20,12 +21,49 @@ export class CreateService {
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
     @InjectModel(Result, 'local') private modelResult: typeof Result,
+    @InjectModel(LawAct, 'contact') private modelLawAct: typeof LawAct,
+    @InjectModel(LawExec, 'contact') private modelLawExec: typeof LawExec,
     private readonly eventsGateway: EventsGateway,
   ) {}
   async create(body: CreateInput, auth: AuthResult) {
+    console.log(body);
     try {
       if (!(body.law_act_id || body.law_exec_id))
         throw Error('Заполните поле law_act или law_exec');
+      /** */
+
+      switch (body.law_act_id || body.law_exec_id) {
+        case body.law_act_id: {
+          return await this.modelLawAct
+            .findOne({
+              where: {
+                id: body.law_act_id,
+              },
+              rejectOnEmpty: new NotFoundException(
+                'Судебный иск/приказ по такому id не найден',
+              ),
+              attributes: ['id'],
+            })
+            .then(() => console.log('LawAct валиден'));
+        }
+        case body.law_act_id: {
+          return await this.modelLawExec
+            .findOne({
+              attributes: ['id'],
+              rejectOnEmpty: new NotFoundException('ИД по такому id не найден'),
+              where: {
+                id: body.law_exec_id,
+              },
+            })
+            .then(() => console.log('LawExec валиден'));
+        }
+        default:
+          console.log('default');
+      }
+
+      /**
+       *
+       */
       const User = auth.userLocal;
       const doc = await this.modelDoc.create({
         barcode_type: 1,

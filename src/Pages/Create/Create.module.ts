@@ -10,6 +10,7 @@ import { User } from 'src/Database/Local.database/models/User.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { EventsModule } from 'src/Modules/Events/events.module';
+import { LawAct, LawExec } from '@contact/models';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EventsModule } from 'src/Modules/Events/events.module';
       [Barcode, Log, Depart, Doc, User, DocData, Result],
       'local',
     ),
+    SequelizeModule.forFeature([LawAct, LawExec], 'contact'),
   ],
   controllers: [CreateController],
   providers: [CreateService],
