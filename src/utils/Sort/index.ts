@@ -1,8 +1,12 @@
 import { OrderItem, Sequelize } from '@sql-tools/sequelize';
-import { GridColumns, GridSortModel } from '@mui/x-data-grid-premium';
+import { GridSortModel } from '@mui/x-data-grid-premium';
 import getFieldHandler from '../getFieldHamdler';
+import { GridColDefExtend } from '../GridColDefExtndsClass';
 
-export default function Sort(sortModel: GridSortModel, columns: GridColumns) {
+export default function Sort(
+  columns: GridColDefExtend[],
+  sortModel: GridSortModel,
+) {
   const getField = getFieldHandler(columns);
   const orders: OrderItem[] = [];
   if (sortModel.length > 0) {

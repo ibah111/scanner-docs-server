@@ -1,5 +1,11 @@
-import { GridColumns } from '@mui/x-data-grid-premium';
+import { GridColDefExtend } from './GridColDefExtndsClass';
 
-export default function getFieldHandler(columnModel: GridColumns) {
-  return (name: string) => columnModel.find((column) => column.field === name);
+export default function getFieldHandler(
+  columnModel: GridColDefExtend[],
+  modelName?: string,
+) {
+  const filter = columnModel.filter((item) =>
+    modelName ? item.modelName === modelName : true,
+  );
+  return (name: string) => filter.find((column) => column.field === name);
 }
