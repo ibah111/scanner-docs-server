@@ -10,6 +10,7 @@ import { CreateBoxModule } from './CreateBox/CreateBox.module';
 import { OpenRowsBoxModule } from './OpenRowsBox/OpenRowsBox.module';
 import { UsersModule } from '../Modules/Users/Users.module';
 import { TypesModule } from './TypesPage/Types.module';
+import { LawPageModule } from './LawPages/LawPage.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TypesModule } from './TypesPage/Types.module';
     OpenRowsBoxModule,
     UsersModule,
     TypesModule,
+    LawPageModule,
   ],
 })
 export class PagesModule {}
