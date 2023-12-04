@@ -1,60 +1,78 @@
-import { GridColDef } from '@mui/x-data-grid-premium';
 import { User } from '../../Database/Local.database/models/User.model';
-
-export const userListColumns = (): GridColDef<User>[] => [
+import { GridColDefExtend } from '../GridColDefExtndsClass';
+/**
+ * @TODO Переписать
+ * @returns
+ */
+export const userListColumns = (): GridColDefExtend<User>[] => [
   {
-    field: 'Users.id',
-    headerName: 'id',
     type: 'number',
+    modelName: 'Users',
+    field: 'id',
+    sortCol: 'id',
+    filterCol: 'id',
   },
   {
-    field: 'Users.f',
-    headerName: 'f',
     type: 'string',
+    modelName: 'Users',
+    field: 'f',
+    sortCol: 'f',
+    filterCol: 'f',
   },
   {
-    field: 'Users.i',
-    headerName: 'i',
     type: 'string',
+    modelName: 'Users',
+    field: 'i',
+    sortCol: 'i',
+    filterCol: 'i',
   },
   {
-    field: 'Users.o',
-    headerName: 'o',
     type: 'string',
+    modelName: 'Users',
+    field: 'o',
+    sortCol: 'o',
+    filterCol: 'o',
   },
   {
-    field: 'Users.login',
-    headerName: 'login',
     type: 'string',
+    modelName: 'Users',
+    field: 'login',
+    sortCol: 'login',
+    filterCol: 'login',
   },
   {
-    field: 'Users.position',
-    headerName: 'position',
     type: 'string',
+    modelName: 'Users',
+    field: 'position',
+    sortCol: 'position',
+    filterCol: 'position',
   },
   {
-    field: 'Users.bitrix_id',
-    headerName: 'bitrix_id',
     type: 'number',
+    modelName: 'Users',
+    field: 'bitrix_id',
+    sortCol: 'bitrix_id',
+    filterCol: 'bitrix_id',
   },
   {
-    field: 'Users.depart',
-    headerName: 'depart',
     type: 'number',
+    modelName: 'Users',
+    field: 'depart',
+    sortCol: 'depart',
+    filterCol: 'depart',
   },
   {
-    field: 'Roles.id',
-    headerName: 'id',
-    type: 'number',
+    type: 'date',
+    modelName: 'Users',
+    field: 'createdAt',
+    sortCol: 'createdAt',
+    filterCol: 'createdAt',
   },
   {
-    field: 'Roles.name',
-    headerName: 'name',
-    type: 'string',
-  },
-  {
-    field: 'Roles.title',
-    headerName: 'title',
-    type: 'string',
+    type: 'date',
+    modelName: 'Users',
+    field: 'updatedAt',
+    sortCol: 'updatedAt',
+    filterCol: 'updatedAt',
   },
 ];
