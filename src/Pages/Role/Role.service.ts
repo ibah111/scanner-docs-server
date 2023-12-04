@@ -1,13 +1,11 @@
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { Injectable } from '@nestjs/common';
 import { Role } from 'src/Database/Local.database/models/Role.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { User_Role } from 'src/Database/Local.database/models/User_Role.model';
 import { GetUsersInput, RoleInputAddRole } from './Role.input';
 import { userListColumns } from '../../utils/Columns/UserList';
-import Filter from '../../utils/Filter';
-import { GridFilterModel, GridSortModel } from '@mui/x-data-grid-premium';
-import Sort from '../../utils/Sort';
+import { getTableUtils } from '../../utils/getTableUtils';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RoleService {
@@ -17,20 +15,21 @@ export class RoleService {
     @InjectModel(User_Role, 'local')
     private readonly modelUser_Role: typeof User_Role,
   ) {}
-  async get(body: GetUsersInput) {
+  async get({ filterModel, paginationModel, sortModel }: GetUsersInput) {
     const columns = userListColumns();
-    const filter = (filter: GridFilterModel) => Filter(filter, columns);
-    const sorter = (sort: GridSortModel) => Sort(sort, columns);
+    const util = getTableUtils(columns);
+    const where = util.getFilter('Users', filterModel);
+    const order = util.getSort(sortModel);
     return await this.modelUser.findAndCountAll({
       include: [
         {
           model: this.modelRole,
         },
       ],
-      where: filter(body.filterModel),
-      order: sorter(body.sortModel),
-      limit: body.paginationModel.pageSize,
-      offset: body.paginationModel.page * body.paginationModel.pageSize,
+      where,
+      order,
+      limit: paginationModel.pageSize,
+      offset: paginationModel.page * paginationModel.pageSize,
     });
   }
   async removeRole(id: number) {

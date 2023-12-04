@@ -12,10 +12,10 @@ export function getTableUtils<T extends GridValidRowModel>(
 ) {
   const utils = {
     getColumns: () => columns,
-    getFilter: (modelName: string, filter?: GridFilterModel) =>
-      Filter(columns, modelName, filter),
     getColumn: (name: string) =>
       columns.find((column) => column.field === name),
+    getFilter: (modelName: string, filter?: GridFilterModel) =>
+      Filter(columns, modelName, filter),
     getSort: (sort: GridSortModel) => Sort(columns, sort),
   };
   return utils;
