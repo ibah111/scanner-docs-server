@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from 'src/Modules/Guards/auth.guard';
 import {
   GetUsersInput,
@@ -30,5 +37,10 @@ export class RoleController {
   @Post('addRole')
   async addRole(@Body() body: RoleInputAddRole) {
     return await this.roleService.addRole(body);
+  }
+
+  @Get('getRoles')
+  async getRoles() {
+    return await this.roleService.getRoles();
   }
 }

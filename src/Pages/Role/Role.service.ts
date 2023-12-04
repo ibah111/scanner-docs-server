@@ -20,7 +20,9 @@ export class RoleService {
     const util = getTableUtils(columns);
     const where = util.getFilter('Users', filterModel);
     const order = util.getSort(sortModel);
+    const logging = console.log;
     return await this.modelUser.findAndCountAll({
+      logging,
       include: [
         {
           model: this.modelRole,
@@ -32,13 +34,19 @@ export class RoleService {
       offset: paginationModel.page * paginationModel.pageSize,
     });
   }
+
   async removeRole(id: number) {
     const role = await this.modelUser_Role.findByPk(id);
     await role!.destroy();
     return true;
   }
+
   async addRole(body: RoleInputAddRole) {
     await this.modelUser_Role.create({ ...body });
     return true;
+  }
+
+  async getRoles() {
+    return await this.modelRole.findAll();
   }
 }
