@@ -1,13 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LawAct, LawExec } from '@contact/models';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { LawPageInput } from './LawPage.input';
-import {
-  GridColumns,
-  GridFilterModel,
-  GridSortModel,
-} from '@mui/x-data-grid-premium';
-import Filter from '../../utils/Filter';
-import Sort from '../../utils/Sort';
 
 export class LawPageService {
   constructor(
@@ -22,15 +16,10 @@ export class LawPageService {
     pageSize,
     sortModel,
   }: LawPageInput) {
-    const lawActColumns: GridColumns = [];
-    const filters = (filter: GridFilterModel) => Filter(filter, lawActColumns);
-    const sorts = (sort: GridSortModel) => Sort(sort, lawActColumns);
     return await this.modelLawAct.findAll({
-      attributes: [],
+      attributes: ['id'],
       limit: pageSize,
       offset: page * pageSize,
-      where: filters(filterModel),
-      order: sorts(sortModel),
     });
   }
 
@@ -40,15 +29,10 @@ export class LawPageService {
     pageSize,
     sortModel,
   }: LawPageInput) {
-    const lawExecColumns: GridColumns = [];
-    const filters = (filter: GridFilterModel) => Filter(filter, lawExecColumns);
-    const sorts = (sort: GridSortModel) => Sort(sort, lawExecColumns);
     return await this.modelLawExec.findAll({
-      attributes: [],
+      attributes: ['id'],
       limit: pageSize,
       offset: page * pageSize,
-      where: filters(filterModel),
-      order: sorts(sortModel),
     });
   }
 }

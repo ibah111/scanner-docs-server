@@ -1,12 +1,6 @@
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { Injectable } from '@nestjs/common';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { GetDocsInput } from './GetDocs.input';
-import { FindOptions } from '@sql-tools/sequelize';
-import Filter from 'src/utils/Filter';
-import TableDocsColumns from 'src/utils/Columns/TableDocs';
-import { GridFilterModel, GridSortModel } from '@mui/x-data-grid-premium';
-import Sort from 'src/utils/Sort';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { User } from 'src/Database/Local.database/models/User.model';
@@ -14,6 +8,9 @@ import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { LawAct, Person, Debt, Portfolio, LawExec } from '@contact/models';
+import { Injectable } from '@nestjs/common';
+import { TableDocsColumns } from '../../utils/Columns/TableDocs';
+import { getTableUtils } from '../../utils/getTableUtils';
 
 @Injectable()
 export class GetDocsService {
@@ -32,49 +29,52 @@ export class GetDocsService {
     @InjectModel(LawExec, 'contact') private modelLawExec: typeof LawExec,
   ) {}
 
-  async find(body: GetDocsInput) {
+  async find({ filterModel, page, pageSize, sortModel }: GetDocsInput) {
     const columns = TableDocsColumns();
-    const filters = (filter: GridFilterModel) => Filter(filter, columns);
-    const sorts = (sort: GridSortModel) => Sort(sort, columns);
-    const limit = body.pageSize;
-    const offset = body.page * limit;
-    const options: FindOptions<Doc> = {};
-    options.limit = limit;
-    options.offset = offset;
-    options.subQuery = false;
-    options.where = filters(body.filterModel);
-    options.order = sorts(body.sortModel);
-    options.include = [
-      {
-        model: this.modelDocData,
-        required: true,
-        include: [
-          {
-            model: this.modelUser,
-            required: true,
-          },
-          {
-            model: this.modelDepart,
-            required: true,
-          },
-          {
-            model: this.modelTransmit,
-            where: { active: true },
-            required: false,
-          },
-          {
-            model: this.modelResult,
-            required: true,
-          },
-        ],
-      },
-      { model: this.modelBarcode, required: true },
-    ];
-
-    const docs = await this.modelDoc.findAndCountAll(options);
+    const util = getTableUtils(columns);
+    const docFilter = util.getFilter('Docs', filterModel);
+    const docDataFilter = util.getFilter('DocData', filterModel);
+    const barcodeFilter = util.getFilter('Barcodes', filterModel);
+    const order = util.getSort(sortModel);
+    const docs = await this.modelDoc.findAndCountAll({
+      limit: pageSize,
+      offset: page * pageSize,
+      where: docFilter,
+      order,
+      include: [
+        {
+          model: this.modelDocData,
+          where: docDataFilter,
+          required: true,
+          include: [
+            {
+              model: this.modelUser,
+              required: true,
+            },
+            {
+              model: this.modelDepart,
+              required: true,
+            },
+            {
+              model: this.modelTransmit,
+              where: { active: true },
+              required: false,
+            },
+            {
+              model: this.modelResult,
+              required: true,
+            },
+          ],
+        },
+        { model: this.modelBarcode, required: true, where: barcodeFilter },
+      ],
+    });
     for (const doc of docs.rows) {
-      const data_result = await this.modelResult.findAll();
-
+      const data_result = await this.modelResult.findAll({
+        where: {
+          id: doc.DocData?.result,
+        },
+      });
       const docLaw = await this.modelLawAct.findOne({
         where: { id: doc.law_act_id! },
         include: [
@@ -86,7 +86,6 @@ export class GetDocsService {
           },
         ],
       });
-
       for (const res of data_result) {
         if (doc.DocData!.result == res.id) {
           res.kd = docLaw!.Debt!.contract;
@@ -98,11 +97,10 @@ export class GetDocsService {
             ' ' +
             docLaw!.Person!.o;
           res.date_post = docLaw!.Portfolio!.load_dt;
-
           await res.save();
         }
       }
+      return docs;
     }
-    return await this.modelDoc.findAndCountAll(options);
   }
 }
