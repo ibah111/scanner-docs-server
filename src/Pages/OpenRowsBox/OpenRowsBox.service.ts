@@ -6,7 +6,7 @@ import { Result } from 'src/Database/Local.database/models/Result.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { getTableUtils } from '../../utils/getTableUtils';
 import { Injectable } from '@nestjs/common';
-import { TableDocsColumns } from '../../utils/Columns/TableDocs';
+import { OpenRowsBoxColumns } from '../../utils/Columns/OpenRowsBoxColumns';
 
 @Injectable()
 export class OpenRowsBoxService {
@@ -18,7 +18,7 @@ export class OpenRowsBoxService {
   ) {}
 
   async find({ filterModel, page, pageSize, sortModel }: OpenRowsBoxInput) {
-    const columns = TableDocsColumns();
+    const columns = OpenRowsBoxColumns();
     const util = getTableUtils(columns);
     const where = util.getFilter('Docs', filterModel);
     const order = util.getSort(sortModel);
