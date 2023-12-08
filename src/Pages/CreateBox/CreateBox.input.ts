@@ -1,7 +1,12 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateBoxInput {
+  @Expose()
+  @IsArray()
+  @IsNumber({ maxDecimalPlaces: 0 }, { each: true })
   @IsNotEmpty()
-  @IsBoolean()
-  create: boolean;
+  @ApiProperty({ type: [Number] })
+  list: number[];
 }

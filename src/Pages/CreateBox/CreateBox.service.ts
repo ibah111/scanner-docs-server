@@ -19,41 +19,54 @@ export class CreateBoxService {
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(User, 'local') private modelUser: typeof User,
   ) {}
-  async find(body: CreateBoxInput, user: AuthResult) {
-    if (!body.create) {
-      return 'Ошибка при отправке короба';
+  async find({ list }: CreateBoxInput, user: AuthResult) {
+    if (list.length === 0) {
+      throw Error('Массив короба пуст');
     }
     const User = user.userLocal;
-
-    const data_box = this.modelBox.build();
-    const data_bar = this.modelBarcode.build();
-    const data_docs = await this.modelDocData.findAll({
-      where: { status: 1 },
+    console.log(list);
+    const docs = await this.modelDoc.findAll({
+      include: [
+        {
+          model: this.modelBarcode,
+        },
+      ],
+      where: {
+        id: {
+          [Op.in]: list,
+        },
+      },
     });
-    const data_doc = await this.modelDoc.findAll({
-      where: { box_id: { [Op.is]: null } },
+    const docs_data = await this.modelDocData.findAll({
+      where: {
+        parent_id: {
+          [Op.in]: list,
+        },
+        status: 1,
+      },
+    });
+    const box = await this.modelBox.create({
+      type: 2,
+      user: User!.id,
+      depart: User!.depart,
+    });
+    const box_barcode = await this.modelBarcode.create({
+      item_id: box.id,
+      type: 2,
+      code: generateRandom(12),
     });
 
-    data_box.type = 2;
-    data_box.user = User!.id;
-    data_box.depart = User!.depart;
-    await data_box.save();
-    data_bar.item_id = data_box.id;
-    data_bar.type = 2;
-    data_bar.code = generateRandom(12);
-    await data_bar.save();
-    for (let i = 0; i < data_docs.length; i++) {
-      data_docs[i].status = 2;
-      await data_docs[i].save();
+    for (const doc of docs) {
+      doc.update({
+        box_id: box.id,
+      });
     }
-    for (let i = 0; i < data_doc.length; i++) {
-      data_doc[i].box_id = data_box.id;
-      await data_doc[i].save();
+    for (const doc_data of docs_data) {
+      doc_data.update({
+        status: 2,
+      });
     }
-
-    /**
-     * @todo log
-     */
-    return data_bar.code;
+    console.log(box_barcode.code);
+    return box_barcode.code;
   }
 }
