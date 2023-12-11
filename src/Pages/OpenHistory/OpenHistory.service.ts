@@ -17,10 +17,10 @@ export class OpenHistoryService {
     @InjectModel(Log, 'local') private modelLog: typeof Log,
     @InjectModel(Status, 'local') private modelStatus: typeof Status,
   ) {}
-  async openHistory(input: { code: number }) {
+  async openHistory(code: number) {
     try {
       const result = await this.modelLog.findAll({
-        where: { doc_data_id: input.code },
+        where: { doc_data_id: code },
         include: [
           {
             model: this.modelTransmit,

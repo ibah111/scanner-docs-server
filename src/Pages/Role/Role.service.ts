@@ -20,9 +20,7 @@ export class RoleService {
     const util = getTableUtils(columns);
     const where = util.getFilter('Users', filterModel);
     const order = util.getSort(sortModel);
-    const logging = console.log;
     return await this.modelUser.findAndCountAll({
-      logging,
       include: [
         {
           model: this.modelRole,

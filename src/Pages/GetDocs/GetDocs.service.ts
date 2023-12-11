@@ -37,8 +37,8 @@ export class GetDocsService {
     const barcodeFilter = util.getFilter('Barcodes', filterModel);
     const order = util.getSort(sortModel);
     const docs = await this.modelDoc.findAndCountAll({
-      limit: pageSize,
-      offset: page * pageSize,
+      limit: paginationModel.pageSize,
+      offset: paginationModel.page * paginationModel.pageSize,
       where: docFilter,
       order,
       include: [
