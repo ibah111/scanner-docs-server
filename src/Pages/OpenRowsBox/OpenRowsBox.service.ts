@@ -25,8 +25,8 @@ export class OpenRowsBoxService {
     return await this.modelDoc.findAndCountAll({
       order,
       where,
-      limit: pageSize,
-      offset: pageSize * page,
+      limit: paginationModel.pageSize,
+      offset: paginationModel.pageSize * paginationModel.page,
       subQuery: false,
       include: [
         {
