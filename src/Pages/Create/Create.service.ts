@@ -1,5 +1,5 @@
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
@@ -30,51 +30,26 @@ export class CreateService {
     try {
       if (!(body.law_act_id || body.law_exec_id))
         throw Error('Заполните поле law_act или law_exec');
-      /** */
-
-      switch (body.law_act_id || body.law_exec_id) {
-        case body.law_act_id: {
-          return await this.modelLawAct
-            .findOne({
-              where: {
-                id: body.law_act_id,
-              },
-              rejectOnEmpty: new NotFoundException(
-                'Судебный иск/приказ по такому id не найден',
-              ),
-              attributes: ['id'],
-            })
-            .then(() => console.log('LawAct валиден'));
-        }
-        case body.law_act_id: {
-          return await this.modelLawExec
-            .findOne({
-              attributes: ['id'],
-              rejectOnEmpty: new NotFoundException('ИД по такому id не найден'),
-              where: {
-                id: body.law_exec_id,
-              },
-            })
-            .then(() => console.log('LawExec валиден'));
-        }
-        default:
-          console.log('default');
-      }
 
       /**
        *
        */
       const User = auth.userLocal;
-      const doc = await this.modelDoc.create({
-        barcode_type: 1,
-        contact_doc_id: body.contact_doc_id,
-        date: moment().toDate(),
-        doc_type: body.doc_type,
-        title: body.title,
-        mail_id: body.mail_id,
-        law_act_id: body.law_act_id,
-        law_exec_id: body.law_exec_id,
-      });
+      const doc = await this.modelDoc
+        .create({
+          barcode_type: 1,
+          contact_doc_id: body.contact_doc_id,
+          date: moment().toDate(),
+          doc_type: body.doc_type,
+          title: body.title,
+          mail_id: body.mail_id,
+          law_act_id: body.law_act_id,
+          law_exec_id: body.law_exec_id,
+        })
+        .then((res) => {
+          console.log('doc created');
+          return res;
+        });
       const barcode = await this.modelBarcode.create({
         type: 1,
         item_id: doc.id,
@@ -88,7 +63,7 @@ export class CreateService {
         { headers: { token: auth.token } },
       );
       const m_result = await this.modelResult.create({
-        st_pnkt: result.data[0].st_pnkt,
+        st_pnkt: result.data[0].st_pnkt || 'Статья и пункт не заполнены',
         date_post: result.data[0].date_post,
         kd: result.data[0].kd,
         reestr: result.data[0].reestr || 'Реестр с почты не заполнен',
@@ -109,6 +84,7 @@ export class CreateService {
         status: doc_data.status,
       });
       this.eventsGateway.addItemBox(barcode.id);
+      console.log(barcode.code);
       return barcode.code;
     } catch (error) {
       console.log(error);
