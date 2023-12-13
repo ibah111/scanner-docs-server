@@ -59,6 +59,8 @@ export class GetDocsService {
               model: this.modelTransmit,
               where: { active: true },
               required: false,
+              order: [['id', 'desc']],
+              limit: 1,
             },
             {
               model: this.modelResult,
