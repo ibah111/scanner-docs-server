@@ -8,7 +8,7 @@ import { Role } from '../Database/Local.database/models/Role.model';
   arguments: '<login>',
   description: 'Insert login after command',
 })
-export class BasicCommand extends CommandRunner {
+export class AdminCommand extends CommandRunner {
   constructor(
     @InjectModel(User, 'local') private readonly modelUser: typeof User,
     @InjectModel(User_Role, 'local')
