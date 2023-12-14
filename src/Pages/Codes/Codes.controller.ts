@@ -1,10 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 import { CodesService } from './Codes.service';
+import { CanGuard } from '../../Modules/CASL/Can.guard';
+import { AuthGuard } from '../../Modules/Guards/auth.guard';
 
 @ApiTags('Codes')
 @Controller('codes')
-// @ApiBasicAuth()
+@UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class CodesController {
   constructor(private codesService: CodesService) {}
 
