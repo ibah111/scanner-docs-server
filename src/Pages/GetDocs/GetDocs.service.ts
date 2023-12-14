@@ -29,12 +29,10 @@ export class GetDocsService {
     @InjectModel(LawExec, 'contact') private modelLawExec: typeof LawExec,
   ) {}
 
-  async find({ filterModel, page, pageSize, sortModel }: GetDocsInput) {
+  async find({ filterModel, paginationModel, sortModel }: GetDocsInput) {
     const columns = TableDocsColumns();
     const util = getTableUtils(columns);
     const docFilter = util.getFilter('Docs', filterModel);
-    const docDataFilter = util.getFilter('DocData', filterModel);
-    const barcodeFilter = util.getFilter('Barcodes', filterModel);
     const order = util.getSort(sortModel);
     const docs = await this.modelDoc.findAndCountAll({
       limit: paginationModel.pageSize,
@@ -44,8 +42,6 @@ export class GetDocsService {
       include: [
         {
           model: this.modelDocData,
-          where: docDataFilter,
-          required: true,
           include: [
             {
               model: this.modelUser,
@@ -68,7 +64,7 @@ export class GetDocsService {
             },
           ],
         },
-        { model: this.modelBarcode, required: true, where: barcodeFilter },
+        { model: this.modelBarcode, required: true },
       ],
     });
     for (const doc of docs.rows) {
@@ -102,7 +98,7 @@ export class GetDocsService {
           await res.save();
         }
       }
-      return docs;
     }
+    return docs;
   }
 }

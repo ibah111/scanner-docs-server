@@ -17,7 +17,7 @@ export class OpenRowsBoxService {
     @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
   ) {}
 
-  async find({ filterModel, page, pageSize, sortModel }: OpenRowsBoxInput) {
+  async find({ filterModel, paginationModel, sortModel }: OpenRowsBoxInput) {
     const columns = OpenRowsBoxColumns();
     const util = getTableUtils(columns);
     const where = util.getFilter('Docs', filterModel);
