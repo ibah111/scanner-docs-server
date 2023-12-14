@@ -4,7 +4,7 @@ import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { User } from '../Database/Local.database/models/User.model';
 import { Role } from '../Database/Local.database/models/Role.model';
 import { User_Role } from '../Database/Local.database/models/User_Role.model';
-import { SearchCommand } from './EmptyDC.command';
+import { SearchCommand } from './Search.command';
 import { Person, Debt, DebtCalc } from '@contact/models';
 
 @Module({
