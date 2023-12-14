@@ -11,6 +11,7 @@ import { OpenRowsBoxModule } from './OpenRowsBox/OpenRowsBox.module';
 import { UsersModule } from '../Modules/Users/Users.module';
 import { TypesModule } from './TypesPage/Types.module';
 import { LawPageModule } from './LawPages/LawPage.module';
+import { CodesModule } from './Codes/Codes.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LawPageModule } from './LawPages/LawPage.module';
     UsersModule,
     TypesModule,
     LawPageModule,
+    CodesModule,
   ],
 })
 export class PagesModule {}
