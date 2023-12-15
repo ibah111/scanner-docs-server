@@ -26,6 +26,7 @@ import type {
 } from '@sql-tools/sequelize';
 import { Box } from './Box.model';
 import { Role } from './Role.model';
+import { BelongsToManyAttribute } from '@sql-tools/association-literal';
 
 @Table({ tableName: 'Users' })
 export class User extends Model<
@@ -75,7 +76,10 @@ export class User extends Model<
   Transmits?: NonAttribute<Transmit[]>;
 
   @BelongsToMany(() => Role, () => User_Role)
-  Roles?: NonAttribute<Array<Role & { User_Role: User_Role }>>;
+  Roles?: BelongsToManyAttribute<
+    NonAttribute<Array<Role & { User_Role: User_Role }>>,
+    'id'
+  >;
   @HasMany(() => Box)
   Boxs?: NonAttribute<Box[]>;
 }

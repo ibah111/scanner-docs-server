@@ -11,7 +11,7 @@ export const userListColumns = (): GridColDefExtend<User>[] => [
     modelName: 'Users',
     field: 'id',
     sortCol: 'id',
-    filterCol: 'id',
+    filterCol: 'User.id',
   },
   {
     type: 'string',
