@@ -1,3 +1,4 @@
+import { Sequelize } from '@sql-tools/sequelize';
 import { User } from '../../Database/Local.database/models/User.model';
 import { GridColDefExtend } from '../GridColDefExtndsClass';
 /**
@@ -14,24 +15,22 @@ export const userListColumns = (): GridColDefExtend<User>[] => [
   },
   {
     type: 'string',
+    field: 'FIO',
     modelName: 'Users',
-    field: 'f',
-    sortCol: 'f',
-    filterCol: 'f',
-  },
-  {
-    type: 'string',
-    modelName: 'Users',
-    field: 'i',
-    sortCol: 'i',
-    filterCol: 'i',
-  },
-  {
-    type: 'string',
-    modelName: 'Users',
-    field: 'o',
-    sortCol: 'o',
-    filterCol: 'o',
+    sortCol: {
+      name: 'concat',
+      args: [Sequelize.col('f'), ' ', Sequelize.col('i'), Sequelize.col('o')],
+    },
+    filterCol: {
+      name: 'concat',
+      args: [
+        Sequelize.col('f'),
+        ' ',
+        Sequelize.col('i'),
+        ' ',
+        Sequelize.col('o'),
+      ],
+    },
   },
   {
     type: 'string',
