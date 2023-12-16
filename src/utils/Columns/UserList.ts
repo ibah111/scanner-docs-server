@@ -19,7 +19,13 @@ export const userListColumns = (): GridColDefExtend<User>[] => [
     modelName: 'Users',
     sortCol: {
       name: 'concat',
-      args: [Sequelize.col('f'), ' ', Sequelize.col('i'), Sequelize.col('o')],
+      args: [
+        Sequelize.col('f'),
+        ' ',
+        Sequelize.col('i'),
+        ' ',
+        Sequelize.col('o'),
+      ],
     },
     filterCol: {
       name: 'concat',

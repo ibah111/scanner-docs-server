@@ -1,7 +1,8 @@
-import { OrderItem, Sequelize } from '@sql-tools/sequelize';
+import { OrderItem } from '@sql-tools/sequelize';
 import { GridSortModel } from '@mui/x-data-grid-premium';
 import getFieldHandler from '../getFieldHamdler';
 import { GridColDefExtend } from '../GridColDefExtndsClass';
+import getSort from './getSort';
 
 export default function Sort(
   columns: GridColDefExtend[],
@@ -13,7 +14,8 @@ export default function Sort(
     sortModel.forEach((sort) => {
       const field = getField(sort.field);
       if (field) {
-        const item: OrderItem = [Sequelize.col(`${sort.field}`), sort.sort!];
+        const value = getSort(field);
+        const item: OrderItem = [value, sort.sort ?? 'ASC'];
         orders.push(item);
       }
     });
