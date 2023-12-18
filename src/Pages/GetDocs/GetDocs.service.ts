@@ -30,9 +30,20 @@ export class GetDocsService {
   ) {}
 
   async find({ filterModel, paginationModel, sortModel }: GetDocsInput) {
+
     const columns = TableDocsColumns();
     const util = getTableUtils(columns);
     const docFilter = util.getFilter('Docs', filterModel);
+    const resultFilter = util.getFilter('Result', filterModel);
+    const docDataFilter = util.getFilter('DocData', filterModel);
+    const userFilter = util.getFilter('Users', filterModel);
+    const departFilter = util.getFilter('Depart', filterModel);
+    const barcodesFilter = util.getFilter('Barcodes', filterModel);
+
+    const transmitFilter = util.getFilter('Transmit', filterModel);
+    const transmitKeys = Reflect.ownKeys(transmitFilter);
+    console.log('transmit keys: ', transmitKeys);
+
     const order = util.getSort(sortModel);
     const docs = await this.modelDoc.findAndCountAll({
       limit: paginationModel.pageSize,
@@ -41,30 +52,39 @@ export class GetDocsService {
       order,
       include: [
         {
+          where: barcodesFilter,
+          model: this.modelBarcode,
+          required: true,
+        },
+        {
+          where: docDataFilter,
           model: this.modelDocData,
           include: [
             {
+              where: userFilter,
               model: this.modelUser,
               required: true,
             },
             {
+              where: departFilter,
               model: this.modelDepart,
               required: true,
             },
             {
+              separate: transmitKeys.length === 0 ? true : false,
+              required: transmitKeys.length === 0 ? false : true,
+              where: transmitFilter,
               model: this.modelTransmit,
-              where: { active: true },
-              required: false,
               order: [['id', 'desc']],
               limit: 1,
             },
             {
+              where: resultFilter,
               model: this.modelResult,
               required: true,
             },
           ],
         },
-        { model: this.modelBarcode, required: true },
       ],
     });
     for (const doc of docs.rows) {
