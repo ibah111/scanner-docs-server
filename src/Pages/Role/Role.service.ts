@@ -20,10 +20,14 @@ export class RoleService {
     const util = getTableUtils(columns);
     const where = util.getFilter('Users', filterModel);
     const order = util.getSort(sortModel);
+    const whereRoles = util.getFilter('Roles', filterModel);
+    const roleKeys = Reflect.ownKeys(whereRoles);
     return await this.modelUser.findAndCountAll({
       include: [
         {
           model: this.modelRole,
+          required: roleKeys.length === 0 ? false : true,
+          where: whereRoles,
         },
       ],
       where,
