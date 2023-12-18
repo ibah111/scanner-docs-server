@@ -14,7 +14,7 @@ export class DataController {
 
   @HttpCode(200)
   @Get(':code')
-  async get(@Param('code') code: string, @Auth() auth: AuthResult) {
-    return await this.dataService.get(code, auth);
+  async scan(@Param('code') code: string, @Auth() auth: AuthResult) {
+    return await this.dataService.getScan(code, auth);
   }
 }

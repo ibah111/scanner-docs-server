@@ -25,11 +25,16 @@ export class DataService {
     @InjectModel(Box, 'local') private modelBox: typeof Box,
     @InjectModel(Result, 'local') private modelResult: typeof Result,
   ) {}
-  async get(code: string, auth: AuthResult) {
+  async getScan(code: string, auth: AuthResult) {
+    /**
+     * Auth
+     */
     const User = await this.modelUser.findOne({
       where: { bitrix_id: auth.user.id },
     });
-
+    /**
+     * Search barcode
+     */
     const barcode = await this.modelBarcode.findOne({
       where: { code },
       rejectOnEmpty: new NotFoundException('Такой баркод не найден'),
@@ -83,14 +88,22 @@ export class DataService {
         },
       ],
     });
+    /**
+     * Поиск перемещения
+     */
     const data_transmit = await this.modelTransmit.findOne({
       where: { doc_data_id: barcode!.Doc!.DocData!.id, active: true },
     });
-
+    /**
+     * Поиск логов
+     */
     const data_log = await this.modelLog.findOne({
       where: { doc_data_id: barcode!.Doc!.DocData!.id, status: 3 },
     });
-    const data_box = await this.modelBox.findOne({
+    /**
+     * Поиск баркода короба
+     */
+    const box_code = await this.modelBox.findOne({
       where: { id: barcode!.item_id },
     });
 
@@ -102,12 +115,12 @@ export class DataService {
       await data_log!.save();
     }
     if (barcode!.type == 2) {
-      data_box!.user = User!.id;
-      data_box!.depart = User!.depart;
-      await data_box!.save();
-      data_box!.user = User!.id;
-      data_box!.depart = User!.depart;
-      await data_box!.reload();
+      box_code!.user = User!.id;
+      box_code!.depart = User!.depart;
+      await box_code!.save();
+      box_code!.user = User!.id;
+      box_code!.depart = User!.depart;
+      await box_code!.reload();
     }
 
     const result: Results[] = [];
