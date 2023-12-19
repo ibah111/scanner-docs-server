@@ -22,6 +22,12 @@ export class OpenRowsBoxService {
     const util = getTableUtils(columns);
     const where = util.getFilter('Docs', filterModel);
     const order = util.getSort(sortModel);
+
+    const filterBarcode = util.getFilter('Barcodes', filterModel);
+
+    const filterResult = util.getFilter('Result', filterModel);
+    const keysResult = Reflect.ownKeys(filterResult);
+
     return await this.modelDoc.findAndCountAll({
       order,
       where,
@@ -30,14 +36,24 @@ export class OpenRowsBoxService {
       subQuery: false,
       include: [
         {
+          model: this.modelBarcode,
+          required: true,
+          where: filterBarcode,
+        },
+        {
           model: this.modelDocData,
           where: {
             status: 1,
           },
           required: true,
-          include: [{ model: this.modelResult, required: true }],
+          include: [
+            {
+              model: this.modelResult,
+              where: filterResult,
+              required: keysResult.length === 0 ? false : true,
+            },
+          ],
         },
-        { model: this.modelBarcode, required: true },
       ],
     });
   }
