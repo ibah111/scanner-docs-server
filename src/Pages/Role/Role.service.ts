@@ -2,10 +2,15 @@ import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Role } from 'src/Database/Local.database/models/Role.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { User_Role } from 'src/Database/Local.database/models/User_Role.model';
-import { GetUsersInput, RoleInputAddRole } from './Role.input';
+import {
+  GetUsersInput,
+  RoleInputAddRole,
+  RoleInputRemoveRole,
+} from './Role.input';
 import { userListColumns } from '../../utils/Columns/UserList';
 import { getTableUtils } from '../../utils/getTableUtils';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Op } from '@sql-tools/sequelize';
 
 @Injectable()
 export class RoleService {
@@ -37,10 +42,25 @@ export class RoleService {
     });
   }
 
-  async removeRole(id: number) {
-    const role = await this.modelUser_Role.findByPk(id);
-    await role!.destroy();
-    return true;
+  async removeRole({ user_id, role_id }: RoleInputRemoveRole) {
+    const user = await this.modelUser
+      .findOne({
+        where: {
+          id: user_id,
+        },
+        rejectOnEmpty: new NotFoundException('Пользователь не найден'),
+      })
+      .then((us) => {
+        return us;
+      });
+
+    const user_role = await this.modelUser_Role.destroy({
+      logging: console.log,
+      where: {
+        role_id,
+      },
+    });
+    return { user, user_role };
   }
 
   async addRole(body: RoleInputAddRole) {

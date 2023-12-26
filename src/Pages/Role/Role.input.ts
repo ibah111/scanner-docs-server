@@ -6,7 +6,12 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 export class RoleInputRemoveRole {
   @IsNotEmpty()
   @IsNumber()
-  id: number;
+  @ApiProperty()
+  user_id: number;
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty()
+  role_id: number;
 }
 
 export class RoleInputAddRole {

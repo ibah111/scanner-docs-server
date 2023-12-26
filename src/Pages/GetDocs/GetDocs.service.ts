@@ -30,7 +30,6 @@ export class GetDocsService {
   ) {}
 
   async find({ filterModel, paginationModel, sortModel }: GetDocsInput) {
-
     const columns = TableDocsColumns();
     const util = getTableUtils(columns);
     const docFilter = util.getFilter('Docs', filterModel);
@@ -42,7 +41,6 @@ export class GetDocsService {
 
     const transmitFilter = util.getFilter('Transmit', filterModel);
     const transmitKeys = Reflect.ownKeys(transmitFilter);
-    console.log('transmit keys: ', transmitKeys);
 
     const order = util.getSort(sortModel);
     const docs = await this.modelDoc.findAndCountAll({

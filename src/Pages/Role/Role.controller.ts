@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -32,7 +33,7 @@ export class RoleController {
   @HttpCode(200)
   @Post('removeRole')
   async removeRole(@Body() body: RoleInputRemoveRole) {
-    return await this.roleService.removeRole(body.id);
+    return await this.roleService.removeRole(body);
   }
   @Post('addRole')
   async addRole(@Body() body: RoleInputAddRole) {
