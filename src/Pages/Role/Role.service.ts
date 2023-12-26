@@ -51,4 +51,29 @@ export class RoleService {
   async getRoles() {
     return await this.modelRole.findAll();
   }
+
+  async getUser(id: number) {
+    const user = await this.modelUser.findOne({
+      where: {
+        id,
+      },
+      include: [
+        {
+          model: this.modelRole,
+        },
+      ],
+    });
+    const user_roles = user?.Roles?.map((i) => i.id);
+    const notInRoles = await this.modelRole.findAll({
+      where: {
+        id: {
+          [Op.notIn]: user_roles,
+        },
+      },
+    });
+    return {
+      user,
+      notInRoles,
+    };
+  }
 }

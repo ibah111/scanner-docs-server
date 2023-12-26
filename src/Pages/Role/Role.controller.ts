@@ -43,4 +43,9 @@ export class RoleController {
   async getRoles() {
     return await this.roleService.getRoles();
   }
+
+  @Get('getUser/:id')
+  async getUser(@Param('id') id: number) {
+    return await this.roleService.getUser(id);
+  }
 }
