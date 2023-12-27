@@ -11,18 +11,26 @@ export class DocumentsService {
     @InjectModel(ConstValue, 'contact')
     private modelConstValue: typeof ConstValue,
   ) {}
-  async get(id: number) {
-    from(
+
+  async rxjsGet(id: number) {
+    return from(
       this.modelConstValue.findOne({
-        where: { name: 'DocAttach.SavePath' },
-        rejectOnEmpty: true,
+        rejectOnEmpty: new NotFoundException('ConstValue не найден'),
+        where: {
+          name: 'DocAttach.SavePath',
+        },
       }),
     ).pipe(
-      map((data) => data.value as string),
+      map((data) => {
+        const d = data.value as string;
+        return d;
+      }),
       concatMap((save_path) =>
-        from(this.modelDocAttach.findByPk(id, { rejectOnEmpty: true })).pipe(
-          map((doc) => ({ save_path, doc })),
-        ),
+        from(
+          this.modelDocAttach.findByPk(id, {
+            rejectOnEmpty: new NotFoundException('Файл не найден'),
+          }),
+        ).pipe(map((doc) => ({ save_path, doc }))),
       ),
       concatMap((data) => {
         const tmp = data.save_path.split('\\');
@@ -31,7 +39,8 @@ export class DocumentsService {
         return this.smb.exists(path).pipe(
           map((exists) => {
             if (!exists) throw new NotFoundException('Файл не найден');
-            return new StreamableFile(this.smb.readFileStream(path));
+            const file = new StreamableFile(this.smb.readFileStream(path));
+            return file;
           }),
         );
       }),
