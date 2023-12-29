@@ -14,6 +14,7 @@ import { CommandModule } from './Command/Command.module';
     RoleModule,
     ConfigModule.forRoot({
       load: [databaseConfig],
+      envFilePath: process.env.NODE_ENV === 'prod' ? '.env.prod' : '.env.dev',
       isGlobal: true,
     }),
     CommandModule,
