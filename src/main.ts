@@ -13,7 +13,7 @@ import https from './utils/https';
 import 'colors';
 import { CommandFactory } from 'nest-commander';
 
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrapCli() {
   const app = await CommandFactory.createWithoutRunning(AppModule, [
     'warn',
