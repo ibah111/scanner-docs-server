@@ -6,7 +6,8 @@ import bitrix from 'src/utils/bitrix';
 
 export const checkLogin = async (token: string) => {
   // Тестируем систему................................
-  if (client('demo'))
+  console.log('check login: ', token);
+  if (process.env.NODE_ENV === 'dev')
     return {
       login_result: true,
       login: 'baledin@zakon43.ru',
