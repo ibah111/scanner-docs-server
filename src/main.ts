@@ -12,6 +12,7 @@ import client from './utils/client';
 import https from './utils/https';
 import 'colors';
 import { CommandFactory } from 'nest-commander';
+import './utils/CustomCa';
 
 // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrapCli() {
