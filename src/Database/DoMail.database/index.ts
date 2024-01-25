@@ -5,12 +5,18 @@ import { docModels as models } from './models';
   imports: [
     SequelizeModule.forRoot({
       dialect: 'mssql',
+      /**
+       * имя подключения, которое иницилизируется в проекте nest'a
+       */
       name: 'docmail',
+      /**
+       * параметры подключения
+       */
       host: 'newct.usb.ru',
-      username: 'USB/Баледин',
-      password: 'GeForce2060++',
-      database: process.env.NODE_ENV === 'prod' ? 'docmail' : 'docmail_test',
-      logging: true,
+      username: 'ibah_dev',
+      password: 'GeForce2060ti++',
+      database: 'docmail',
+      logging: console.log,
       repositoryMode: true,
       models,
     }),
