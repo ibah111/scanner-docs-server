@@ -24,7 +24,7 @@ export class OpenHistoryService {
         include: [
           {
             model: this.modelTransmit,
-            required: true,
+            required: false,
           },
           { model: this.modelUser, required: false },
           { model: this.modelDepart, required: false },
