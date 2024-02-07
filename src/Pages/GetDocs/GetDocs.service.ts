@@ -8,7 +8,7 @@ import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { LawAct, Person, Debt, Portfolio, LawExec } from '@contact/models';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TableDocsColumns } from '../../utils/Columns/TableDocs';
 import { getTableUtils } from '../../utils/getTableUtils';
 
@@ -91,7 +91,13 @@ export class GetDocsService {
           id: doc.DocData?.result,
         },
       });
-      const docLaw = await this.modelLawAct.findOne({
+      console.log(
+        'id почты, ',
+        doc.mail_id,
+        'номер по которому ищут: ',
+        doc.law_act_id,
+      );
+      const docLawAct = await this.modelLawAct.findOne({
         where: { id: doc.law_act_id! },
         include: [
           { model: this.modelPerson, required: false },
@@ -101,20 +107,58 @@ export class GetDocsService {
             required: false,
           },
         ],
+        // logging: console.log,
       });
-      for (const res of data_result) {
-        if (doc.DocData!.result == res.id) {
-          res.kd = docLaw!.Debt!.contract;
-          res.reestr = docLaw!.Portfolio!.name;
-          res.fio_dol =
-            docLaw!.Person!.f +
-            ' ' +
-            docLaw!.Person!.i +
-            ' ' +
-            docLaw!.Person!.o;
-          res.date_post = docLaw!.Portfolio!.load_dt;
-          await res.save();
+
+      const forOfIterator = async (
+        model: LawAct | LawExec,
+        modelName?: string,
+      ) => {
+        console.log('forof iterator, iteration by ', modelName);
+        for (const res of data_result) {
+          if (doc.DocData!.result == res.id) {
+            res.kd = model.Debt!.contract;
+            res.reestr = model.Portfolio!.name;
+            res.fio_dol =
+              model.Person!.f + ' ' + model.Person!.i + ' ' + model.Person!.o;
+            res.date_post = model!.Portfolio!.load_dt;
+            await res.save();
+          }
         }
+      };
+      /**
+       *  Данный цикл добавлен, чтобы избежать ошибкок с Debt == undefined
+       *  По скольку большинсво данных записывается в ячейку sql => law_act
+       *  даже не смотря на то что подразумевается law_exec_id,
+       *  я произвожу поиск по цифре сначала по law_act, после по law_exec
+       */
+      if (docLawAct?.Debt) {
+        /**
+         *
+         */
+        forOfIterator(docLawAct, 'LawAct');
+      } else {
+        const docLawExec = await this.modelLawExec.findOne({
+          where: {
+            id: doc.law_act_id!,
+          },
+          include: [
+            { model: this.modelPerson, required: false },
+            { model: this.modelPortfolio, required: false },
+            {
+              model: this.modelDebt,
+              required: false,
+            },
+          ],
+          rejectOnEmpty: new NotFoundException(
+            'По id дела ничего не найдено, выдаю ошибку',
+            {
+              description:
+                'В теле запроса есть параметр id юридического дела и id исполнительного производства',
+            },
+          ),
+        });
+        forOfIterator(docLawExec, 'LawExec');
       }
     }
     return docs;
