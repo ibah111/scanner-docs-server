@@ -35,46 +35,57 @@ export class CreateService {
        *
        */
       const User = auth.userLocal;
-      const doc = await this.modelDoc
+      const doc = await this.modelDoc.create({
         .create({
-          barcode_type: 1,
-          contact_doc_id: body.contact_doc_id,
-          date: moment().toDate(),
-          doc_type: body.doc_type,
-          title: body.title,
-          mail_id: body.mail_id,
-          law_act_id: body.law_act_id,
-          law_exec_id: body.law_exec_id,
+        barcode_type: 1,
+        contact_doc_id: body.contact_doc_id,
+        date: moment().toDate(),
+        doc_type: body.doc_type,
+        title: body.title,
+        mail_id: body.mail_id,
+        law_act_id: body.law_act_id,
+        law_exec_id: body.law_exec_id,
         })
         .then((res) => {
           console.log('doc created');
           return res;
-        });
+      });
+
       const barcode = await this.modelBarcode.create({
         type: 1,
         item_id: doc.id,
         code: generateRandom(12),
       });
-      const result = await axios.post(
-        'https://apps.usb.ru:3001/getDocs',
+
+      /**
+       * @returns url зависящий от переменной Node_env
+       */
+      const url =
+        process.env.NODE_ENV === 'prod'
+          ? 'https://apps.usb.ru:3001/getDocs'
+          : 'http://192.168.1.43:3001/getDocs';
+
+      const requestDoMail = await axios.post(
+        url,
         {
           docs: [doc.mail_id],
         },
         { headers: { token: auth.token } },
       );
-      const m_result = await this.modelResult.create({
-        st_pnkt: result.data[0].st_pnkt || 'Статья и пункт не заполнены',
-        date_post: result.data[0].date_post,
-        kd: result.data[0].kd,
-        reestr: result.data[0].reestr || 'Реестр с почты не заполнен',
-        fio_dol: result.data[0].fio_dol,
+
+      const responseDoMail = await this.modelResult.create({
+        st_pnkt: requestDoMail.data[0].st_pnkt || 'Статья и пункт не заполнены',
+        date_post: requestDoMail.data[0].date_post,
+        kd: requestDoMail.data[0].kd,
+        reestr: requestDoMail.data[0].reestr || 'Реестр с почты не заполнен',
+        fio_dol: requestDoMail.data[0].fio_dol,
       });
       const doc_data = await this.modelDocData.create({
         depart: User!.depart,
         user: User!.id,
         status: 1,
         parent_id: doc.id,
-        result: m_result.id,
+        result: responseDoMail.id,
       });
       await this.modelLog.create({
         date: moment().toDate(),
