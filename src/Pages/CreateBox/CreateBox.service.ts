@@ -24,7 +24,7 @@ export class CreateBoxService {
       throw Error('Массив короба пуст');
     }
     const User = user.userLocal;
-    console.log(list);
+
     const docs = await this.modelDoc.findAll({
       include: [
         {

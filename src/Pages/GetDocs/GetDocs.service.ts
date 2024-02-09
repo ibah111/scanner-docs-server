@@ -91,12 +91,7 @@ export class GetDocsService {
           id: doc.DocData?.result,
         },
       });
-      console.log(
-        'id почты, ',
-        doc.mail_id,
-        'номер по которому ищут: ',
-        doc.law_act_id,
-      );
+
       const docLawAct = await this.modelLawAct.findOne({
         where: { id: doc.law_act_id! },
         include: [
@@ -107,14 +102,9 @@ export class GetDocsService {
             required: false,
           },
         ],
-        // logging: console.log,
       });
 
-      const forOfIterator = async (
-        model: LawAct | LawExec,
-        modelName?: string,
-      ) => {
-        console.log('forof iterator, iteration by ', modelName);
+      const forOfIterator = async (model: LawAct | LawExec) => {
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
             res.kd = model.Debt!.contract;
@@ -134,10 +124,13 @@ export class GetDocsService {
        */
       if (docLawAct?.Debt) {
         /**
-         *
+         *  Поиск по lawAct id
          */
-        forOfIterator(docLawAct, 'LawAct');
+        forOfIterator(docLawAct);
       } else {
+        /**
+         * В ином случае ищет по lawExec
+         */
         const docLawExec = await this.modelLawExec.findOne({
           where: {
             id: doc.law_act_id!,
@@ -158,7 +151,7 @@ export class GetDocsService {
             },
           ),
         });
-        forOfIterator(docLawExec, 'LawExec');
+        forOfIterator(docLawExec);
       }
     }
     return docs;

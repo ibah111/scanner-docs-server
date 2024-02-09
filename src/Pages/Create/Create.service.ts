@@ -26,17 +26,12 @@ export class CreateService {
     private readonly eventsGateway: EventsGateway,
   ) {}
   async create(body: CreateInput, auth: AuthResult) {
-    console.log(body);
     try {
       if (!(body.law_act_id || body.law_exec_id))
         throw Error('Заполните поле law_act или law_exec');
 
-      /**
-       *
-       */
       const User = auth.userLocal;
       const doc = await this.modelDoc.create({
-        .create({
         barcode_type: 1,
         contact_doc_id: body.contact_doc_id,
         date: moment().toDate(),
@@ -45,10 +40,6 @@ export class CreateService {
         mail_id: body.mail_id,
         law_act_id: body.law_act_id,
         law_exec_id: body.law_exec_id,
-        })
-        .then((res) => {
-          console.log('doc created');
-          return res;
       });
 
       const barcode = await this.modelBarcode.create({
@@ -95,7 +86,6 @@ export class CreateService {
         status: doc_data.status,
       });
       this.eventsGateway.addItemBox(barcode.id);
-      console.log(barcode.code);
       return barcode.code;
     } catch (error) {
       console.log(error);
