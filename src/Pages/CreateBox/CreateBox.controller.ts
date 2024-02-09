@@ -13,10 +13,14 @@ import { CreateBoxInput } from './CreateBox.input';
 export class CreateBoxController {
   constructor(private createBoxService: CreateBoxService) {}
   @Post()
-  async find(@Body() { list }: CreateBoxInput, @Auth() auth: AuthResult) {
+  async find(
+    @Body() { list, boxTitle }: CreateBoxInput,
+    @Auth() auth: AuthResult,
+  ) {
     return await this.createBoxService.find(
       {
         list,
+        boxTitle,
       },
       auth,
     );

@@ -19,7 +19,7 @@ export class CreateBoxService {
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(User, 'local') private modelUser: typeof User,
   ) {}
-  async find({ list }: CreateBoxInput, user: AuthResult) {
+  async find({ list, boxTitle }: CreateBoxInput, user: AuthResult) {
     if (list.length === 0) {
       throw Error('Массив короба пуст');
     }
@@ -49,6 +49,7 @@ export class CreateBoxService {
       type: 2,
       user: User!.id,
       depart: User!.depart,
+      boxTitle: boxTitle,
     });
     const box_barcode = await this.modelBarcode.create({
       item_id: box.id,
