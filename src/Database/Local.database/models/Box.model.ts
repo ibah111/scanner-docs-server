@@ -34,6 +34,10 @@ export class Box extends Model<
   id: CreationOptional<number>;
 
   @AllowNull(false)
+  @Column(DataType.STRING)
+  boxTitle: string;
+
+  @AllowNull(false)
   @ForeignKey(() => BarcodeTypes)
   @Column(DataType.INTEGER)
   type: FK<number>;
