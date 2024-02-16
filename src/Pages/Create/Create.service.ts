@@ -26,6 +26,7 @@ export class CreateService {
     private readonly eventsGateway: EventsGateway,
   ) {}
   async create(body: CreateInput, auth: AuthResult) {
+    console.log('create: ', body);
     try {
       if (!(body.law_act_id || body.law_exec_id))
         throw Error('Заполните поле law_act или law_exec');

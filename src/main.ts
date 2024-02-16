@@ -9,12 +9,25 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { VersionService } from './Modules/Version/version.service';
 import { getSwaggerOptions, getSwaggerOptionsCustom } from './utils/swagger';
 import client from './utils/client';
-import https from './utils/https';
 import 'colors';
 import { CommandFactory } from 'nest-commander';
 import './utils/CustomCa';
+import https from './utils/https';
 
-// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+const node = process.env.NODE_ENV;
+class bootstrapOptions {
+  constructor() {
+    this.adapter =
+      node === 'prod'
+        ? new FastifyAdapter({
+            https: https()!,
+          })
+        : new FastifyAdapter();
+  }
+  adapter: FastifyAdapter;
+}
+
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 async function bootstrapCli() {
   const app = await CommandFactory.createWithoutRunning(AppModule, [
     'warn',
@@ -23,9 +36,10 @@ async function bootstrapCli() {
   await CommandFactory.runApplication(app);
 }
 async function bootstrap() {
+  const opts = new bootstrapOptions();
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ https: https()! }),
+    opts.adapter,
   );
 
   app.useGlobalPipes(new ValidationPipe());
@@ -52,8 +66,10 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document, getSwaggerOptionsCustom());
   await app.listen(client('port'), '0.0.0.0');
   console.log(
-    `Server is running on ${(await app.getUrl()).replace('http', 'https')}/docs`
-      .yellow,
+    `NODE => ${node}, Server is running on ${await app.getUrl()}/docs`.replace(
+      'http',
+      node === 'prod' ? 'https' : 'http',
+    ).yellow,
   );
 }
 if (process.env.MODE === 'CLI') {
