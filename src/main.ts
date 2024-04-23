@@ -66,7 +66,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document, getSwaggerOptionsCustom());
   await app.listen(client('port'), '0.0.0.0');
   console.log(
-    `NODE => ${node}, Server is running on ${await app.getUrl()}/docs`.replace(
+    `NODE => ${node}, Scanner-docs server is running on ${await app.getUrl()}/docs`.replace(
       'http',
       node === 'prod' ? 'https' : 'http',
     ).yellow,
