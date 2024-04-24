@@ -15,4 +15,7 @@ import { CreateBoxService } from './CreateBox.service';
   controllers: [CreateBoxController],
   providers: [CreateBoxService],
 })
+/**
+ * @deprecated
+ */
 export class CreateBoxModule {}

@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { BoxTypes } from 'src/Enums/BoxTypesEnum';
 
 export class CreateBoxInput {
   @Expose()
@@ -15,5 +14,5 @@ export class CreateBoxInput {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  boxTitle: BoxTypes;
+  boxTitle: string;
 }
