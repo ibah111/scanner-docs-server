@@ -20,6 +20,7 @@ import {
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { Box } from './Box.model';
 import { Doc } from './Doc.model';
+import { BoxTypes } from './BoxTypes.model';
 @Table({ tableName: 'Barcodes', paranoid: true })
 export class Barcode extends Model<
   InferAttributes<Barcode>,
@@ -61,4 +62,8 @@ export class Barcode extends Model<
   type: FK<number>;
   @BelongsTo(() => BarcodeTypes)
   BarcodeTypes?: NonAttribute<BarcodeTypes>;
+
+  @ForeignKey(() => BoxTypes)
+  @Column(DataType.INTEGER)
+  box_type?: FK<number>;
 }
