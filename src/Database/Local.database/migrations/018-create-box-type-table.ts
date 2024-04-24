@@ -13,11 +13,16 @@ export const up: MigrationFn<QueryInterface> = ({ context }) =>
       allowNull: false,
       type: DataTypes.STRING,
     },
-    who_add_type: {
+    who_added_type: {
       allowNull: false,
       type: DataTypes.STRING,
     },
     createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
