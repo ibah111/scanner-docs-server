@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { node } from 'src/main';
-import { AddDocumentToBoxInput } from './Box.inputs';
+import { DocumentsToBoxInput } from './Box.inputs';
 import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 
@@ -20,11 +20,11 @@ export class BoxService {
     });
   }
 
-  async addDocumentsToBox(body: AddDocumentToBoxInput) {
+  async addDocumentsToBox(body: DocumentsToBoxInput) {
     const docList = body.list;
     const boxType = await this.modelBoxTypes.findOne({
       where: {
-        id: body.box_type,
+        id: body.box_type_id,
       },
       rejectOnEmpty: new NotFoundException('Такой тип короба не найден'),
     });
@@ -37,9 +37,23 @@ export class BoxService {
       });
       barcode
         .update({
-          box_type: body.box_type,
+          box_type_id: body.box_type_id,
         })
         .then(() => console.log(`Document ${id}, added to ${boxType.title}`));
+    }
+  }
+
+  async deleteDocumentsBoxType(list: number[]) {
+    for (const id of list) {
+      const barcode = await this.modelBarcode.findOne({
+        where: {
+          id,
+        },
+        rejectOnEmpty: new NotFoundException('Документ не найден'),
+      });
+      barcode?.update({
+        box_type_id: null,
+      });
     }
   }
 }

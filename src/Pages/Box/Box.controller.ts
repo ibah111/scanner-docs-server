@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BoxService } from './Box.service';
-import { AddDocumentToBoxInput } from './Box.inputs';
+import { DocumentsBoxTypeDeleteInput, DocumentsToBoxInput } from './Box.inputs';
 
 @ApiTags('Box')
 @Controller('Box')
@@ -20,8 +20,16 @@ export class BoxController {
     description: 'Присваивает тип короба всем документам в массиве',
   })
   @Post('addDocumentToBox')
-  async addDocumentsToBox(@Body() body: AddDocumentToBoxInput) {
+  async addDocumentsToBox(@Body() body: DocumentsToBoxInput) {
     console.log('Body: '.yellow, body);
     return await this.boxService.addDocumentsToBox(body);
+  }
+
+  @ApiOperation({
+    description: 'Удаляет тип короба в текущего документа',
+  })
+  @Delete('deleteDocumentsFromBox')
+  async deleteDocumentBoxType(@Body() body: DocumentsBoxTypeDeleteInput) {
+    return this.boxService.deleteDocumentsBoxType(body.list);
   }
 }
