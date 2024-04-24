@@ -12,6 +12,7 @@ import { DocData } from './DocData.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
 import { DocTypes } from './DocTypes.model';
 import { Result } from './Result.model';
+import { BoxTypes } from './BoxTypes.model';
 
 export const models = [
   User,
@@ -28,4 +29,5 @@ export const models = [
   BarcodeTypes,
   DocTypes,
   Result,
+  BoxTypes,
 ];
