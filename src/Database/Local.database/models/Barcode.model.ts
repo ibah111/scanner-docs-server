@@ -65,5 +65,5 @@ export class Barcode extends Model<
 
   @ForeignKey(() => BoxTypes)
   @Column(DataType.INTEGER)
-  box_type?: FK<number>;
+  box_type_id?: FK<number> | null;
 }
