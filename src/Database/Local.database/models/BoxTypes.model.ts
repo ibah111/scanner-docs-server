@@ -17,7 +17,7 @@ import {
 } from '@sql-tools/sequelize-typescript';
 import { Barcode } from './Barcode.model';
 
-@Table({ tableName: 'BoxTypes' })
+@Table({ tableName: 'BoxTypes', paranoid: true })
 export class BoxTypes extends Model<
   InferAttributes<BoxTypes>,
   InferCreationAttributes<BoxTypes>
