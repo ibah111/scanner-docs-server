@@ -24,6 +24,9 @@ import { Depart } from './Depart.model';
 import { Doc } from './Doc.model';
 import { User } from './User.model';
 @Table({ tableName: 'Box' })
+/**
+ * @deprecated
+ */
 export class Box extends Model<
   InferAttributes<Box>,
   InferCreationAttributes<Box>
