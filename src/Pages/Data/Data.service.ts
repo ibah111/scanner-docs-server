@@ -7,9 +7,10 @@ import { User } from 'src/Database/Local.database/models/User.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
-import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import moment from 'moment';
+import { Results } from './Data.output';
 @Injectable()
 export class DataService {
   constructor(
@@ -20,7 +21,6 @@ export class DataService {
     @InjectModel(User, 'local') private modelUser: typeof User,
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
     @InjectModel(Log, 'local') private modelLog: typeof Log,
-    @InjectModel(Box, 'local') private modelBox: typeof Box,
     @InjectModel(Result, 'local') private modelResult: typeof Result,
   ) {}
   /**
@@ -41,54 +41,76 @@ export class DataService {
       rejectOnEmpty: new NotFoundException('Такой баркод не найден'),
       include: [
         {
-          model: this.modelBox,
-          required: false,
-          include: [
-            {
-              model: this.modelDoc,
-              required: false,
-              include: [
-                {
-                  model: this.modelDocData,
-                  required: false,
-                  include: [
-                    { model: this.modelUser, required: false },
-                    { model: this.modelDepart, required: false },
-                    { model: this.modelResult, required: false },
-                  ],
-                },
-                {
-                  model: this.modelBox,
-                  required: false,
-                  include: [
-                    { model: this.modelUser, required: false },
-                    { model: this.modelDepart, required: false },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
+          /**
+           * Параметры документа с почты (Do-mail)
+           */
           model: this.modelDoc,
-          required: false,
           include: [
             {
               model: this.modelDocData,
-              required: false,
               include: [
                 {
                   model: this.modelUser,
-                  required: false,
                 },
-                { model: this.modelDepart, required: false },
-                { model: this.modelResult, required: false },
+                {
+                  model: this.modelDepart,
+                },
+                {
+                  model: this.modelResult,
+                },
               ],
             },
           ],
         },
       ],
     });
-    return [barcode, User];
+    const barcode_transmit = await this.modelTransmit.findOne({
+      where: {
+        doc_data_id: barcode!.Doc!.DocData!.id,
+        // active: true,
+      },
+    });
+    /** ищу лог */
+    const barcode_log = await this.modelLog.findOne({
+      where: {
+        doc_data_id: barcode!.Doc!.DocData!.id,
+        // status: 3,
+      },
+    });
+
+    if (barcode_transmit) {
+      barcode_transmit.active = false;
+      barcode_transmit.date_return = moment().toDate();
+      await barcode_transmit.save();
+      barcode_log!.status = 4;
+      await barcode_log!.save();
+    }
+
+    barcode.Doc!.DocData!.user = User!.id;
+    barcode.Doc!.DocData!.depart = User!.depart;
+    barcode.Doc!.DocData!.status = 2;
+    if (barcode.Doc!.DocData!.changed()) {
+      await barcode!.Doc!.DocData!.$create('Log', {
+        user: User!.id,
+        depart: User!.depart,
+        status: barcode!.Doc!.DocData!.status,
+        date: moment().toDate(),
+      });
+    }
+    await barcode.Doc!.DocData!.save();
+    const UserOld = barcode.Doc!.DocData!.User;
+    const DepartOld = barcode.Doc!.DocData!.Depart;
+    await barcode.Doc!.DocData!.reload();
+    const result: Results[] = [];
+    result.push({
+      ...JSON.parse(JSON.stringify(barcode.Doc!)),
+      DocData: {
+        ...JSON.parse(JSON.stringify(barcode.Doc!.DocData)),
+        UserOld,
+        DepartOld,
+      },
+    });
+    const data = result as unknown as Doc;
+    return JSON.parse(JSON.stringify(data));
   }
 }
