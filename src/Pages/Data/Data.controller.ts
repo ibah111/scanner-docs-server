@@ -1,7 +1,7 @@
 import { Controller, HttpCode, Get, UseGuards, Param } from '@nestjs/common';
 import { Auth, AuthGuard, AuthResult } from 'src/Modules/Guards/auth.guard';
 import { DataService } from './Data.service';
-import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
 
 @ApiTags('Data')
@@ -12,6 +12,11 @@ import { CanGuard } from '../../Modules/CASL/Can.guard';
 export class DataController {
   constructor(private dataService: DataService) {}
 
+  @ApiOperation({
+    summary: 'АПИ сканирования',
+    description:
+      'Клиент при сканировании обращается по этому АПИ, отдавая последовательность баркода',
+  })
   @HttpCode(200)
   @Get(':code')
   async scan(@Param('code') code: string, @Auth() auth: AuthResult) {
