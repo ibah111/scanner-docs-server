@@ -44,7 +44,6 @@ export class CreateService {
       });
 
       const barcode = await this.modelBarcode.create({
-        type: 1,
         item_id: doc.id,
         code: generateRandom(12),
       });
