@@ -19,7 +19,6 @@ import {
 } from '@sql-tools/sequelize-typescript';
 import { Barcode } from './Barcode.model';
 import { BarcodeTypes } from './BarcodeTypes.model';
-import { Box } from './Box.model';
 import { DocData } from './DocData.model';
 import { DocTypes } from './DocTypes.model';
 @Table({ tableName: 'Docs', timestamps: false })
@@ -53,12 +52,6 @@ export class Doc extends Model<
   @AllowNull(false)
   @Column(DataType.DATE)
   date: Date;
-
-  @ForeignKey(() => Box)
-  @Column(DataType.INTEGER)
-  box_id: FK<number | null>;
-  @BelongsTo(() => Box)
-  Box?: NonAttribute<Box>;
 
   @AllowNull(false)
   @ForeignKey(() => DocTypes)

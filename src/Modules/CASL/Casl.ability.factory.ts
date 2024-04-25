@@ -11,7 +11,6 @@ import { User_Role } from '../../Database/Local.database/models/User_Role.model'
 import { Role } from '../../Database/Local.database/models/Role.model';
 import { BarcodeTypes } from '../../Database/Local.database/models/BarcodeTypes.model';
 import { Status } from '@grpc/grpc-js/build/src/constants';
-import { Box } from '../../Database/Local.database/models/Box.model';
 import { Depart } from '../../Database/Local.database/models/Depart.model';
 import { Doc } from '../../Database/Local.database/models/Doc.model';
 import { DocData } from '../../Database/Local.database/models/DocData.model';
@@ -36,7 +35,6 @@ type Subjects =
       | typeof Role
       | typeof Barcode
       | typeof BarcodeTypes
-      | typeof Box
       | typeof Depart
       | typeof Doc
       | typeof DocData

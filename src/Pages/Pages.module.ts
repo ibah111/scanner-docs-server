@@ -6,7 +6,6 @@ import { SendModule } from './Send/Send.module';
 import { GetDocsModule } from './GetDocs/GetDocs.module';
 import { DocumentsModule } from './Documents/Documents.module';
 import { OpenHistoryModule } from './OpenHistory/OpenHistory.module';
-import { CreateBoxModule } from './CreateBox (deprecated)/CreateBox.module';
 import { OpenRowsBoxModule } from './OpenRowsBox/OpenRowsBox.module';
 import { UsersModule } from '../Modules/Users/Users.module';
 import { TypesModule } from './TypesPage/Types.module';
@@ -23,7 +22,6 @@ import { BoxModule } from './Box/Box.module';
     GetDocsModule,
     DocumentsModule,
     OpenHistoryModule,
-    CreateBoxModule,
     OpenRowsBoxModule,
     UsersModule,
     TypesModule,

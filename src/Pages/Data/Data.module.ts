@@ -1,7 +1,6 @@
 import { SequelizeModule } from '@sql-tools/nestjs-sequelize';
 import { Module } from '@nestjs/common';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
-import { Box } from 'src/Database/Local.database/models/Box.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
@@ -15,7 +14,7 @@ import { DataService } from './Data.service';
 @Module({
   imports: [
     SequelizeModule.forFeature(
-      [Barcode, DocData, Doc, Transmit, User, Depart, Box, Log, Result],
+      [Barcode, DocData, Doc, Transmit, User, Depart, Log, Result],
       'local',
     ),
   ],
