@@ -8,7 +8,6 @@ import { User } from './User.model';
 import { Role } from './Role.model';
 import { User_Role } from './User_Role.model';
 import { DocData } from './DocData.model';
-import { BarcodeTypes } from './BarcodeTypes.model';
 import { DocTypes } from './DocTypes.model';
 import { Result } from './Result.model';
 import { BoxTypes } from './BoxTypes.model';
@@ -24,7 +23,6 @@ export const models = [
   Doc,
   Transmit,
   DocData,
-  BarcodeTypes,
   DocTypes,
   Result,
   BoxTypes,
