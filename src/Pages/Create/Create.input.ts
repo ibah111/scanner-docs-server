@@ -6,6 +6,7 @@ export class CreateInput {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
+    default: 'Document title',
     description: 'Вводим название документа',
     type: String,
   })
@@ -15,6 +16,7 @@ export class CreateInput {
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
+    default: 3980242,
     description: 'Вводим id документа из ДО',
     type: Number,
   })
@@ -24,6 +26,7 @@ export class CreateInput {
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
+    default: 1702861,
     description: 'Вводим id письма из входящей почты',
     type: Number,
   })
@@ -33,6 +36,7 @@ export class CreateInput {
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
+    default: 0,
     description:
       'Вводим номер судебного иска/приказа (необязательный параметр)',
     type: Number,
@@ -43,6 +47,7 @@ export class CreateInput {
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
+    default: 518449,
     description:
       'Вводим номер исполнительного документа (необязательный параметр)',
     type: Number,
@@ -53,6 +58,7 @@ export class CreateInput {
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
+    default: 2,
     description:
       'Вводим тип документа 1 - Исполнительный лист, 2 - Судебный приказ',
     type: Number,
