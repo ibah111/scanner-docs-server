@@ -7,7 +7,6 @@ import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { AuthResult } from 'src/Modules/Guards/auth.guard';
-import generateRandom from 'src/utils/generateRandom';
 import { CreateBoxInput } from './CreateBox.input';
 
 @Injectable()
@@ -51,11 +50,6 @@ export class CreateBoxService {
       depart: User!.depart,
       boxTitle: boxTitle,
     });
-    const box_barcode = await this.modelBarcode.create({
-      item_id: box.id,
-      type: 2,
-      code: generateRandom(12),
-    });
 
     for (const doc of docs) {
       doc.update({
@@ -67,7 +61,5 @@ export class CreateBoxService {
         status: 2,
       });
     }
-    console.log(box_barcode.code);
-    return box_barcode.code;
   }
 }
