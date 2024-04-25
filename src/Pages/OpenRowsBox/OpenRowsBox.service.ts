@@ -28,7 +28,7 @@ export class OpenRowsBoxService {
     const filterResult = util.getFilter('Result', filterModel);
     const keysResult = Reflect.ownKeys(filterResult);
 
-    return await this.modelDoc.findAndCountAll({
+    const docsPage = await this.modelDoc.findAndCountAll({
       order,
       where,
       limit: paginationModel.pageSize,
@@ -56,5 +56,7 @@ export class OpenRowsBoxService {
         },
       ],
     });
+    console.log(docsPage);
+    return docsPage;
   }
 }
