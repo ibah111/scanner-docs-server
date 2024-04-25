@@ -9,6 +9,7 @@ export class BoxController {
   constructor(private boxService: BoxService) {}
 
   @ApiOperation({
+    summary: 'Типы короба',
     description: 'Отдает все типы коробов',
   })
   @Get('getAllBoxTypes')
@@ -17,7 +18,8 @@ export class BoxController {
   }
 
   @ApiOperation({
-    description: 'Присваивает тип короба всем документам в массиве',
+    summary: 'Присваивает тип короба всем документам в массиве',
+    description: 'Принимает массив ID-шек, присваивает им статус короба',
   })
   @Post('addDocumentToBox')
   async addDocumentsToBox(@Body() body: DocumentsToBoxInput) {
@@ -26,7 +28,8 @@ export class BoxController {
   }
 
   @ApiOperation({
-    description: 'Удаляет тип короба в текущего документа',
+    summary: 'Удаляет тип короба в текущего документа',
+    description: 'Принимает массив ID-шек, и удаляет у них статус короба',
   })
   @Delete('deleteDocumentsFromBox')
   async deleteDocumentBoxType(@Body() body: DocumentsBoxTypeDeleteInput) {
