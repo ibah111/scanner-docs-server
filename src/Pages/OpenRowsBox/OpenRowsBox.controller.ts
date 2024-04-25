@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/Modules/Guards/auth.guard';
 import { OpenRowsBoxInput } from './OpenRowsBox.input';
 import { OpenRowsBoxService } from './OpenRowsBox.service';
-import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
 
 @ApiTags('OpenRowsBox')
@@ -12,6 +12,10 @@ import { CanGuard } from '../../Modules/CASL/Can.guard';
 @ApiBasicAuth()
 export class OpenRowsBoxController {
   constructor(private readonly openRowsBoxService: OpenRowsBoxService) {}
+
+  @ApiOperation({
+    summary: 'Вкладка "Короб" на клиенте',
+  })
   @HttpCode(200)
   @Post()
   async find(@Body() body: OpenRowsBoxInput) {
