@@ -79,9 +79,6 @@ export class Doc extends Model<
 
   @HasOne(() => Barcode, {
     constraints: false,
-    scope: {
-      type: 1,
-    },
   })
   Barcode?: NonAttribute<Barcode>;
 }
