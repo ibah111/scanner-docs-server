@@ -36,7 +36,7 @@ export class CreateInput {
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
-    default: 0,
+    default: 518449,
     description:
       'Вводим номер судебного иска/приказа (необязательный параметр) ===> Верхнее поле в DocAdder',
     type: Number,
@@ -47,7 +47,7 @@ export class CreateInput {
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional({
-    default: 518449,
+    default: 0,
     description:
       'Вводим номер исполнительного документа (необязательный параметр) нижнее поле в DocAdder',
     type: Number,
