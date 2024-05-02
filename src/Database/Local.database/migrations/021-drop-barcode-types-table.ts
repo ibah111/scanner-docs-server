@@ -3,7 +3,7 @@ import { MigrationFn } from 'umzug';
 
 export const up: MigrationFn<QueryInterface> = ({ context }) =>
   context.sequelize.transaction((t) =>
-    Promise.all([context.dropTable('Barcodes', { transaction: t })]),
+    Promise.all([context.dropTable('BarcodeTypes', { transaction: t })]),
   );
 
 export const down: MigrationFn<QueryInterface> = ({ context }) =>
