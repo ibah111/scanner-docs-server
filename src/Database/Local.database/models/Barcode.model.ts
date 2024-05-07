@@ -47,4 +47,7 @@ export class Barcode extends Model<
   @ForeignKey(() => BoxTypes)
   @Column(DataType.INTEGER)
   box_type_id?: FK<number> | null;
+
+  @BelongsTo(() => BoxTypes)
+  BoxType?: FK<number> | null;
 }
