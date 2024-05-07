@@ -23,7 +23,6 @@ export class BoxController {
   })
   @Post('addDocumentToBox')
   async addDocumentsToBox(@Body() body: DocumentsToBoxInput) {
-    console.log('Body: '.yellow, body);
     return await this.boxService.addDocumentsToBox(body);
   }
 

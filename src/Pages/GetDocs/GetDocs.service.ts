@@ -11,6 +11,7 @@ import { LawAct, Person, Debt, Portfolio, LawExec } from '@contact/models';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TableDocsColumns } from '../../utils/Columns/TableDocs';
 import { getTableUtils } from '../../utils/getTableUtils';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 
 @Injectable()
 export class GetDocsService {
@@ -18,6 +19,7 @@ export class GetDocsService {
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
     @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
+    @InjectModel(BoxTypes, 'local') private modelBoxTypes: typeof BoxTypes,
     @InjectModel(User, 'local') private modelUser: typeof User,
     @InjectModel(Depart, 'local') private modelDepart: typeof Depart,
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
@@ -53,6 +55,11 @@ export class GetDocsService {
           where: barcodesFilter,
           model: this.modelBarcode,
           required: true,
+          include: [
+            {
+              model: this.modelBoxTypes,
+            },
+          ],
         },
         {
           where: docDataFilter,
