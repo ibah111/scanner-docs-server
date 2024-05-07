@@ -38,13 +38,12 @@ export class OpenRowsBoxService {
         {
           model: this.modelBarcode,
           required: true,
-          where: filterBarcode,
+          where: filterBarcode && {
+            box_type_id: null,
+          },
         },
         {
           model: this.modelDocData,
-          where: {
-            status: 1,
-          },
           required: true,
           include: [
             {
@@ -56,7 +55,6 @@ export class OpenRowsBoxService {
         },
       ],
     });
-    console.log(docsPage);
     return docsPage;
   }
 }
