@@ -10,11 +10,12 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { DataController } from './Data.controller';
 import { DataService } from './Data.service';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 
 @Module({
   imports: [
     SequelizeModule.forFeature(
-      [Barcode, DocData, Doc, Transmit, User, Depart, Log, Result],
+      [Barcode, DocData, Doc, Transmit, User, Depart, Log, Result, BoxTypes],
       'local',
     ),
   ],

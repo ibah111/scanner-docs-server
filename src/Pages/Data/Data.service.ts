@@ -11,6 +11,7 @@ import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import moment from 'moment';
 import { Results } from './Data.output';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 @Injectable()
 export class DataService {
   constructor(
@@ -22,6 +23,7 @@ export class DataService {
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
     @InjectModel(Log, 'local') private modelLog: typeof Log,
     @InjectModel(Result, 'local') private modelResult: typeof Result,
+    @InjectModel(BoxTypes, 'local') private modelBoxTypes: typeof BoxTypes,
   ) {}
   /**
    * @TODO переделать сканирование
@@ -62,19 +64,22 @@ export class DataService {
             },
           ],
         },
+        {
+          model: this.modelBoxTypes,
+        },
       ],
     });
     const barcode_transmit = await this.modelTransmit.findOne({
       where: {
         doc_data_id: barcode!.Doc!.DocData!.id,
-        // active: true,
+        active: true,
       },
     });
     /** ищу лог */
     const barcode_log = await this.modelLog.findOne({
       where: {
         doc_data_id: barcode!.Doc!.DocData!.id,
-        // status: 3,
+        status: 3,
       },
     });
 
@@ -109,8 +114,12 @@ export class DataService {
         UserOld,
         DepartOld,
       },
+      BoxType: {
+        ...JSON.parse(JSON.stringify(barcode.BoxType)),
+      },
     });
     const data = result as unknown as Doc;
-    return JSON.parse(JSON.stringify(data));
+    const response = JSON.parse(JSON.stringify(data));
+    return response;
   }
 }
