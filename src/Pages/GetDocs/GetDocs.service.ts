@@ -31,7 +31,7 @@ export class GetDocsService {
     @InjectModel(BoxTypes, 'local') private modelBoxTypes: typeof BoxTypes,
   ) {}
 
-  async find({ filterModel, paginationModel, sortModel }: GetDocsInput) {
+  async getDocs({ filterModel, paginationModel, sortModel }: GetDocsInput) {
     const columns = TableDocsColumns();
     const util = getTableUtils(columns);
     const docFilter = util.getFilter('Docs', filterModel);
