@@ -16,7 +16,7 @@ import { docModels as models } from './models';
       username: 'ibah_dev',
       password: 'GeForce2060ti++',
       database: 'docmail',
-      logging: console.log,
+      logging: false,
       repositoryMode: true,
       models,
     }),

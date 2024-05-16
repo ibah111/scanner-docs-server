@@ -104,7 +104,6 @@ export class GetDocsService {
           required: false,
         },
       ];
-      console.log(doc);
       if (doc.law_exec_id) {
         const docLawExec = await this.modelLawExec.findOne({
           where: {
@@ -112,7 +111,6 @@ export class GetDocsService {
           },
           include,
         });
-        console.log('docLawExec', docLawExec);
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
             res.kd = docLawExec!.Debt!.contract;
@@ -135,7 +133,6 @@ export class GetDocsService {
           },
           include,
         });
-        console.log('docLawAct', docLawAct);
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
             res.kd = docLawAct!.Debt!.contract;

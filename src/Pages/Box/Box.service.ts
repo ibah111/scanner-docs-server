@@ -22,12 +22,6 @@ export class BoxService {
 
   async addDocumentsToBox(body: DocumentsToBoxInput) {
     const docList = body.list;
-    const boxType = await this.modelBoxTypes.findOne({
-      where: {
-        id: body.box_type_id,
-      },
-      rejectOnEmpty: new NotFoundException('Такой тип короба не найден'),
-    });
     for (const id of docList) {
       const barcode = await this.modelBarcode.findOne({
         where: {
@@ -35,11 +29,9 @@ export class BoxService {
         },
         rejectOnEmpty: new NotFoundException('Такой документ не найден'),
       });
-      barcode
-        .update({
-          box_type_id: body.box_type_id,
-        })
-        .then(() => console.log(`Document ${id}, added to ${boxType.title}`));
+      barcode.update({
+        box_type_id: body.box_type_id,
+      });
     }
   }
 
