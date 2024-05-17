@@ -23,3 +23,10 @@ export class DocumentsBoxTypeDeleteInput {
   })
   list: number[];
 }
+
+export class IdBoxTypeInput {
+  @ApiProperty({
+    description: 'id',
+  })
+  id: number;
+}
