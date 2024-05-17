@@ -54,4 +54,12 @@ export class BoxService {
       },
     });
   }
+
+  async restoreBoxType(id: number) {
+    return this.modelBoxTypes.restore({
+      where: {
+        id,
+      },
+    });
+  }
 }

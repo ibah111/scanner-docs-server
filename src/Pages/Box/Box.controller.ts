@@ -1,7 +1,22 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BoxService } from './Box.service';
-import { DocumentsBoxTypeDeleteInput, DocumentsToBoxInput } from './Box.inputs';
+import {
+  IdBoxTypeInput,
+  DocumentsBoxTypeDeleteInput,
+  DocumentsToBoxInput,
+  AddTypeInput,
+} from './Box.inputs';
+import { Auth, AuthGuard, AuthResult } from 'src/Modules/Guards/auth.guard';
+import { CanGuard } from 'src/Modules/CASL/Can.guard';
 
 @ApiTags('Box')
 @Controller('Box')
@@ -42,5 +57,14 @@ export class BoxController {
   @Delete('deleteBoxType')
   async deleteBoxType(@Body() { id }: IdBoxTypeInput) {
     return this.boxService.deleteBoxType(id);
+  }
+
+  @ApiOperation({
+    summary: 'Восстанавливает удаленный тип короба',
+    description: 'Передает id, восстаналивает тип короба',
+  })
+  @Put('restoreBoxType')
+  async restoreBoxType(@Body() { id }: IdBoxTypeInput) {
+    return this.boxService.restoreBoxType(id);
   }
 }
