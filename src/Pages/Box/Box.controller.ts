@@ -70,4 +70,14 @@ export class BoxController {
   async restoreBoxType(@Body() { id }: IdBoxTypeInput) {
     return this.boxService.restoreBoxType(id);
   }
+
+  @ApiOperation({
+    description:
+      'Введите название нового короба, чтобы добавить его в список все коробов',
+    summary: 'Добавляет короб',
+  })
+  @Post('addBoxType')
+  async addBoxType(@Body() body: AddTypeInput, @Auth() auth: AuthResult) {
+    return this.boxService.addBoxType(body, auth);
+  }
 }

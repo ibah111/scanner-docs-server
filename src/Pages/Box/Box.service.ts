@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { DocumentsToBoxInput } from './Box.inputs';
+import { AddTypeInput, DocumentsToBoxInput } from './Box.inputs';
 import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
+import { AuthResult } from 'src/Modules/Guards/auth.guard';
 
 @Injectable()
 export class BoxService {
@@ -60,6 +61,15 @@ export class BoxService {
       where: {
         id,
       },
+    });
+  }
+
+  async addBoxType(body: AddTypeInput, auth: AuthResult) {
+    const u = auth.user;
+    const FIO = `${u.secondname}  ${u.firstname}, ${u.position}`;
+    return this.modelBoxTypes.create({
+      title: body.title,
+      who_added_type: FIO,
     });
   }
 }

@@ -30,3 +30,10 @@ export class IdBoxTypeInput {
   })
   id: number;
 }
+
+export class AddTypeInput {
+  @ApiProperty({
+    description: 'Название',
+  })
+  title: string;
+}
