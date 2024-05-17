@@ -34,4 +34,13 @@ export class BoxController {
   async deleteDocumentBoxType(@Body() body: DocumentsBoxTypeDeleteInput) {
     return this.boxService.deleteDocumentsBoxType(body.list);
   }
+
+  @ApiOperation({
+    description: 'Передает id короба, удаляет короб',
+    summary: 'Удаляет тип короба',
+  })
+  @Delete('deleteBoxType')
+  async deleteBoxType(@Body() { id }: IdBoxTypeInput) {
+    return this.boxService.deleteBoxType(id);
+  }
 }
