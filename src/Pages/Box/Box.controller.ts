@@ -20,6 +20,9 @@ import { CanGuard } from 'src/Modules/CASL/Can.guard';
 
 @ApiTags('Box')
 @Controller('Box')
+@UseGuards(AuthGuard)
+@UseGuards(CanGuard)
+@ApiBasicAuth()
 export class BoxController {
   constructor(private boxService: BoxService) {}
 
