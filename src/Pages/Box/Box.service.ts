@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
-import { node } from 'src/main';
 import { DocumentsToBoxInput } from './Box.inputs';
 import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
@@ -15,9 +14,7 @@ export class BoxService {
   ) {}
 
   async getBoxTypes() {
-    return await this.modelBoxTypes.findAll({
-      logging: node === 'dev' ? true : false,
-    });
+    return await this.modelBoxTypes.findAll();
   }
 
   async addDocumentsToBox(body: DocumentsToBoxInput) {
