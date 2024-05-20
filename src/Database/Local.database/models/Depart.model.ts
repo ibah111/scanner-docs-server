@@ -18,7 +18,6 @@ import type {
 import { DocData } from './DocData.model';
 import { Log } from './Log.model';
 import { User } from './User.model';
-import { Box } from './Box.model';
 
 @Table({ tableName: 'Departs' })
 export class Depart extends Model<
@@ -54,6 +53,4 @@ export class Depart extends Model<
 
   @HasMany(() => Log)
   Logs?: NonAttribute<Log[]>;
-  @HasMany(() => Box)
-  Boxs?: NonAttribute<Box[]>;
 }

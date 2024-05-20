@@ -14,7 +14,10 @@ export class GetDocsController {
   constructor(private readonly getDocsService: GetDocsService) {}
   @HttpCode(200)
   @Post()
-  async find(@Body() body: GetDocsInput) {
-    return await this.getDocsService.find(body);
+  /**
+   * get documents page
+   */
+  async getDocs(@Body() body: GetDocsInput) {
+    return await this.getDocsService.getDocs(body);
   }
 }

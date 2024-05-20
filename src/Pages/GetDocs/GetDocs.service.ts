@@ -8,9 +8,10 @@ import { Depart } from 'src/Database/Local.database/models/Depart.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { LawAct, Person, Debt, Portfolio, LawExec } from '@contact/models';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { TableDocsColumns } from '../../utils/Columns/TableDocs';
 import { getTableUtils } from '../../utils/getTableUtils';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 
 @Injectable()
 export class GetDocsService {
@@ -27,9 +28,10 @@ export class GetDocsService {
     @InjectModel(Debt, 'contact') private modelDebt: typeof Debt,
     @InjectModel(Portfolio, 'contact') private modelPortfolio: typeof Portfolio,
     @InjectModel(LawExec, 'contact') private modelLawExec: typeof LawExec,
+    @InjectModel(BoxTypes, 'local') private modelBoxTypes: typeof BoxTypes,
   ) {}
 
-  async find({ filterModel, paginationModel, sortModel }: GetDocsInput) {
+  async getDocs({ filterModel, paginationModel, sortModel }: GetDocsInput) {
     const columns = TableDocsColumns();
     const util = getTableUtils(columns);
     const docFilter = util.getFilter('Docs', filterModel);
@@ -38,10 +40,8 @@ export class GetDocsService {
     const userFilter = util.getFilter('Users', filterModel);
     const departFilter = util.getFilter('Depart', filterModel);
     const barcodesFilter = util.getFilter('Barcodes', filterModel);
-
     const transmitFilter = util.getFilter('Transmit', filterModel);
     const transmitKeys = Reflect.ownKeys(transmitFilter);
-
     const order = util.getSort(sortModel);
     const docs = await this.modelDoc.findAndCountAll({
       limit: paginationModel.pageSize,
@@ -53,6 +53,11 @@ export class GetDocsService {
           where: barcodesFilter,
           model: this.modelBarcode,
           required: true,
+          include: [
+            {
+              model: this.modelBoxTypes,
+            },
+          ],
         },
         {
           where: docDataFilter,
@@ -91,67 +96,57 @@ export class GetDocsService {
           id: doc.DocData?.result,
         },
       });
-
-      const docLawAct = await this.modelLawAct.findOne({
-        where: { id: doc.law_act_id! },
-        include: [
-          { model: this.modelPerson, required: false },
-          { model: this.modelPortfolio, required: false },
-          {
-            model: this.modelDebt,
-            required: false,
+      const include = [
+        { model: this.modelPerson, required: false },
+        { model: this.modelPortfolio, required: false },
+        {
+          model: this.modelDebt,
+          required: false,
+        },
+      ];
+      if (doc.law_exec_id) {
+        const docLawExec = await this.modelLawExec.findOne({
+          where: {
+            id: doc.law_exec_id!,
           },
-        ],
-      });
-
-      const forOfIterator = async (model: LawAct | LawExec) => {
+          include,
+        });
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
-            res.kd = model.Debt!.contract;
-            res.reestr = model.Portfolio!.name;
+            res.kd = docLawExec!.Debt!.contract;
+            res.reestr = docLawExec!.Portfolio!.name;
             res.fio_dol =
-              model.Person!.f + ' ' + model.Person!.i + ' ' + model.Person!.o;
-            res.date_post = model!.Portfolio!.load_dt;
+              docLawExec!.Person!.f +
+              ' ' +
+              docLawExec!.Person!.i +
+              ' ' +
+              docLawExec!.Person!.o;
+            res.date_post = docLawExec!.Portfolio!.load_dt;
             await res.save();
           }
         }
-      };
-      /**
-       *  Данный цикл добавлен, чтобы избежать ошибкок с Debt == undefined
-       *  По скольку большинсво данных записывается в ячейку sql => law_act
-       *  даже не смотря на то что подразумевается law_exec_id,
-       *  я произвожу поиск по цифре сначала по law_act, после по law_exec
-       */
-      if (docLawAct?.Debt) {
-        /**
-         *  Поиск по lawAct id
-         */
-        forOfIterator(docLawAct);
-      } else {
-        /**
-         * В ином случае ищет по lawExec
-         */
-        const docLawExec = await this.modelLawExec.findOne({
+      }
+      if (doc.law_act_id) {
+        const docLawAct = await this.modelLawAct.findOne({
           where: {
             id: doc.law_act_id!,
           },
-          include: [
-            { model: this.modelPerson, required: false },
-            { model: this.modelPortfolio, required: false },
-            {
-              model: this.modelDebt,
-              required: false,
-            },
-          ],
-          rejectOnEmpty: new NotFoundException(
-            'По id дела ничего не найдено, выдаю ошибку',
-            {
-              description:
-                'В теле запроса есть параметр id юридического дела и id исполнительного производства',
-            },
-          ),
+          include,
         });
-        forOfIterator(docLawExec);
+        for (const res of data_result) {
+          if (doc.DocData!.result == res.id) {
+            res.kd = docLawAct!.Debt!.contract;
+            res.reestr = docLawAct!.Portfolio!.name;
+            res.fio_dol =
+              docLawAct!.Person!.f +
+              ' ' +
+              docLawAct!.Person!.i +
+              ' ' +
+              docLawAct!.Person!.o;
+            res.date_post = docLawAct!.Portfolio!.load_dt;
+            await res.save();
+          }
+        }
       }
     }
     return docs;

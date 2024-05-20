@@ -4,14 +4,14 @@ import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { AuthResult } from 'src/Modules/Guards/auth.guard';
 import { User } from 'src/Database/Local.database/models/User.model';
-import moment from 'moment';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 import { Depart } from 'src/Database/Local.database/models/Depart.model';
-import { Box } from 'src/Database/Local.database/models/Box.model';
-import { Results } from './Data.output';
 import { Log } from 'src/Database/Local.database/models/Log.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import moment from 'moment';
+import { Results } from './Data.output';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 @Injectable()
 export class DataService {
   constructor(
@@ -22,9 +22,12 @@ export class DataService {
     @InjectModel(User, 'local') private modelUser: typeof User,
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
     @InjectModel(Log, 'local') private modelLog: typeof Log,
-    @InjectModel(Box, 'local') private modelBox: typeof Box,
     @InjectModel(Result, 'local') private modelResult: typeof Result,
+    @InjectModel(BoxTypes, 'local') private modelBoxTypes: typeof BoxTypes,
   ) {}
+  /**
+   * @TODO переделать сканирование
+   */
   async getScan(code: string, auth: AuthResult) {
     /**
      * Auth
@@ -40,126 +43,83 @@ export class DataService {
       rejectOnEmpty: new NotFoundException('Такой баркод не найден'),
       include: [
         {
-          model: this.modelBox,
-          required: false,
+          /**
+           * Параметры документа с почты (Do-mail)
+           */
+          model: this.modelDoc,
           include: [
             {
-              model: this.modelDoc,
-              required: false,
+              model: this.modelDocData,
               include: [
                 {
-                  model: this.modelDocData,
-                  required: false,
-                  include: [
-                    { model: this.modelUser, required: false },
-                    { model: this.modelDepart, required: false },
-                    { model: this.modelResult, required: false },
-                  ],
+                  model: this.modelUser,
                 },
                 {
-                  model: this.modelBox,
-                  required: false,
-                  include: [
-                    { model: this.modelUser, required: false },
-                    { model: this.modelDepart, required: false },
-                  ],
+                  model: this.modelDepart,
+                },
+                {
+                  model: this.modelResult,
                 },
               ],
             },
           ],
         },
         {
-          model: this.modelDoc,
-          required: false,
-          include: [
-            {
-              model: this.modelDocData,
-              required: false,
-              include: [
-                {
-                  model: this.modelUser,
-                  required: false,
-                },
-                { model: this.modelDepart, required: false },
-                { model: this.modelResult, required: false },
-              ],
-            },
-          ],
+          model: this.modelBoxTypes,
         },
       ],
     });
-    /**
-     * Поиск перемещения
-     */
-    const data_transmit = await this.modelTransmit.findOne({
-      where: { doc_data_id: barcode!.Doc!.DocData!.id, active: true },
+    const barcode_transmit = await this.modelTransmit.findOne({
+      where: {
+        doc_data_id: barcode!.Doc!.DocData!.id,
+        active: true,
+      },
     });
-    /**
-     * Поиск логов
-     */
-    const data_log = await this.modelLog.findOne({
-      where: { doc_data_id: barcode!.Doc!.DocData!.id, status: 3 },
-    });
-    /**
-     * Поиск баркода короба
-     */
-    const box_code = await this.modelBox.findOne({
-      where: { id: barcode!.item_id },
+    /** ищу лог */
+    const barcode_log = await this.modelLog.findOne({
+      where: {
+        doc_data_id: barcode!.Doc!.DocData!.id,
+        status: 3,
+      },
     });
 
-    if (barcode!.type == 1 && data_transmit) {
-      data_transmit.active = false;
-      data_transmit.date_return = moment().toDate();
-      await data_transmit.save();
-      data_log!.status = 4;
-      await data_log!.save();
-    }
-    if (barcode!.type == 2) {
-      box_code!.user = User!.id;
-      box_code!.depart = User!.depart;
-      await box_code!.save();
-      box_code!.user = User!.id;
-      box_code!.depart = User!.depart;
-      await box_code!.reload();
+    if (barcode_transmit) {
+      barcode_transmit.active = false;
+      barcode_transmit.date_return = moment().toDate();
+      await barcode_transmit.save();
+      barcode_log!.status = 4;
+      await barcode_log!.save();
     }
 
-    const result: Results[] = [];
-    let doc_data: Doc[] = [];
-    if (barcode!.type == 1) {
-      doc_data = [barcode!.Doc!];
-    } else {
-      doc_data = barcode!.Box!.Docs!;
-    }
-
-    for (const Doc of doc_data) {
-      Doc.DocData!.user = User!.id;
-      Doc.DocData!.depart = User!.depart;
-      Doc.DocData!.status = 2;
-
-      if (Doc.DocData!.changed()) {
-        await Doc.DocData!.$create('Log', {
-          user: User!.id,
-          depart: User!.depart,
-          status: Doc.DocData!.status,
-          date: moment().toDate(),
-        });
-      }
-
-      await Doc.DocData!.save();
-
-      const UserOld = Doc.DocData!.User;
-      const DepartOld = Doc.DocData!.Depart;
-      await Doc.DocData!.reload();
-      result.push({
-        ...JSON.parse(JSON.stringify(Doc)),
-        DocData: {
-          ...JSON.parse(JSON.stringify(Doc.DocData)),
-          UserOld,
-          DepartOld,
-        },
+    barcode.Doc!.DocData!.user = User!.id;
+    barcode.Doc!.DocData!.depart = User!.depart;
+    barcode.Doc!.DocData!.status = 2;
+    if (barcode.Doc!.DocData!.changed()) {
+      await barcode!.Doc!.DocData!.$create('Log', {
+        user: User!.id,
+        depart: User!.depart,
+        status: barcode!.Doc!.DocData!.status,
+        date: moment().toDate(),
       });
     }
-    const data = result as unknown as Doc[];
-    return JSON.parse(JSON.stringify(data));
+    await barcode.Doc!.DocData!.save();
+    const UserOld = barcode.Doc!.DocData!.User;
+    const DepartOld = barcode.Doc!.DocData!.Depart;
+    await barcode.Doc!.DocData!.reload();
+    const result: Results[] = [];
+    result.push({
+      ...JSON.parse(JSON.stringify(barcode.Doc!)),
+      DocData: {
+        ...JSON.parse(JSON.stringify(barcode.Doc!.DocData)),
+        UserOld,
+        DepartOld,
+      },
+      BoxType: {
+        ...JSON.parse(JSON.stringify(barcode.BoxType)),
+      },
+    });
+    const data = result as unknown as Doc;
+    const response = JSON.parse(JSON.stringify(data));
+    return response;
   }
 }

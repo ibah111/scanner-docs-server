@@ -20,6 +20,13 @@ export const TableDocsColumns = (): GridColDefExtend[] => [
   },
   {
     type: 'number',
+    field: 'BoxType.title',
+    modelName: 'Barcodes',
+    sortCol: 'box_type_id',
+    filterCol: 'box_type_id',
+  },
+  {
+    type: 'number',
     modelName: 'Docs',
     field: 'contact_doc_id',
     sortCol: 'contact_doc_id',

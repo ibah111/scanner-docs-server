@@ -17,10 +17,10 @@ import {
 } from '@sql-tools/sequelize-typescript';
 import { Barcode } from './Barcode.model';
 
-@Table({ tableName: 'BarcodeTypes', timestamps: false })
-export class BarcodeTypes extends Model<
-  InferAttributes<BarcodeTypes>,
-  InferCreationAttributes<BarcodeTypes>
+@Table({ tableName: 'BoxTypes', paranoid: true })
+export class BoxTypes extends Model<
+  InferAttributes<BoxTypes>,
+  InferCreationAttributes<BoxTypes>
 > {
   @AutoIncrement
   @PrimaryKey
@@ -30,12 +30,12 @@ export class BarcodeTypes extends Model<
   @AllowNull(false)
   @Unique
   @Column(DataType.STRING)
-  name: string;
+  title: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  title: string;
+  who_added_type: string;
 
   @HasMany(() => Barcode)
-  Barcodes?: NonAttribute<Barcode[]>;
+  Barcodes: NonAttribute<Barcode[]>;
 }

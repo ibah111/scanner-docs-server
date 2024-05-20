@@ -24,7 +24,6 @@ import type {
   ForeignKey as FK,
   NonAttribute,
 } from '@sql-tools/sequelize';
-import { Box } from './Box.model';
 import { Role } from './Role.model';
 import { BelongsToManyAttribute } from '@sql-tools/association-literal';
 
@@ -80,6 +79,4 @@ export class User extends Model<
     NonAttribute<Array<Role & { User_Role: User_Role }>>,
     'id'
   >;
-  @HasMany(() => Box)
-  Boxs?: NonAttribute<Box[]>;
 }

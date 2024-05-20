@@ -33,7 +33,6 @@ export class CreateService {
 
       const User = auth.userLocal;
       const doc = await this.modelDoc.create({
-        barcode_type: 1,
         contact_doc_id: body.contact_doc_id,
         date: moment().toDate(),
         doc_type: body.doc_type,
@@ -44,7 +43,6 @@ export class CreateService {
       });
 
       const barcode = await this.modelBarcode.create({
-        type: 1,
         item_id: doc.id,
         code: generateRandom(12),
       });
@@ -56,7 +54,7 @@ export class CreateService {
         process.env.NODE_ENV === 'prod'
           ? 'https://apps.usb.ru:3001/getDocs'
           : 'http://192.168.1.43:3001/getDocs';
-
+      // const url = 'https://apps.usb.ru:3001/getDocs';
       const requestDoMail = await axios.post(
         url,
         {

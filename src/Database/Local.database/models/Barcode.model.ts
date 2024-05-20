@@ -17,9 +17,8 @@ import {
   Table,
   Unique,
 } from '@sql-tools/sequelize-typescript';
-import { BarcodeTypes } from './BarcodeTypes.model';
-import { Box } from './Box.model';
 import { Doc } from './Doc.model';
+import { BoxTypes } from './BoxTypes.model';
 @Table({ tableName: 'Barcodes', paranoid: true })
 export class Barcode extends Model<
   InferAttributes<Barcode>,
@@ -35,7 +34,6 @@ export class Barcode extends Model<
   @Column(DataType.STRING)
   code: string;
 
-  @ForeignKey(() => Box)
   @ForeignKey(() => Doc)
   @AllowNull(false)
   @Column(DataType.INTEGER)
@@ -43,22 +41,13 @@ export class Barcode extends Model<
 
   @BelongsTo(() => Doc, {
     constraints: false,
-    scope: {
-      barcode_type: 1,
-    },
   })
   Doc?: NonAttribute<Doc>;
-  @BelongsTo(() => Box, {
-    constraints: false,
-    scope: {
-      type: 2,
-    },
-  })
-  Box?: NonAttribute<Box>;
-  @AllowNull(false)
-  @ForeignKey(() => BarcodeTypes)
+
+  @ForeignKey(() => BoxTypes)
   @Column(DataType.INTEGER)
-  type: FK<number>;
-  @BelongsTo(() => BarcodeTypes)
-  BarcodeTypes?: NonAttribute<BarcodeTypes>;
+  box_type_id?: FK<number> | null;
+
+  @BelongsTo(() => BoxTypes)
+  BoxType?: FK<number> | null;
 }

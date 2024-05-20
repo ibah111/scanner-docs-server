@@ -18,11 +18,12 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { GetDocsController } from './GetDocs.controller';
 import { GetDocsService } from './GetDocs.service';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
 
 @Module({
   imports: [
     SequelizeModule.forFeature(
-      [Doc, Transmit, Barcode, User, Depart, DocData, Result],
+      [Doc, Transmit, Barcode, User, Depart, DocData, Result, BoxTypes],
       'local',
     ),
     SequelizeModule.forFeature(

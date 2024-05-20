@@ -28,7 +28,6 @@ export class AdminCommand extends CommandRunner {
     const user = await this.modelUser.findOne({
       where: { login },
       rejectOnEmpty: true,
-      logging: console.log,
     });
 
     const login_role = await this.modelUserRole.findAll({

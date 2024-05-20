@@ -14,7 +14,7 @@ import { CommandFactory } from 'nest-commander';
 import './utils/CustomCa';
 import https from './utils/https';
 
-const node = process.env.NODE_ENV;
+export const node = process.env.NODE_ENV;
 class bootstrapOptions {
   constructor() {
     this.adapter =

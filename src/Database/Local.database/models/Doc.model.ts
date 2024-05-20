@@ -18,8 +18,6 @@ import {
   Table,
 } from '@sql-tools/sequelize-typescript';
 import { Barcode } from './Barcode.model';
-import { BarcodeTypes } from './BarcodeTypes.model';
-import { Box } from './Box.model';
 import { DocData } from './DocData.model';
 import { DocTypes } from './DocTypes.model';
 @Table({ tableName: 'Docs', timestamps: false })
@@ -54,12 +52,6 @@ export class Doc extends Model<
   @Column(DataType.DATE)
   date: Date;
 
-  @ForeignKey(() => Box)
-  @Column(DataType.INTEGER)
-  box_id: FK<number | null>;
-  @BelongsTo(() => Box)
-  Box?: NonAttribute<Box>;
-
   @AllowNull(false)
   @ForeignKey(() => DocTypes)
   @Column(DataType.INTEGER)
@@ -67,21 +59,11 @@ export class Doc extends Model<
   @BelongsTo(() => DocTypes)
   DocTypes?: NonAttribute<DocTypes>;
 
-  @AllowNull(false)
-  @ForeignKey(() => BarcodeTypes)
-  @Column(DataType.INTEGER)
-  barcode_type: FK<number>;
-  @BelongsTo(() => BarcodeTypes)
-  BarcodeTypes?: NonAttribute<BarcodeTypes>;
-
   @HasOne(() => DocData)
   DocData?: NonAttribute<DocData>;
 
   @HasOne(() => Barcode, {
     constraints: false,
-    scope: {
-      type: 1,
-    },
   })
   Barcode?: NonAttribute<Barcode>;
 }

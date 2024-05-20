@@ -55,7 +55,6 @@ export class RoleService {
       });
 
     const user_role = await this.modelUser_Role.destroy({
-      logging: console.log,
       where: {
         role_id,
       },

@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CanGuard } from '../../Modules/CASL/Can.guard';
 import { AuthGuard } from '../../Modules/Guards/auth.guard';
 import { TypesService } from './Type.service';
@@ -12,13 +12,21 @@ import { TypesService } from './Type.service';
 export class TypesController {
   constructor(private typesService: TypesService) {}
 
+  @ApiOperation({
+    deprecated: false,
+    summary: 'Типы документов',
+  })
   @Get('getDocTypes')
   async getDocTypes() {
     return await this.typesService.getAllDocTypes();
   }
 
+  @ApiOperation({
+    summary: 'Типы баркодов',
+    deprecated: true,
+  })
   @Get('getBarcodeTypes')
   async getBarcodeTypes() {
-    return await this.typesService.getAllBarcodeTypes();
+    throw Error('End point no longer exist');
   }
 }
