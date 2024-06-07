@@ -43,10 +43,7 @@ export class Doc extends Model<
   mail_id: FK<number>;
 
   @Column(DataType.INTEGER)
-  law_act_id: FK<number | null>;
-
-  @Column(DataType.INTEGER)
-  law_exec_id: FK<number | null>;
+  law_case_id: FK<number | null>;
 
   @AllowNull(false)
   @Column(DataType.DATE)

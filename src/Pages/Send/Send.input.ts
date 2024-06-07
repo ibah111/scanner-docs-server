@@ -5,7 +5,6 @@ import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class SendInput {
   @ApiProperty({
     description: 'id???',
-    default: 1,
   })
   @IsNotEmpty()
   @IsNumber()
