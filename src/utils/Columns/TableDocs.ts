@@ -54,6 +54,13 @@ export const TableDocsColumns = (): GridColDefExtend[] => [
     filterCol: 'law_exec_id',
   },
   {
+    type: 'number',
+    modelName: 'Docs',
+    field: 'law_case_id',
+    sortCol: 'law_case_id',
+    filterCol: 'law_case_id',
+  },
+  {
     type: 'date',
     modelName: 'Docs',
     field: 'date',
