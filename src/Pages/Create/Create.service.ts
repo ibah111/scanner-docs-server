@@ -28,9 +28,6 @@ export class CreateService {
   async create(body: CreateInput, auth: AuthResult) {
     console.log('create: ', body);
     try {
-      if (!(body.law_act_id || body.law_exec_id))
-        throw Error('Заполните поле law_act или law_exec');
-
       const User = auth.userLocal;
       const doc = await this.modelDoc.create({
         contact_doc_id: body.contact_doc_id,
@@ -38,8 +35,7 @@ export class CreateService {
         doc_type: body.doc_type,
         title: body.title,
         mail_id: body.mail_id,
-        law_act_id: body.law_act_id,
-        law_exec_id: body.law_exec_id,
+        law_case_id: body.law_case_id,
       });
 
       const barcode = await this.modelBarcode.create({
