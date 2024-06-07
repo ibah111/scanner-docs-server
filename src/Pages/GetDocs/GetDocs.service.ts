@@ -104,47 +104,57 @@ export class GetDocsService {
           required: false,
         },
       ];
-      if (doc.law_exec_id) {
-        const docLawExec = await this.modelLawExec.findOne({
-          where: {
-            id: doc.law_exec_id!,
-          },
-          include,
-        });
-        for (const res of data_result) {
-          if (doc.DocData!.result == res.id) {
-            res.kd = docLawExec!.Debt!.contract;
-            res.reestr = docLawExec!.Portfolio!.name;
-            res.fio_dol =
-              docLawExec!.Person!.f +
-              ' ' +
-              docLawExec!.Person!.i +
-              ' ' +
-              docLawExec!.Person!.o;
-            res.date_post = docLawExec!.Portfolio!.load_dt;
-            await res.save();
+      const type = doc.doc_type;
+      console.log(type);
+      switch (type) {
+        case 1: {
+          /**
+           * Поиск по law_act
+           */
+          const docLawAct = await this.modelLawAct.findOne({
+            where: {
+              id: doc.law_case_id!,
+            },
+            include,
+          });
+          for (const res of data_result) {
+            if (doc.DocData!.result == res.id) {
+              res.kd = docLawAct!.Debt!.contract;
+              res.reestr = docLawAct!.Portfolio!.name;
+              res.fio_dol =
+                docLawAct!.Person!.f +
+                ' ' +
+                docLawAct!.Person!.i +
+                ' ' +
+                docLawAct!.Person!.o;
+              res.date_post = docLawAct!.Portfolio!.load_dt;
+              await res.save();
+            }
           }
         }
-      }
-      if (doc.law_act_id) {
-        const docLawAct = await this.modelLawAct.findOne({
-          where: {
-            id: doc.law_act_id!,
-          },
-          include,
-        });
-        for (const res of data_result) {
-          if (doc.DocData!.result == res.id) {
-            res.kd = docLawAct!.Debt!.contract;
-            res.reestr = docLawAct!.Portfolio!.name;
-            res.fio_dol =
-              docLawAct!.Person!.f +
-              ' ' +
-              docLawAct!.Person!.i +
-              ' ' +
-              docLawAct!.Person!.o;
-            res.date_post = docLawAct!.Portfolio!.load_dt;
-            await res.save();
+        case 2: {
+          /**
+           * Поиск по law_exec
+           */
+          const docLawExec = await this.modelLawExec.findOne({
+            where: {
+              id: doc.law_case_id!,
+            },
+            include,
+          });
+          for (const res of data_result) {
+            if (doc.DocData!.result == res.id) {
+              res.kd = docLawExec!.Debt!.contract;
+              res.reestr = docLawExec!.Portfolio!.name;
+              res.fio_dol =
+                docLawExec!.Person!.f +
+                ' ' +
+                docLawExec!.Person!.i +
+                ' ' +
+                docLawExec!.Person!.o;
+              res.date_post = docLawExec!.Portfolio!.load_dt;
+              await res.save();
+            }
           }
         }
       }
