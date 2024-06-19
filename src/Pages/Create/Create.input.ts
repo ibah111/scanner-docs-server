@@ -52,7 +52,6 @@ export class CreateInput {
   law_exec_id?: number;
 
   @IsNumber()
-  @IsOptional()
   @ApiPropertyOptional({
     description:
       'Поле заполнемое из docAdder, id дела, тип дела определяется перемнной doc_type',
