@@ -88,7 +88,8 @@ export class UsersService implements OnModuleInit {
     }
     for (const user of users) {
       if (!user_contact_login.includes(user.login)) {
-        await user.destroy();
+        console.log(`user deleted`, user);
+        // await user.destroy();
       }
     }
   }
