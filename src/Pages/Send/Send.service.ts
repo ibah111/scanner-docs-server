@@ -6,6 +6,8 @@ import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { AuthResult } from 'src/Modules/Guards/auth.guard';
 import { SendInput } from './Send.input';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
+import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 
 @Injectable()
 export class SendService {
@@ -13,6 +15,8 @@ export class SendService {
     @InjectModel(Transmit, 'local') private modelTransmit: typeof Transmit,
     @InjectModel(Doc, 'local') private modelDoc: typeof Doc,
     @InjectModel(DocData, 'local') private modelDocData: typeof DocData,
+    @InjectModel(BoxTypes, 'local') private modelBoxType: typeof BoxTypes,
+    @InjectModel(Barcode, 'local') private modelBarcode: typeof Barcode,
   ) {}
   async send(body: SendInput, auth: AuthResult) {
     const User = auth.userLocal;
@@ -20,8 +24,25 @@ export class SendService {
       where: {
         id: body.id,
       },
-      include: [{ model: this.modelDocData, required: false }],
+      include: [
+        { model: this.modelDocData, required: false },
+        { model: this.modelBarcode },
+      ],
     });
+
+    const sendedBoxType = await this.modelBoxType.findOne({
+      where: {
+        title: 'Подано',
+        who_added_type: 'Добавлено скриптом/разработчиком',
+      },
+      rejectOnEmpty: true,
+    });
+    if (barcode?.Barcode) {
+      barcode?.Barcode?.update({
+        box_type_id: sendedBoxType.id,
+      });
+    }
+
     const data_transmit = this.modelTransmit.build();
     data_transmit.doc_data_id = body.id;
     data_transmit.sender = User!.id;

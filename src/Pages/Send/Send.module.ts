@@ -6,10 +6,15 @@ import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { User } from 'src/Database/Local.database/models/User.model';
 import { SendController } from './Send.controller';
 import { SendService } from './Send.service';
+import { BoxTypes } from 'src/Database/Local.database/models/BoxTypes.model';
+import { Barcode } from 'src/Database/Local.database/models/Barcode.model';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Transmit, User, Doc, DocData], 'local'),
+    SequelizeModule.forFeature(
+      [Transmit, User, Doc, DocData, BoxTypes, Barcode],
+      'local',
+    ),
   ],
   controllers: [SendController],
   providers: [SendService],
