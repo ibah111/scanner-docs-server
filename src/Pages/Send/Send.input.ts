@@ -4,7 +4,7 @@ import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class SendInput {
   @ApiProperty({
-    description: 'id???',
+    description: 'id',
   })
   @IsNotEmpty()
   @IsNumber()
@@ -19,7 +19,6 @@ export class SendInput {
   DateSend: Date;
   @ApiProperty({
     description: 'Куда было отправлено',
-    default: 'Суд в который отправляю документ',
   })
   @IsString()
   @IsNotEmpty()
