@@ -60,7 +60,6 @@ export class CodesService {
       thirdname: string;
     } = user.data;
     const barcode = await this.modelBarcode.findOne({
-      logging: console.log,
       where: {
         code: body.barcode,
       },
@@ -84,7 +83,9 @@ export class CodesService {
         },
       ],
     });
-    console.log(barcode.dataValues);
+
+    /**
+     */
     const deleteLog = this.modelLog.build();
     deleteLog.description = `Штрихкод '${
       barcode.code
@@ -96,8 +97,8 @@ export class CodesService {
       user_data.thirdname +
       ' '
     }, Департамент: ${user_data.department}, Время: ${moment().toDate()} `;
-    deleteLog.user = barcode.Doc!.DocData!.User!.id;
-    deleteLog.depart = barcode.Doc!.DocData!.User!.depart;
+    deleteLog.user = barcode.Doc!.DocData!.user;
+    deleteLog.depart = barcode.Doc!.DocData!.depart;
     deleteLog.status = 5;
     deleteLog.doc_data_id = barcode.Doc!.DocData!.id;
     deleteLog.date = moment().toDate();
