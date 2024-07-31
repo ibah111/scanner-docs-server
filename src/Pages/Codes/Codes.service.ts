@@ -2,6 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@sql-tools/nestjs-sequelize';
 import { Doc } from '../../Database/Local.database/models/Doc.model';
 import { Barcode } from '../../Database/Local.database/models/Barcode.model';
+import { DocData } from 'src/Database/Local.database/models/DocData.model';
+import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
+import { Result } from 'src/Database/Local.database/models/Result.model';
+import { DeleteBarcodeInput } from './Codes.input';
 
 @Injectable()
 export class CodesService {
@@ -9,6 +13,12 @@ export class CodesService {
     @InjectModel(Doc, 'local') private readonly modelDoc: typeof Doc,
     @InjectModel(Barcode, 'local')
     private readonly modelBarcode: typeof Barcode,
+    @InjectModel(DocData, 'local')
+    private readonly modelDocData: typeof DocData,
+    @InjectModel(Result, 'local')
+    private readonly modelResult: typeof Result,
+    @InjectModel(Transmit, 'local')
+    private readonly modelTransmit: typeof Transmit,
   ) {}
   async getCodes(id: number) {
     const doc = await this.modelDoc.findOne({
@@ -24,5 +34,33 @@ export class CodesService {
     });
     const doc_code = doc.Barcode?.code;
     return doc_code;
+  }
+
+  async deleteCode(body: DeleteBarcodeInput) {
+    const barcode = await this.modelBarcode.findOne({
+      where: {
+        code: body.barcode,
+      },
+      rejectOnEmpty: Error('Баркод не найден'),
+      include: [
+        {
+          model: this.modelDoc,
+          include: [
+            {
+              model: this.modelDocData,
+              include: [
+                {
+                  model: this.modelResult,
+                },
+                {
+                  model: this.modelTransmit,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    console.log(barcode.dataValues);
   }
 }
