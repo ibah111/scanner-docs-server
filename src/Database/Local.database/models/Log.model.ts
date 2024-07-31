@@ -68,4 +68,8 @@ export class Log extends Model<
   @AllowNull(false)
   @Column(DataType.DATE)
   date: Date;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  description?: string;
 }
