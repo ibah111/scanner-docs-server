@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   UseGuards,
 } from '@nestjs/common';
@@ -26,7 +27,11 @@ export class CodesController {
   }
 
   @Delete('deleteCode')
-  async deleteCode(@Body() body: DeleteBarcodeInput) {
-    return this.codesService.deleteCode(body);
+  async deleteCode(
+    @Body() body: DeleteBarcodeInput,
+    @Headers() headers: Record<string, string>,
+  ) {
+    const token = headers.token;
+    return this.codesService.deleteCode(body, token);
   }
 }
