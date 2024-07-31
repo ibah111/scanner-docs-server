@@ -7,11 +7,12 @@ import { Doc } from '../../Database/Local.database/models/Doc.model';
 import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
+import { Log } from 'src/Database/Local.database/models/Log.model';
 
 @Module({
   imports: [
     SequelizeModule.forFeature(
-      [Barcode, Doc, DocData, Result, Transmit],
+      [Barcode, Doc, DocData, Result, Transmit, Log],
       'local',
     ),
   ],

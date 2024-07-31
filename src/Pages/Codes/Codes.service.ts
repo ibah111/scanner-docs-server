@@ -6,6 +6,7 @@ import { DocData } from 'src/Database/Local.database/models/DocData.model';
 import { Transmit } from 'src/Database/Local.database/models/Transmit.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 import { DeleteBarcodeInput } from './Codes.input';
+import { Log } from 'src/Database/Local.database/models/Log.model';
 
 @Injectable()
 export class CodesService {
@@ -19,6 +20,8 @@ export class CodesService {
     private readonly modelResult: typeof Result,
     @InjectModel(Transmit, 'local')
     private readonly modelTransmit: typeof Transmit,
+    @InjectModel(Log, 'local')
+    private readonly modelLog: typeof Log,
   ) {}
   async getCodes(id: number) {
     const doc = await this.modelDoc.findOne({
