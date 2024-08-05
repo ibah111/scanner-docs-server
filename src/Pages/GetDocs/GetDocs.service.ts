@@ -117,15 +117,23 @@ export class GetDocsService {
         });
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
-            res.kd = docLawAct!.Debt!.contract;
-            res.reestr = docLawAct!.Portfolio!.name;
+            console.log(docLawAct);
+            res.kd =
+              docLawAct!.Debt?.contract || 'КД не заполнено (м.б. банкротство)';
+            res.reestr =
+              docLawAct!.Portfolio?.name ||
+              'Портфел не указан (м.б. банкротство)';
             res.fio_dol =
               docLawAct!.Person!.f +
               ' ' +
               docLawAct!.Person!.i +
               ' ' +
               docLawAct!.Person!.o;
-            res.date_post = docLawAct!.Portfolio!.load_dt;
+            if (docLawAct!.Portfolio?.load_dt) {
+              res.date_post = docLawAct!.Portfolio!.load_dt;
+            } else {
+              res.date_post = null;
+            }
             await res.save();
           }
         }
@@ -149,7 +157,12 @@ export class GetDocsService {
               docLawExec!.Person!.i +
               ' ' +
               docLawExec!.Person!.o;
-            res.date_post = docLawExec!.Portfolio!.load_dt;
+            if (docLawExec!.Portfolio?.load_dt) {
+              res.date_post = docLawExec!.Portfolio!.load_dt;
+            } else {
+              res.date_post = null;
+            }
+
             await res.save();
           }
         }
