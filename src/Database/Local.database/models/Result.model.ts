@@ -39,9 +39,9 @@ export class Result extends Model<
   @Column(DataType.STRING)
   fio_dol: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.DATE)
-  date_post: Date;
+  date_post: Date | null;
 
   @HasOne(() => DocData)
   DocData?: NonAttribute<DocData>;
