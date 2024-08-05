@@ -2,7 +2,7 @@ import { LawAct, LawExec } from '@contact/models';
 import { Doc } from 'src/Database/Local.database/models/Doc.model';
 import { Result } from 'src/Database/Local.database/models/Result.model';
 
-export const forOfIterator = async (
+export const ForofIterator = async (
   doc: Doc,
   data_result: Result[],
   model: LawAct | LawExec,
