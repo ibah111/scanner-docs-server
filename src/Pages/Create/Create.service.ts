@@ -59,7 +59,7 @@ export class CreateService {
 
       const responseDoMail = await this.modelResult.create({
         st_pnkt: requestDoMail.data[0].st_pnkt || 'Статья и пункт не заполнены',
-        date_post: requestDoMail.data[0].date_post,
+        date_post: requestDoMail.data[0].date_post || null,
         kd: requestDoMail.data[0].kd,
         reestr: requestDoMail.data[0].reestr || 'Реестр с почты не заполнен',
         fio_dol: requestDoMail.data[0].fio_dol,
