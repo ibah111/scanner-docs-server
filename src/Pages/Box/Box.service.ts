@@ -48,7 +48,6 @@ export class BoxService {
   }
 
   async deleteBoxType(id: number) {
-    console.log('id', id);
     return this.modelBoxTypes.destroy({
       where: {
         id,

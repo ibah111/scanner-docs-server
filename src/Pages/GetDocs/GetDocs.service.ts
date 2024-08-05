@@ -117,26 +117,33 @@ export class GetDocsService {
         });
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
-            console.log(docLawAct);
-            res.kd =
-              docLawAct!.Debt?.contract || 'КД не заполнено (м.б. банкротство)';
-            res.reestr =
-              docLawAct!.Portfolio?.name ||
-              'Портфел не указан (м.б. банкротство)';
-            res.fio_dol =
-              docLawAct!.Person!.f +
-              ' ' +
-              docLawAct!.Person!.i +
-              ' ' +
-              docLawAct!.Person!.o;
-            if (docLawAct!.Portfolio?.load_dt) {
-              res.date_post = docLawAct!.Portfolio!.load_dt;
-            } else {
-              res.date_post = null;
+            if (docLawAct) {
+              if (docLawAct!.Debt) {
+                res.kd = docLawAct!.Debt!.contract;
+              } else {
+                res.kd = 'КД не заполнено (м.б. банкротство)';
+              }
+              if (docLawAct!.Portfolio) {
+                res.reestr = docLawAct!.Portfolio!.name;
+              } else {
+                res.reestr = 'Портфель не указан (м.б. банкротство)';
+              }
+              res.fio_dol =
+                docLawAct!.Person!.f +
+                ' ' +
+                docLawAct!.Person!.i +
+                ' ' +
+                docLawAct!.Person!.o;
+              if (docLawAct!.Portfolio?.load_dt) {
+                res.date_post = docLawAct!.Portfolio!.load_dt;
+              } else {
+                res.date_post = null;
+              }
+              await res.save();
             }
-            await res.save();
           }
         }
+        //------------------------------------------------------------------------------------------------------------------//
       } else if (type === 2) {
         /**
          * Поиск по law_act
@@ -149,8 +156,16 @@ export class GetDocsService {
         });
         for (const res of data_result) {
           if (doc.DocData!.result == res.id) {
-            res.kd = docLawExec!.Debt!.contract;
-            res.reestr = docLawExec!.Portfolio!.name;
+            if (docLawExec!.Debt) {
+              res.kd = docLawExec!.Debt!.contract;
+            } else {
+              res.kd = 'КД не заполнено (м.б. банкротство)';
+            }
+            if (docLawExec!.Portfolio) {
+              res.reestr = docLawExec!.Portfolio!.name;
+            } else {
+              res.reestr = 'Портфель не указан (м.б. банкротство)';
+            }
             res.fio_dol =
               docLawExec!.Person!.f +
               ' ' +
