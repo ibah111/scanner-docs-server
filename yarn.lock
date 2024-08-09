@@ -5945,6 +5945,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"exceljs@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "exceljs@npm:4.4.0"
+  dependencies:
+    archiver: "npm:^5.0.0"
+    dayjs: "npm:^1.8.34"
+    fast-csv: "npm:^4.3.1"
+    jszip: "npm:^3.10.1"
+    readable-stream: "npm:^3.6.0"
+    saxes: "npm:^5.0.1"
+    tmp: "npm:^0.2.0"
+    unzipper: "npm:^0.10.11"
+    uuid: "npm:^8.3.0"
+  checksum: 2d310146130b2af25b9a553185062a4095f6fee9a931c18a22b8dccd8a244056f3d2766f44227b9a43c0f52d651d05c5c96291fd38b8ed0a0322afab683fd80c
+  languageName: node
+  linkType: hard
+
 "execa@npm:7.2.0, execa@npm:^7.1.1":
   version: 7.2.0
   resolution: "execa@npm:7.2.0"
@@ -8749,7 +8766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jszip@npm:^3.5.0":
+"jszip@npm:^3.10.1, jszip@npm:^3.5.0":
   version: 3.10.1
   resolution: "jszip@npm:3.10.1"
   dependencies:
@@ -9798,6 +9815,7 @@ __metadata:
     eslint: "npm:^8.54.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-prettier: "npm:^5.0.1"
+    exceljs: "npm:^4.4.0"
     git-semver-tags: "npm:^5.0.1"
     husky: "npm:^8.0.3"
     jest: "npm:^29.7.0"

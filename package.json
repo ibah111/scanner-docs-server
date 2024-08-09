@@ -52,6 +52,7 @@
     "class-validator": "^0.14.0",
     "colors": "^1.4.0",
     "crypto-js": "^4.2.0",
+    "exceljs": "^4.4.0",
     "git-semver-tags": "^5.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
