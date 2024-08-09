@@ -20,6 +20,7 @@ export class SendService {
   ) {}
   async send(body: SendInput, auth: AuthResult) {
     const User = auth.userLocal;
+    console.log(body);
     const barcode = await this.modelDoc.findOne({
       where: {
         id: body.id,
@@ -30,17 +31,23 @@ export class SendService {
       ],
     });
 
-    const sendedBoxType = await this.modelBoxType.findOne({
-      where: {
-        title: 'Подано',
-        who_added_type: 'Добавлено скриптом/разработчиком',
-      },
-      rejectOnEmpty: true,
-    });
     if (barcode?.Barcode) {
-      barcode?.Barcode?.update({
-        box_type_id: sendedBoxType.id,
-      });
+      if (body.BoxTypeId > 0) {
+        barcode.Barcode.update({
+          box_type_id: body.BoxTypeId,
+        });
+      } else {
+        const sendedBoxType = await this.modelBoxType.findOne({
+          where: {
+            title: 'Подано',
+            who_added_type: 'Добавлено скриптом/разработчиком',
+          },
+          rejectOnEmpty: true,
+        });
+        barcode.Barcode.update({
+          box_type_id: sendedBoxType.id,
+        });
+      }
     }
 
     const data_transmit = this.modelTransmit.build();

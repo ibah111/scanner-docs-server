@@ -23,4 +23,10 @@ export class SendInput {
   @IsString()
   @IsNotEmpty()
   WhereSend: string;
+
+  @ApiProperty({
+    description: 'Индетификатор короба',
+  })
+  @IsNumber()
+  BoxTypeId: number;
 }
