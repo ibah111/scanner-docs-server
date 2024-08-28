@@ -9,6 +9,7 @@ import { Person, Debt, DebtCalc, LawCourt } from '@contact/models';
 import { DocMailCommand } from './DocMail.command';
 import { Doc_DocMail } from '../Database/DoMail.database/models/Doc_DocMail.model';
 import { RospCommand } from './Rosp.command';
+import { PravezhCommand } from './Pravezh.command';
 
 @Module({
   imports: [
@@ -16,6 +17,12 @@ import { RospCommand } from './Rosp.command';
     SequelizeModule.forFeature([Person, Debt, DebtCalc, LawCourt], 'contact'),
     SequelizeModule.forFeature([Doc_DocMail], 'docmail'),
   ],
-  providers: [AdminCommand, SearchCommand, DocMailCommand, RospCommand],
+  providers: [
+    AdminCommand,
+    SearchCommand,
+    DocMailCommand,
+    RospCommand,
+    PravezhCommand,
+  ],
 })
 export class CommandModule {}
