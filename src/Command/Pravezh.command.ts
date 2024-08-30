@@ -19,10 +19,12 @@ export class PravezhCommand extends CommandRunner {
   filePath = `${__dirname.replace('dist\\Command', '')}\\${this.folderName}`;
   svd = `${this.filePath}\\СВД`;
   pkb = `${this.filePath}\\ПКБ`;
+  smsfinans = `${this.filePath}\\СМСФИНАНС`;
 
   async run(): Promise<void> {
     // this.renamer(this.pkb, 'ПКБ');
     // this.renamer(this.svd, 'СВД');
+    this.renamer(this.smsfinans, 'СМСФИНАНС');
   }
 
   async renamer(path: string, folder_name: string) {
