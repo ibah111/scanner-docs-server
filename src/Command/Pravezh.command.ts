@@ -37,11 +37,11 @@ export class PravezhCommand extends CommandRunner {
     //   'ТрастАльянс',
     //   'МКК "ТРАСТ АЛЬЯНС" 1 от 31.05.2024',
     // );
-    this.renamerByFioAndPortfolio(
-      this.akvarius,
-      'Аквариус',
-      'МКК "Аквариус" 1 от 27.05.2024',
-    );
+    // this.renamerByFioAndPortfolio(
+    //   this.akvarius,
+    //   'Аквариус',
+    //   'МКК "Аквариус" 1 от 27.05.2024',
+    // );
   }
 
   async renamerByFioAndPortfolio(
@@ -63,7 +63,7 @@ export class PravezhCommand extends CommandRunner {
         const i = split[2];
         const o = split[3];
 
-        const debt = await this.modelDebt.findOne({
+        const debts = await this.modelDebt.findAll({
           include: [
             {
               model: this.modelPerson,
@@ -88,15 +88,16 @@ export class PravezhCommand extends CommandRunner {
               },
             },
           ],
-          rejectOnEmpty: true,
         });
-        const old_contract = debt.contract as string;
-        const contract = old_contract.replace(/\//g, '_');
-        const src = `${path}\\${file}`;
-        const dest = `${mkdir_path}\\${contract}.pdf` as string;
-        fs.copyFile(src, dest, () => {
-          copied++;
-        });
+        for (const debt of debts) {
+          const old_contract = debt.contract as string;
+          const contract = old_contract.replace(/\//g, '_');
+          const src = `${path}\\${file}`;
+          const dest = `${mkdir_path}\\${contract}.pdf` as string;
+          fs.copyFile(src, dest, () => {
+            copied++;
+          });
+        }
       }
       console.log(folder_name, 'copied:'.yellow, copied);
     });
