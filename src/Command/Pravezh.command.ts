@@ -26,7 +26,7 @@ export class PravezhCommand extends CommandRunner {
   trustAlliance = `${this.filePath}\\ТрастАльянс`;
   svd2 = `${this.filePath}\\СВД2`;
   akvarius = `${this.filePath}\\Аквариус`;
-
+  svd_fixed = `${this.filePath}\\SVD_Fixed`;
   async run(): Promise<void> {
     // this.renamer(this.pkb, 'ПКБ');
     // this.renamer(this.svd, 'СВД');
@@ -42,6 +42,7 @@ export class PravezhCommand extends CommandRunner {
     //   'Аквариус',
     //   'МКК "Аквариус" 1 от 27.05.2024',
     // );
+    this.renamer(this.svd_fixed, 'SVD_Fixed');
   }
 
   async renamerByFioAndPortfolio(
